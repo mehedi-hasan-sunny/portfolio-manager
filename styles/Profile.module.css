@@ -1,0 +1,207 @@
+.profile__wrapper {
+    background: var(--profile-bg-color);
+    padding: 4rem 0;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    height: 25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile__wrapper::before {
+    content: '';
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(160deg, #fff2d7 0%, #CBE9E8 99.73%);
+    opacity: 0;
+    transition: opacity 1.8s ease-out;
+}
+
+[data-mode="light"] .profile__wrapper::before {
+    opacity: 1;
+}
+
+.profileBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.profileBgStars {
+    background: url("/images/night/stars.svg") no-repeat;
+    background-size: contain;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 0;
+    opacity: 0;
+    transition: all 1.6s ease-in, all 0.9s ease-out;
+}
+
+[data-mode="dark"] .profileBgStars {
+    opacity: 1;
+}
+
+.profileBgCliff {
+    background: url("/images/night/cliff-night.svg") no-repeat right bottom;
+    background-size: contain;
+    height: 18rem;
+    width: 15vh;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    transition: all 1s ease-in-out;
+}
+
+[data-mode="light"] .profileBgCliff {
+    background: url("/images/day/cliff-day.svg") no-repeat right bottom;
+    background-size: contain;
+}
+
+.profileBgMoon {
+    background: url("/images/night/moon.png") no-repeat;
+    background-size: contain;
+    height: 20%;
+    width: 2rem;
+    position: absolute;
+    left: 25%;
+    bottom: 0;
+    z-index: 0;
+    opacity: 0;
+    transition: all 1.5s ease-in-out;
+}
+
+[data-mode="dark"] .profileBgMoon {
+    opacity: 1;
+    bottom: 65%;
+    left: 4.5vw;
+}
+
+.profileBgShootingStar {
+    background: url("/images/night/shooting star.svg") no-repeat;
+    background-size: contain;
+    height: 20%;
+    width: 8rem;
+    position: absolute;
+    right: 0;
+    top: 28%;
+    z-index: 0;
+    opacity: 0;
+    transition: all .75s ease-in-out;
+}
+
+[data-mode="dark"] .profileBgShootingStar {
+    transition-delay: 0.5s;
+    opacity: 1;
+    top: 32%;
+    right: 4vw;
+}
+
+.profileBgSun {
+    background: url("/images/day/Ellipse 1.png") no-repeat;
+    background-size: contain;
+    height: 4rem;
+    width: 4rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    opacity: 0;
+    transition: all 1s ease-in-out;
+}
+
+[data-mode="light"] .profileBgSun {
+    opacity: 1;
+    top: 25%;
+    left: 6vw;
+}
+
+.profileBgCloud1, .profileBgCloud2, .profileBgCloud3, .profileBgCloud4, .profileBgCloud5 {
+    height: 7rem;
+    width: 9rem;
+    position: absolute;
+    left: 0;
+    z-index: 0;
+    opacity: 0;
+    transition: all 1.75s ease-in-out;
+}
+
+.profileBgCloud1 {
+    background: url("/images/day/c1.png") no-repeat;
+    background-size: contain;
+    top: 5%;
+    transition: all 0.75s ease-in-out;
+    transition-delay: 0.25s;
+}
+
+[data-mode="light"] .profileBgCloud1 {
+    opacity: 1;
+    left: 2.5%;
+}
+
+.profileBgCloud2 {
+    background: url("/images/day/c2.png") no-repeat;
+    background-size: contain;
+    top: 15%;
+    width: 5rem;
+}
+
+[data-mode="light"] .profileBgCloud2 {
+    opacity: 1;
+    left: 4%;
+}
+
+.profileBgCloud3 {
+    background: url("/images/day/c3.png") no-repeat;
+    background-size: contain;
+    top: 10%;
+}
+
+[data-mode="light"] .profileBgCloud3 {
+    opacity: 1;
+    left: 95%;
+}
+
+
+.profileBgCloud4 {
+    background: url("/images/day/c4.png") no-repeat;
+    background-size: contain;
+    top: 25%;
+}
+
+[data-mode="light"] .profileBgCloud4 {
+    opacity: 1;
+    left: 70%;
+}
+
+.profileBgCloud5 {
+    background: url("/images/day/c5.png") no-repeat;
+    background-size: contain;
+    top: 20%;
+}
+
+[data-mode="light"] .profileBgCloud5 {
+    opacity: 1;
+    left: 15%;
+}
+
+img.avatar {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    padding: 3px;
+    border: 2px solid #eaeaea;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+}
