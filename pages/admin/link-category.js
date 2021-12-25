@@ -22,6 +22,7 @@ function LinkCategory({linkCategories = []}) {
 		setSelectedLink(item)
 	}
 	const successAction = (data) => {
+		console.log(data)
 		toggleModal()
 		window.location.reload()
 	}
