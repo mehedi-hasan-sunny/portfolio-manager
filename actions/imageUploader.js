@@ -1,5 +1,4 @@
-import {collection, doc, setDoc} from "firebase/firestore";
-import {db} from "../firebaseDb/firebaseClient";
+import db from "../firebaseDb/firebaseAdmin";
 
 const cloudinary = require('cloudinary').v2;
 
@@ -28,6 +27,11 @@ export default async function (projectId, imageFiles, isThumbnail = false, previ
 		});
 		
 		if (deleteImages.length) {
+			
+			deleteImages.map(async item => {
+				return await db.doc(`projects/${projectId}/images/${item}`).delete()
+			})
+			await Promise.all(deleteImages)
 			// await Image.destroy({where: {id: deleteImages}})
 		}
 	}
@@ -64,18 +68,16 @@ export default async function (projectId, imageFiles, isThumbnail = false, previ
 				imageBulk[0].id = previousImages.id
 			}
 			
-			console.log(imageBulk)
+			const imageCollectionRef = db.collection(`projects/${projectId}/images`);
 			
-			const projectRef = doc(db, 'projects', projectId);
-			const imageCollectionRef = collection(projectRef, "images");
 			images = imageBulk.map(async (item) => {
 				let imageDoc;
 				if (item.id) {
-					imageDoc = doc(imageCollectionRef, item.id)
+					imageDoc = imageCollectionRef.doc(item.id)
 				} else {
-					imageDoc = doc(imageCollectionRef)
+					imageDoc = imageCollectionRef.doc()
 				}
-				return setDoc(imageDoc, item, {merge: true})
+				return imageDoc.set(item, {merge: true})
 			})
 		}
 	}

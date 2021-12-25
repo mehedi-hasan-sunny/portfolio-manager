@@ -1,5 +1,4 @@
-import {collection, doc, setDoc, updateDoc, deleteDoc} from "firebase/firestore";
-import {db} from "../firebaseDb/firebaseClient";
+import db from "../firebaseDb/firebaseAdmin";
 
 
 export default async function (linkableType, linkableId, links) {
@@ -15,24 +14,24 @@ export default async function (linkableType, linkableId, links) {
 	
 	if (linkDeleteData.length) {
 		linkDeleteData.map(async item => {
-			return await deleteDoc(doc(db, linkableType, linkableId, "links", item))
+			return await db.doc(`${linkableType}/${linkableId}/links/${item}`).delete()
 		})
 		await Promise.all(linkDeleteData)
 	}
 	
 	if (linkData && linkData.length) {
-		const projectRef = doc(db, linkableType, linkableId);
-		const linkDocRef = collection(projectRef, "links");
+		
+		const linkDocRef = db.collection(`${linkableType}/${linkableId}/links`);
 		const links = linkData.map(async (item) => {
 			const {icon, url} = item;
 			let linkDoc;
 			if (item.id) {
-				linkDoc = doc(linkDocRef, item.id)
-				return updateDoc(linkDoc, {icon, url})
+				linkDoc = linkDocRef.doc(item.id)
+				return linkDoc.update({icon, url})
 				
 			} else {
-				linkDoc = doc(linkDocRef)
-				return setDoc(linkDoc, {icon, url}, {merge: true})
+				linkDoc = linkDocRef.doc()
+				return linkDoc.set({icon, url}, {merge: true})
 			}
 		})
 		

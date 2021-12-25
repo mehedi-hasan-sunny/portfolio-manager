@@ -1,17 +1,4 @@
-import {initializeApp} from "firebase/app";
-import {getFirestore, collection, getDocs, addDoc, getDoc, query, limit, setDoc, doc} from "firebase/firestore";
-
-const firebaseConfig = {
-	apiKey: process.env.FIREBASE_API_KEY,
-	authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-	projectId: process.env.FIREBASE_PROJECT_ID,
-	storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-	messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-	appId: process.env.FIREBASE_APP_ID,
-	measurementId: process.env.FIREBASE_MEASUREMENT_ID
-};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+import db from "../../../firebaseDb/firebaseAdmin"
 
 import linksManager from "!/actions/linksManager";
 import {errorRes, successRes} from "!/helpers/jsonResponse";
@@ -20,15 +7,12 @@ export default async function handler(req, res) {
 	switch (req.method) {
 		case "GET": {
 			try {
-				const collectionRef = collection(db, "profile");
-				
-				const profileSnapshot = await getDocs(query(collectionRef, limit(1)));
-				
+				const collectionRef = db.collection("profile").limit(1);
+				const profileSnapshot = await collectionRef.get();
 				if (!profileSnapshot.empty) {
 					const profileDoc = profileSnapshot.docs[0];
 					const profile = {id: profileDoc.id, ...profileDoc.data()}
-					const linksRef = await getDocs(collection(db, 'profile', profileDoc.id, 'links'));
-					
+					const linksRef = await db.collection(`profile/${profileDoc.id}/links`).get();
 					const links = linksRef.docs.map(link => {
 						return {id: link.id, ...link.data()}
 					})
@@ -36,10 +20,10 @@ export default async function handler(req, res) {
 					profile.links = await Promise.all(links);
 					
 					successRes(res, profile)
+					
 				} else {
-					successRes(res, null)
+					successRes(res, [])
 				}
-				
 				
 			} catch (err) {
 				errorRes(res, err.message)
@@ -48,8 +32,8 @@ export default async function handler(req, res) {
 		}
 		case "POST": {
 			try {
-				const collectionRef = collection(db, "profile");
-				let profile = await addDoc(collectionRef, {
+				const collectionRef = db.collection("profile");
+				let profile = await collectionRef.add({
 					firstName: req.body.firstName,
 					lastName: req.body.lastName,
 					email: req.body.email,
@@ -63,7 +47,7 @@ export default async function handler(req, res) {
 						linksData
 				)
 				
-				successRes(res, {profile: (await getDoc(profile)).data()}, 202)
+				successRes(res, {profile: (await profile.get()).data()}, 202)
 				
 			} catch (err) {
 				errorRes(res, err.message)
@@ -72,10 +56,12 @@ export default async function handler(req, res) {
 		}
 		case "PUT": {
 			try {
-				const profileRef = doc(db, "profile", req.body.id);
-				const profileSnap = await getDoc(profileRef);
-				if (profileSnap.exists()) {
-					let profile = await setDoc(profileRef, {
+				
+				const profileRef = db.doc("profile/" + req.body.id);
+				
+				const profileSnap = await profileRef.get();
+				if (profileSnap.exists) {
+					let profile = await profileRef.set({
 						firstName: req.body.firstName,
 						lastName: req.body.lastName,
 						email: req.body.email,

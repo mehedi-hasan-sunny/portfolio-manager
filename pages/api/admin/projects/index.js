@@ -1,18 +1,7 @@
-import {initializeApp} from "firebase/app";
-import {getFirestore, collection, getDocs, addDoc, getDoc} from "firebase/firestore";
-const firebaseConfig = {
-	apiKey: process.env.FIREBASE_API_KEY,
-	authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-	projectId: process.env.FIREBASE_PROJECT_ID,
-	storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-	messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-	appId: process.env.FIREBASE_APP_ID,
-	measurementId: process.env.FIREBASE_MEASUREMENT_ID
-};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+import db from "../../../../firebaseDb/firebaseAdmin";
 
 import {errorRes, successRes} from "!/helpers/jsonResponse";
+
 import imageUploader from "!/actions/imageUploader";
 import linksManager from "!/actions/linksManager";
 
@@ -30,17 +19,17 @@ export default async function handler(req, res) {
 		
 		case "GET": {
 			try {
-				const collectionRef = collection(db, "projects");
-				const snapshots = await getDocs(collectionRef);
+				const collectionRef = db.collection("projects");
+				const snapshots = await collectionRef.get();
 				if (!snapshots.empty) {
 					const projects = snapshots.docs.map(async project => {
-						const linksRef = await getDocs(collection(db, 'projects', project.id, 'links'));
+						const linksRef = await db.collection(`projects/${project.id}/links`).get();
 						const links = linksRef.docs.map(link => {
 							return {id: link.id, ...link.data()}
 						})
 						
 						
-						const imagesRef = await getDocs(collection(db, 'projects', project.id, 'images'));
+						const imagesRef = await db.collection(`projects/${project.id}/images`).get();
 						const images = imagesRef.docs.map(image => {
 							return {id: image.id, ...image.data()}
 						})
@@ -73,9 +62,9 @@ export default async function handler(req, res) {
 					req.files = files
 					try {
 						
-						const collectionRef = collection(db, "projects");
+						const collectionRef = db.collection("projects");
 						
-						let project = await addDoc(collectionRef, {
+						let project = await collectionRef.add({
 							title: req.body.title,
 							description: req.body.description,
 							startDate: req.body.startDate ? req.body.startDate : null,
@@ -110,7 +99,7 @@ export default async function handler(req, res) {
 							);
 						}
 						
-						successRes(res, {project: (await getDoc(project)).data()});
+						successRes(res, {project: (await project.get()).data()});
 						
 					} catch (err) {
 						console.log(err)
