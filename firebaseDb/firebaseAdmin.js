@@ -1,6 +1,5 @@
 import * as firebaseAdmin from 'firebase-admin';
-
-const serviceAccount = require('./shohanur-protfolio-firebase-adminsdk-ppaf1-72e6aba1a3.json');
+const serviceAccount = require('../../firebaseDb/shohanur-protfolio-firebase-adminsdk-ppaf1-72e6aba1a3.json');
 
 if (!firebaseAdmin.apps.length) {
 	firebaseAdmin.initializeApp({
@@ -12,4 +11,6 @@ if (!firebaseAdmin.apps.length) {
 	});
 }
 
-export { firebaseAdmin };
+const db = firebaseAdmin.firestore()
+
+export default db;
