@@ -2,12 +2,10 @@ import formidable from "formidable-serverless";
 
 import {errorRes, successRes} from "!/helpers/jsonResponse";
 
-const {project: Project, image: Image, link: Link} = require("!/models");
-
 import linksManager from "!/actions/linksManager";
 import imageUploader from "!/actions/imageUploader";
 import {addDoc, deleteDoc, doc, getDoc, serverTimestamp, updateDoc} from "firebase/firestore";
-import {db} from "../../../../firebase/firebaseClient";
+import {db} from "!/firebase/firebaseClient";
 
 export default async function handler(req, res) {
 	const {projectId: id} = req.query;
