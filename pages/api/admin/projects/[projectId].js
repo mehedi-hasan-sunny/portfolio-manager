@@ -6,7 +6,7 @@ const {project: Project, image: Image, link: Link} = require("!/models");
 
 import linksManager from "!/actions/linksManager";
 import imageUploader from "!/actions/imageUploader";
-import {addDoc, doc, getDoc, serverTimestamp, updateDoc} from "firebase/firestore";
+import {addDoc, deleteDoc, doc, getDoc, serverTimestamp, updateDoc} from "firebase/firestore";
 import {db} from "../../../../firebase/firebaseClient";
 
 export default async function handler(req, res) {
@@ -104,10 +104,14 @@ export default async function handler(req, res) {
 		}
 		case "DELETE": {
 			try {
-				const project = await Project.findByPk(id);
-				if (project) {
-					await project.destroy()
-					successRes(res, project)
+				
+				const projectRef = doc(db, "projects", id);
+				
+				const projectSnap = await getDoc(projectRef);
+				
+				if (projectSnap.exists()) {
+					await deleteDoc(projectRef)
+					successRes(res, "Project deleted successfully!")
 				} else {
 					errorRes(res, "Project not found.", 404)
 				}
