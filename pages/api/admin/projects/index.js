@@ -1,5 +1,14 @@
 import db from "../../../../firebaseDb/firebaseAdmin";
 
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+	cloud_name: process.env.CLOUDINARY_CLOUDE_NAME,
+	api_key: process.env.CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET,
+	secure: true
+});
+
 import {errorRes, successRes} from "!/helpers/jsonResponse";
 
 import imageUploader from "!/actions/imageUploader";
@@ -84,7 +93,7 @@ export default async function handler(req, res) {
 						
 						let thumbnail = null
 						if (files && files.thumbnail) {
-							thumbnail = await imageUploader(
+							thumbnail = await imageUploader(cloudinary,
 									project.id, files.thumbnail,
 									true,
 							);
@@ -92,7 +101,7 @@ export default async function handler(req, res) {
 						
 						let images = []
 						if (files && files.images) {
-							images = await imageUploader(
+							images = await imageUploader(cloudinary,
 									project.id, files.images,
 									false
 							);

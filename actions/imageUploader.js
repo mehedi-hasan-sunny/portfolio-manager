@@ -1,17 +1,6 @@
-import cloudinary from "cloudinary"
-
-cloudinary.v2.config({
-	cloud_name: process.env.CLOUDINARY_CLOUDE_NAME,
-	api_key: process.env.CLOUDINARY_API_KEY,
-	api_secret: process.env.CLOUDINARY_API_SECRET,
-	secure: true
-});
-
 import db from "../firebaseDb/firebaseAdmin";
 
-
-
-export default async function (projectId, imageFiles, isThumbnail = false, previousImages = []) {
+export default async function (cloudinary, projectId, imageFiles, isThumbnail = false, previousImages = []) {
 	let images = []
 	
 	//filter for deletable images

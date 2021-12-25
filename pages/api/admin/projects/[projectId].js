@@ -1,4 +1,13 @@
 import db from "../../../../firebaseDb/firebaseAdmin";
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+	cloud_name: process.env.CLOUDINARY_CLOUDE_NAME,
+	api_key: process.env.CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET,
+	secure: true
+});
+
 
 import formidable from "formidable-serverless";
 
@@ -53,6 +62,7 @@ export default async function handler(req, res) {
 						let thumbnail = null
 						if (files && files.thumbnail) {
 							thumbnail = await imageUploader(
+									cloudinary,
 									projectSnap.id, files.thumbnail,
 									true,
 							);
@@ -61,6 +71,7 @@ export default async function handler(req, res) {
 						let images = []
 						if (files && files.images) {
 							images = await imageUploader(
+									cloudinary,
 									projectSnap.id, files.images,
 									false
 							);
