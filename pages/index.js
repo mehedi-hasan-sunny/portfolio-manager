@@ -6,7 +6,7 @@ import Modal from "../components/Modal";
 import {useState} from "react";
 import modalStyles from "../styles/Modal.module.css";
 import {collection, getDocs, limit, query} from "firebase/firestore";
-import {db} from "../firebase/firebaseClient";
+import {db} from "../firebaseDb/firebaseClient";
 
 export async function getStaticProps(context) {
 	try {

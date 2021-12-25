@@ -1,5 +1,5 @@
 import {collection, doc, setDoc} from "firebase/firestore";
-import {db} from "../firebase/firebaseClient";
+import {db} from "../firebaseDb/firebaseClient";
 
 const cloudinary = require('cloudinary').v2;
 

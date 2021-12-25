@@ -1,6 +1,6 @@
 import {addDoc, collection, getDoc, getDocs} from "firebase/firestore";
 import {errorRes, successRes} from "!/helpers/jsonResponse";
-import {db} from "!/firebase/firebaseClient";
+import {db} from "!/Users/mhs21/OneDrive/Desktop/shohanurrr-portfolio/firebaseDb/firebaseClient";
 
 export default async function handler(req, res) {
 	switch (req.method) {

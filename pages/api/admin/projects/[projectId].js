@@ -5,7 +5,7 @@ import {errorRes, successRes} from "!/helpers/jsonResponse";
 import linksManager from "!/actions/linksManager";
 import imageUploader from "!/actions/imageUploader";
 import {addDoc, deleteDoc, doc, getDoc, serverTimestamp, updateDoc} from "firebase/firestore";
-import {db} from "!/firebase/firebaseClient";
+import {db} from "!/Users/mhs21/OneDrive/Desktop/shohanurrr-portfolio/firebaseDb/firebaseClient";
 
 export default async function handler(req, res) {
 	const {projectId: id} = req.query;

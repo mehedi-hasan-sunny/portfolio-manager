@@ -2,7 +2,7 @@ import linksManager from "!/actions/linksManager";
 import {errorRes, successRes} from "!/helpers/jsonResponse";
 
 const {addDoc, collection, getDoc, query, limit, doc, setDoc, getDocs} = require("firebase/firestore");
-const {db} = require("../../../firebase/firebaseClient");
+const {db} = require("../../../firebaseDb/firebaseClient");
 
 export default async function handler(req, res) {
 	switch (req.method) {

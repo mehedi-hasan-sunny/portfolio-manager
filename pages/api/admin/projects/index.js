@@ -1,7 +1,7 @@
 import {errorRes, successRes} from "!/helpers/jsonResponse";
 import imageUploader from "!/actions/imageUploader";
 import linksManager from "!/actions/linksManager";
-import {db} from "!/firebase/firebaseClient";
+import {db} from "!/Users/mhs21/OneDrive/Desktop/shohanurrr-portfolio/firebaseDb/firebaseClient";
 import {collection, getDocs, addDoc, getDoc, serverTimestamp} from "firebase/firestore";
 
 const formidable = require('formidable-serverless');

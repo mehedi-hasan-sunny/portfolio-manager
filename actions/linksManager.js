@@ -1,5 +1,5 @@
 import {collection, doc, setDoc, updateDoc, deleteDoc} from "firebase/firestore";
-import {db} from "../firebase/firebaseClient";
+import {db} from "../firebaseDb/firebaseClient";
 
 
 export default async function (linkableType, linkableId, links) {
