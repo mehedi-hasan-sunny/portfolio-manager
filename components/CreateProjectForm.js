@@ -38,7 +38,6 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 						updateFormData(event, null);
 						event.target.value = null;
 					}
-					console.log(image.width, image.height, "image")
 				}
 				
 				image.src = fileReader.result
@@ -131,7 +130,7 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 	}
 	
 	useEffect(() => {
-		console.log(process.env.REACT_APP_BASE_URL)
+		
 		fetch(`api/admin/link-category`).then(async (res) => {
 			const {data} = await res.json()
 			setLinkCategories(data)

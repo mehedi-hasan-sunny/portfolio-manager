@@ -3,7 +3,7 @@ import Modal from "../../components/Modal";
 import LinkCategoryForm from "../../components/LinkCategoryForm";
 
 export async function getServerSideProps(context) {
-	const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/admin/link-category`)
+	const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/link-category`)
 	const {data} = await res.json()
 	return {
 		props: {linkCategories: data ? data : []}

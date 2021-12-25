@@ -7,9 +7,9 @@ import CreateProjectForm from "../../components/CreateProjectForm";
 import ProfileForm from "../../components/ProfileForm";
 
 export async function getServerSideProps(context) {
-	const profileRes = await fetch(`${process.env.REACT_APP_BASE_URL}/api/admin/profile`)
+	const profileRes = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/profile`)
 	const {data: profileData} = await profileRes.json()
-	const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/admin/projects`)
+	const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/projects`)
 	const {data: projects} = await res.json()
 	
 	return {

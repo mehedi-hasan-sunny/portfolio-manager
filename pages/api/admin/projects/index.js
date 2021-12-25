@@ -2,7 +2,7 @@ import {errorRes, successRes} from "!/helpers/jsonResponse";
 import imageUploader from "!/actions/imageUploader";
 import linksManager from "!/actions/linksManager";
 import {db} from "!/firebase/firebaseClient";
-import {collection, getDocs, addDoc, getDoc, doc, serverTimestamp, updateDoc} from "firebase/firestore";
+import {collection, getDocs, addDoc, getDoc, serverTimestamp} from "firebase/firestore";
 
 const formidable = require('formidable-serverless');
 
@@ -69,7 +69,7 @@ export default async function handler(req, res) {
 							startDate: req.body.startDate ? req.body.startDate : null,
 							endDate: req.body.endDate ? req.body.endDate : null,
 							thumbnail: null,
-							createdAt: serverTimestamp()
+							// createdAt: serverTimestamp()
 						});
 						
 						

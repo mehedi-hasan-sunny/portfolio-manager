@@ -3,8 +3,6 @@ import {errorRes, successRes} from "!/helpers/jsonResponse";
 import {addDoc, collection, getDoc, query, limit, doc, setDoc, getDocs} from "firebase/firestore";
 import {db} from "!/firebase/firebaseClient";
 
-const {user: User, link: Link} = require("!/models");
-
 export default async function handler(req, res) {
 	switch (req.method) {
 		case "GET": {
