@@ -1,5 +1,5 @@
-import {initializeApp} from "firebase/app";
-import {getFirestore, connectFirestoreEmulator} from "firebase/firestore"
+const {initializeApp} = require("firebase/app");
+const {getFirestore} = require("firebase/firestore");
 
 const firebaseConfig = {
 	apiKey: process.env.FIREBASE_API_KEY,
@@ -13,7 +13,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-export const db = getFirestore();
+export const db = getFirestore(app);
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {db};
