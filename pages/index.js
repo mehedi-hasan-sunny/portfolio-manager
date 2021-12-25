@@ -111,8 +111,7 @@ export default function Home({projects = [], profile = null}) {
 															      imgSrc={project.thumbnail && project.thumbnail.length ? project.thumbnail[0].url : project.images[0].url}
 															      alt={project.title}
 															/>
-															<h4 className={"mb-2"}>{project.title}</h4>
-															<small className={"text-truncate mb-3"}>{project.description}</small>
+															<h4 className={"mb-0"}>{project.title}</h4>
 														</a>
 													
 													</div>

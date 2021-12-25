@@ -41,9 +41,8 @@ function Index({profile = null, projects = []}) {
 		
 		let text = "Are you sure?\nYou are about to delete this project!.";
 		if (confirm(text) === true) {
-			const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/admin/projects/${id}`, {method: "delete"})
+			const res = await fetch(`/api/admin/projects/${id}`, {method: "delete"})
 			const {data} = await res.json()
-			console.log(data)
 			if (data) {
 				window.location.reload()
 			}
