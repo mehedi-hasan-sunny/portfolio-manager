@@ -108,7 +108,16 @@ export default function Home({projects = [], profile = null}) {
 															handleSelectedItem(project)
 														}}>
 															<Card maxWidth={"100%"} className={"mx-auto mb-3"}
-															      imgSrc={project.thumbnail && project.thumbnail.length ? project.thumbnail[0].url : project.images[0].url}
+															      imgSrc={
+																      project.images ?
+																		      (() => {
+																			      if (project.images.length) {
+																				      const thumbnail = project.images.find(item => item.isThumbnail);
+																				      return thumbnail ? thumbnail.url : project.images[0].url;
+																			      } else {
+																				      return "https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg";
+																			      }
+																		      })() : null}
 															      alt={project.title}
 															/>
 															<h4 className={"mb-0"}>{project.title}</h4>
@@ -146,7 +155,7 @@ export default function Home({projects = [], profile = null}) {
 												overflow: 'hidden'
 											}}>
 												{
-													selectedItem.images && selectedItem.images.map((item, index) => {
+													selectedItem.images && selectedItem.images.filter(item => !item.isThumbnail).map((item, index) => {
 														return <img className={modalStyles.modalImage} src={item.url} key={index}
 														            alt={selectedItem.title + ' ' + index}/>
 													})

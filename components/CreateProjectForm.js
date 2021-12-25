@@ -175,7 +175,7 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 					       id={"images"} onChange={imageUrls} required={!project}/>
 					<div className={"d-flex flex-wrap"}>
 						{
-							images.map((image, index) => {
+							images.filter(item => !item.isThumbnail).map((image, index) => {
 								return (
 										<div className={"my-2 mr-2 w-100"} key={index}>
 											<img alt={index} style={{maxWidth: "100%"}} src={image && image.url ? image.url : image}/>

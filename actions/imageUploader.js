@@ -1,13 +1,14 @@
-import db from "../firebaseDb/firebaseAdmin";
+import cloudinary from "cloudinary"
 
-const cloudinary = require('cloudinary').v2;
-
-cloudinary.config({
+cloudinary.v2.config({
 	cloud_name: process.env.CLOUDINARY_CLOUDE_NAME,
 	api_key: process.env.CLOUDINARY_API_KEY,
 	api_secret: process.env.CLOUDINARY_API_SECRET,
 	secure: true
 });
+
+import db from "../firebaseDb/firebaseAdmin";
+
 
 
 export default async function (projectId, imageFiles, isThumbnail = false, previousImages = []) {
@@ -43,10 +44,10 @@ export default async function (projectId, imageFiles, isThumbnail = false, previ
 		
 		if (imageFiles.length) {
 			multiplePicturePromise = [...imageFiles].map((picture) =>
-					cloudinary.uploader.upload(picture.path)
+					cloudinary.v2.uploader.upload(picture.path)
 			);
 		} else if (imageFiles.size) {
-			multiplePicturePromise = [cloudinary.uploader.upload(imageFiles.path)]
+			multiplePicturePromise = [cloudinary.v2.uploader.upload(imageFiles.path)]
 		}
 		
 		if (multiplePicturePromise) {

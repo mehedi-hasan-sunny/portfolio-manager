@@ -69,7 +69,6 @@ export default async function handler(req, res) {
 							description: req.body.description,
 							startDate: req.body.startDate ? req.body.startDate : null,
 							endDate: req.body.endDate ? req.body.endDate : null,
-							thumbnail: null,
 							// createdAt: serverTimestamp()
 						});
 						
