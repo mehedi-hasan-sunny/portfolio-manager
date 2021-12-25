@@ -1,5 +1,12 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import db from "firebase/firebaseAdmin"
 
-export default function handler(req, res) {
-  res.status(200).json({ name: 'John Doe' })
+export default async function handler(req, res) {
+	
+	const results = await db.collection('projects').get();
+	
+	if (!results.exists) {
+		console.log('No such document!');
+	} else {
+		res.status(200).json(results.data())
+	}
 }
