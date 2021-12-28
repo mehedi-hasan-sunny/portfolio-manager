@@ -47,7 +47,8 @@ export async function getStaticProps(context) {
 		}
 		
 		return {
-			props: {projects: projects, profile: profile}
+			props: {projects: projects, profile: profile},
+			revalidate: 1
 		}
 		
 	} catch (e) {
@@ -156,7 +157,7 @@ export default function Home({projects = [], profile = null}) {
 											}}>
 												{
 													selectedItem.images && selectedItem.images.filter(item => !item.isThumbnail).map((item, index) => {
-														return <img className={modalStyles.modalImage} src={item.url} key={index}
+														return <img className={modalStyles.modalImage} src={item.url} key={index} loading={"lazy"}
 														            alt={selectedItem.title + ' ' + index}/>
 													})
 												}
