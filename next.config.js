@@ -1,6 +1,6 @@
 module.exports = {
   reactStrictMode: true,
-  experimental: {
-    esmExternals: false
-  }
+  // experimental: {
+  //   esmExternals: false
+  // }
 }

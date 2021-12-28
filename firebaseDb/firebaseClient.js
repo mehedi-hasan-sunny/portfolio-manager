@@ -1,5 +1,5 @@
 import {initializeApp} from "firebase/app";
-import {getFirestore, collection, getDocs, limit, query} from "firebase/firestore";
+import {getFirestore} from "firebase/firestore";
 
 const firebaseConfig = {
 	apiKey: process.env.FIREBASE_API_KEY,
@@ -16,4 +16,4 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default {db, collection, getDocs, limit, query};
+export default db;
