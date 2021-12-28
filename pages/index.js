@@ -5,50 +5,17 @@ import Card from "../components/Card";
 import Modal from "../components/Modal";
 import {useState} from "react";
 import modalStyles from "../styles/Modal.module.css";
-import {collection, getDocs, limit, query} from "firebase/firestore";
-import {db} from "../firebaseDb/firebaseClient";
 
 export async function getStaticProps(context) {
 	try {
-		let projects = [], profile = {}
 		
-		const profileCollectionRef = collection(db, "profile");
-		const profileSnapshot = await getDocs(query(profileCollectionRef, limit(1)));
+		const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/collect`);
 		
-		if (!profileSnapshot.empty) {
-			const profileDoc = profileSnapshot.docs[0];
-			profile = {id: profileDoc.id, ...profileDoc.data()}
-			const linksRef = await getDocs(collection(db, 'profile', profileDoc.id, 'links'));
-			
-			const links = linksRef.docs.map(link => {
-				return {id: link.id, ...link.data()}
-			})
-			profile.links = await Promise.all(links);
-		}
-		
-		const collectionRef = collection(db, "projects");
-		const snapshots = await getDocs(collectionRef);
-		if (!snapshots.empty) {
-			projects = snapshots.docs.map(async project => {
-				const linksRef = await getDocs(collection(db, 'projects', project.id, 'links'));
-				const links = linksRef.docs.map(link => {
-					return {id: link.id, ...link.data()}
-				})
-				
-				const imagesRef = await getDocs(collection(db, 'projects', project.id, 'images'));
-				const images = imagesRef.docs.map(image => {
-					return {id: image.id, ...image.data()}
-				})
-				
-				return {id: project.id, ...project.data(), links: links, images: images};
-			});
-			projects = await Promise.all(projects);
-			
-		}
+		const {data} = await response.json();
 		
 		return {
-			props: {projects: projects, profile: profile},
-			revalidate: 1
+			props: {projects: data.projects, profile: data.profile},
+			revalidate: 60
 		}
 		
 	} catch (e) {
