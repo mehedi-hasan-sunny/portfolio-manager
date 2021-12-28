@@ -5,50 +5,48 @@ import Card from "../components/Card";
 import Modal from "../components/Modal";
 import {useState} from "react";
 import modalStyles from "../styles/Modal.module.css";
-import db from "../firebaseDb/firebaseClient";
-import {collection, getDocs, limit, query} from "firebase/firestore";
+import db from "../firebaseDb/firebaseAdmin";
 
 export async function getStaticProps(context) {
 	try {
 		let projects = [], profile = {}
 		
-		const profileCollectionRef = collection(db, "profile");
-		const profileSnapshot = await getDocs(query(profileCollectionRef, limit(1)));
-		
+		const profileCollectionRef = db.collection("profile").limit(1);
+		const profileSnapshot = await profileCollectionRef.get();
 		if (!profileSnapshot.empty) {
 			const profileDoc = profileSnapshot.docs[0];
 			profile = {id: profileDoc.id, ...profileDoc.data()}
-			const linksRef = await getDocs(collection(db, 'profile', profileDoc.id, 'links'));
-			
+			const linksRef = await db.collection(`profile/${profileDoc.id}/links`).get();
 			const links = linksRef.docs.map(link => {
 				return {id: link.id, ...link.data()}
 			})
+			
 			profile.links = await Promise.all(links);
 		}
-		
-		const collectionRef = collection(db, "projects");
-		const snapshots = await getDocs(collectionRef);
+		const collectionRef = db.collection("projects");
+		const snapshots = await collectionRef.get();
 		if (!snapshots.empty) {
 			projects = snapshots.docs.map(async project => {
-				const linksRef = await getDocs(collection(db, 'projects', project.id, 'links'));
+				const linksRef = await db.collection(`projects/${project.id}/links`).get();
 				const links = linksRef.docs.map(link => {
 					return {id: link.id, ...link.data()}
 				})
 				
-				const imagesRef = await getDocs(collection(db, 'projects', project.id, 'images'));
+				
+				const imagesRef = await db.collection(`projects/${project.id}/images`).get();
 				const images = imagesRef.docs.map(image => {
 					return {id: image.id, ...image.data()}
 				})
 				
 				return {id: project.id, ...project.data(), links: links, images: images};
 			});
-			projects = await Promise.all(projects);
-			
 		}
+		
+		projects = await Promise.all(projects);
 		
 		return {
 			props: {projects: projects, profile: profile},
-			revalidate: 1
+			revalidate: 60
 		}
 		
 	} catch (e) {
