@@ -4,6 +4,19 @@ import linksManager from "!/actions/linksManager";
 import {errorRes, successRes} from "!/helpers/jsonResponse";
 
 export default async function handler(req, res) {
+
+	const reqData = (req) =>  ({
+		firstName: req.body.firstName.trim(),
+		lastName: req.body.lastName.trim(),
+		email: req.body.email.trim().toLowerCase(),
+		phoneCode: '+880',
+		phoneNumber: req.body.phoneNumber.replace(/^0+/, '').trim(),
+		bio: req.body.bio.trim(),
+		title: req.body.title.trim(),
+		displayPicture: req.body.displayPicture.trim()
+	})
+	
+	
 	switch (req.method) {
 		case "GET": {
 			try {
@@ -33,13 +46,7 @@ export default async function handler(req, res) {
 		case "POST": {
 			try {
 				const collectionRef = db.collection("profile");
-				let profile = await collectionRef.add({
-					firstName: req.body.firstName,
-					lastName: req.body.lastName,
-					email: req.body.email,
-					title: req.body.title,
-					displayPicture: req.body.displayPicture
-				});
+				let profile = await collectionRef.add(reqData(req));
 				const linksData = req.body.links;
 				const links = await linksManager(
 						"profile",
@@ -50,6 +57,7 @@ export default async function handler(req, res) {
 				successRes(res, {profile: (await profile.get()).data()}, 202)
 				
 			} catch (err) {
+				console.log(err)
 				errorRes(res, err.message)
 			}
 			break
@@ -61,15 +69,11 @@ export default async function handler(req, res) {
 				
 				const profileSnap = await profileRef.get();
 				if (profileSnap.exists) {
-					let profile = await profileRef.set({
-						firstName: req.body.firstName,
-						lastName: req.body.lastName,
-						email: req.body.email,
-						title: req.body.title,
-						displayPicture: req.body.displayPicture
-					}, {merge: true});
+					let profile = await profileRef.set(reqData(req), {merge: true});
 					
 					const linksData = req.body.links;
+					
+					console.log(linksData)
 					const links = await linksManager(
 							"profile",
 							profileSnap.id,

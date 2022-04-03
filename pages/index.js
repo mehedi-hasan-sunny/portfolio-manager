@@ -6,7 +6,7 @@ import Modal from "../components/Modal";
 import {useState} from "react";
 import modalStyles from "../styles/Modal.module.css";
 import db from "../firebaseDb/firebaseAdmin";
-
+import About from "../components/section/About";
 export async function getStaticProps(context) {
 	try {
 		let projects = [], profile = {}
@@ -58,7 +58,7 @@ export async function getStaticProps(context) {
 
 export default function Home({projects = [], profile = null}) {
 	const [modalOpen, setModalOpen] = useState(false);
-	const [currentTab, setCurrentTab] = useState('projects');
+	const [currentTab, setCurrentTab] = useState('about');
 	const [selectedItem, setSelectedItem] = useState(null);
 	const handleSelectedItem = (project) => {
 		setSelectedItem(project)
@@ -78,7 +78,7 @@ export default function Home({projects = [], profile = null}) {
 	
 	return (
 			<>
-				<Head>
+				<Head key={"main"}>
 					{
 						profile ? <title>{profile.firstName + " " + profile.lastName}</title> : null
 						
@@ -91,46 +91,61 @@ export default function Home({projects = [], profile = null}) {
 					
 					<div className="container overflow-hidden">
 						<div className={"tabs"}>
+							<a href="#" className={`tab-item ${checkActiveTab("about")}`}
+							   onClick={() => handleTabSelection('about')}>About</a>
 							<a href="#" className={`tab-item ${checkActiveTab("projects")}`}
 							   onClick={() => handleTabSelection('projects')}>Projects</a>
-							<a href="#" className={`tab-item ${checkActiveTab("blogs")}`}
-							   onClick={() => handleTabSelection('blogs')}>Blogs</a>
+							<a href="#" className={`tab-item ${checkActiveTab("blog")}`}
+							   onClick={() => handleTabSelection('blog')}>Blog</a>
+							<a href="#" className={`tab-item ${checkActiveTab("contact")}`}
+							   onClick={() => handleTabSelection('contact')}>Contact</a>
 						</div>
-						{
-							currentTab === "projects" ?
-									<div className={"row gx-5"}>
-										{
-											projects.map((project, index) =>
-													<div className={`col-md-6 mb-4`} key={index}>
-														<a href={"#"} onClick={(event) => {
-															event.preventDefault()
-															handleSelectedItem(project)
-														}}>
-															<Card maxWidth={"100%"} className={"mx-auto mb-3"}
-															      imgSrc={
-																      project.images ?
-																		      (() => {
-																			      if (project.images.length) {
-																				      const thumbnail = project.images.find(item => item.isThumbnail);
-																				      return thumbnail ? thumbnail.url : project.images[0].url;
-																			      } else {
-																				      return "https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg";
-																			      }
-																		      })() : null}
-															      alt={project.title}
-															/>
-															<h4 className={"mb-0"}>{project.title}</h4>
-														</a>
-													
-													</div>
-											)
-										}
-									</div>
-									:
-									<div className={"d-flex align-center justify-center"} style={{minHeight: "10rem"}}>
-										<h4>Coming Soon</h4>
-									</div>
-						}
+						
+						{(() => {
+							if (currentTab === "about") {
+								return (
+										<About/>
+								)
+							} else if (currentTab === "projects") {
+								return (
+										<div className={"row gx-5"}>
+											{
+												projects.map((project, index) =>
+														<div className={`col-md-6 mb-4`} key={index}>
+															<a href={"#"} onClick={(event) => {
+																event.preventDefault()
+																handleSelectedItem(project)
+															}}>
+																<Card maxWidth={"100%"} className={"mx-auto mb-3"}
+																      imgSrc={
+																	      project.images ?
+																			      (() => {
+																				      if (project.images.length) {
+																					      const thumbnail = project.images.find(item => item.isThumbnail);
+																					      return thumbnail ? thumbnail.url : project.images[0].url;
+																				      } else {
+																					      return "https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg";
+																				      }
+																			      })() : null}
+																      alt={project.title}
+																/>
+																<h4 className={"mb-0"}>{project.title}</h4>
+															</a>
+														
+														</div>
+												)
+											}
+										</div>
+								)
+							} else {
+								return (
+										<div className={"d-flex align-center justify-center"} style={{minHeight: "10rem"}}>
+											<h4>Coming Soon</h4>
+										</div>
+								)
+							}
+						})()}
+						
 					</div>
 					
 					{

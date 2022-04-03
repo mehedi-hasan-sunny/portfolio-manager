@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import Modal from "../../components/Modal";
 import LinkCategoryForm from "../../components/LinkCategoryForm";
+import GoBack from "../../components/custom/GoBack";
 
 export async function getServerSideProps(context) {
 	const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/link-category`)
@@ -41,8 +42,8 @@ function LinkCategory({linkCategories = []}) {
 	
 	return (
 			<div className={"container"}>
-				<div className={"d-flex justify-space-between mb-3"}>
-					<h2>Link Categories</h2>
+				<div className={"d-flex align-center justify-space-between mb-3"}>
+					<h2 className={"mb-0"}><GoBack/> Link Categories</h2>
 					<a href={"#"} className={"btn btn-sm"} onClick={(e) => {
 						e.preventDefault();
 						toggleModal();
@@ -50,39 +51,48 @@ function LinkCategory({linkCategories = []}) {
 						<i className={"las la-plus-circle mr-3"}/> Add
 					</a>
 				</div>
-				<table className={"w-100 table"}>
-					<thead>
-					<tr>
-						<td width={"50%"}>Item</td>
-						<td width={"50%"}>Action</td>
-					</tr>
-					</thead>
-					<tbody>
-					
-					{
-						linkCategories.map((item, index) => {
-							return (
-									<tr key={index}>
-										<td>
-											<i className={item.icon}/> &nbsp; <span>{item.title}</span>
-										</td>
-										<td>
-											<i className={"las la-edit hoverable"} onClick={() => {
-												handleSelectedLink(item);
-												toggleModal();
-											}}/>
-											&nbsp;
-											&nbsp;
-											<i className={"las la-trash-alt text-danger hoverable"} onClick={() => {
-												deleteLinkCategory(item.id)
-											}}/>
-										</td>
-									</tr>
-							)
-						})
-					}
-					</tbody>
-				</table>
+				<div className={"table-rounded"}>
+					<table className={"w-100 table"}>
+						<thead>
+						<tr>
+							<td width={"50%"}>Item</td>
+							<td width={"50%"}>Action</td>
+						</tr>
+						</thead>
+						<tbody>
+						
+						{
+							linkCategories.map((item, index) => {
+								return (
+										<tr key={index}>
+											<td>
+												<div className={"d-flex align-center gap-1"}>
+													<i className={item.icon + " la-2x"}/> <span>{item.title}</span>
+												</div>
+											</td>
+											<td>
+												<div className={"d-flex align-center gap-1"}>
+													<button className={"transparent-btn"} aria-label={"Edit link"}
+													        onClick={() => {
+														        handleSelectedLink(item);
+														        toggleModal();
+													        }}>
+														<i className={"las la-edit"}/>
+													</button>
+													
+													<button className={"transparent-btn"} aria-label={"Delete link"}
+													        onClick={() => { deleteLinkCategory(item.id)}}>
+														<i className={"las la-trash-alt text-danger"}/>
+													</button>
+												</div>
+											</td>
+										</tr>
+								)
+							})
+						}
+						</tbody>
+					</table>
+				</div>
 				
 				{
 					modalOpen ?

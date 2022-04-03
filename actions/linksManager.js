@@ -5,11 +5,14 @@ export default async function (linkableType, linkableId, links) {
 	let result = [], linkDeleteData = [], linkData = [];
 	
 	links.forEach((item) => {
-		if (!item.url && item.id) {
-			linkDeleteData.push(item.id)
-		} else if (item.url) {
-			linkData.push(item)
+		if(item) {
+			if (!item.url && item.id) {
+				linkDeleteData.push(item.id)
+			} else if (item.url) {
+				linkData.push(item)
+			}
 		}
+		
 	})
 	
 	if (linkDeleteData.length) {

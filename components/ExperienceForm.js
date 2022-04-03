@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 
-function LinkCategoryForm({linkCategory = null, onSuccessAction}) {
+function ExperienceForm({experience = null, onSuccessAction}) {
 	
-	const [formData, setFormData] = useState(linkCategory ? linkCategory : {
+	const [formData, setFormData] = useState(experience ? experience : {
 		title: null,
 		icon: null,
 	})
@@ -17,8 +17,8 @@ function LinkCategoryForm({linkCategory = null, onSuccessAction}) {
 		const form = new FormData(e.target)
 		const formProps = Object.fromEntries(form);
 		try {
-			const response = await fetch(`/api/admin/link-category${linkCategory ? ('/' + linkCategory.id) : ''}`, {
-				method: !linkCategory ? "post" : "put",
+			const response = await fetch(`/api/admin/experience${experience ? `/${experience.id}` : ''}`, {
+				method: !experience ? "post" : "put",
 				body: JSON.stringify(formProps),
 				headers: {
 					'Accept': 'application/json',
@@ -26,8 +26,8 @@ function LinkCategoryForm({linkCategory = null, onSuccessAction}) {
 				},
 			})
 			const {data} = await response.json()
-			if (data.linkCategory) {
-				onSuccessAction ? onSuccessAction(data.linkCategory) : null
+			if (data.experience) {
+				onSuccessAction ? onSuccessAction(data.experience) : null
 			}
 		} catch (e) {
 			console.log(e.message)
@@ -61,11 +61,11 @@ function LinkCategoryForm({linkCategory = null, onSuccessAction}) {
 						</a>
 					</div>
 					<div className="col">
-						<button type={"submit"} className={"btn pull-right"}>{!linkCategory ? 'Submit' : 'Update'}</button>
+						<button type={"submit"} className={"btn pull-right"}>{!experience ? 'Submit' : 'Update'}</button>
 					</div>
 				</div>
 			</form>
 	);
 }
 
-export default LinkCategoryForm;
+export default ExperienceForm;

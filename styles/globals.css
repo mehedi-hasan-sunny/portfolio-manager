@@ -66,6 +66,11 @@ a {
     text-decoration: none;
 }
 
+a i {
+    color: var(--body-color);
+    transition: all 0.25s ease-in-out;
+}
+
 *, *:before, *:after {
     box-sizing: border-box;
 }
@@ -76,8 +81,16 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0.5rem;
 }
 
+.text-left {
+    text-align: left !important;
+}
+
 .text-center {
     text-align: center !important;
+}
+
+.text-right {
+    text-align: right !important;
 }
 
 .d-flex {
@@ -99,9 +112,15 @@ h1, h2, h3, h4, h5, h6 {
 .justify-space-between {
     justify-content: space-between;
 }
-
+.justify-end {
+    justify-content: end;
+}
 .align-center {
     align-items: center;
+}
+
+.align-end {
+    align-items: flex-end;
 }
 
 .m-3 {
@@ -119,6 +138,10 @@ h1, h2, h3, h4, h5, h6 {
 .my-2 {
     margin-bottom: 0.5rem !important;
     margin-top: 0.5rem !important;
+}
+
+.mr-1 {
+    margin-right: 0.25rem !important;
 }
 
 .mr-2 {
@@ -185,7 +208,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .container {
     padding: 1rem;
-    max-width: 50rem;
+    max-width: 75rem;
     margin: 0 auto;
     width: 100%;
 }
@@ -245,6 +268,10 @@ textarea.form-control {
     gap: 1rem;
 }
 
+.gap-2 {
+    gap: 2rem;
+}
+
 .order-1 {
     order: 1;
 }
@@ -256,6 +283,7 @@ textarea.form-control {
 .text-danger {
     color: #cb193c;
 }
+
 
 .btn {
     display: inline-block;
@@ -286,6 +314,21 @@ textarea.form-control {
     background-color: #8162ff;
 }
 
+.transparent-btn {
+    display: inline-block;
+    background: transparent;
+    border: 0;
+    color: var(--body-color);
+    min-width: auto;
+    font-size: 1rem;
+
+}
+
+.btn i, .transparent-btn i:not(.la-2x):not(.la-3x) {
+    font-size: 1.25rem;
+}
+
+
 .pull-right {
     float: right;
 }
@@ -294,18 +337,43 @@ textarea.form-control {
     cursor: pointer;
 }
 
+
 .table {
     border: 1px solid #dee2e6;
-    border-radius: 10px;
     width: 100%;
     border-spacing: 0;
     border-collapse: collapse;
 }
 
+.table-rounded {
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+}
+
+.table-rounded .table {
+    border: 0;
+    overflow: hidden;
+}
+
+
 .table tr td, .table tr th {
-    padding: 0.5rem 0.75rem;
+    padding: 0.75rem 0.75rem;
+    border-left: 1px solid #dee2e6;
     border-bottom: 1px solid #dee2e6;
-    border-right: 1px solid #dee2e6;
+    vertical-align: middle;
+}
+
+.table tr td:first-child {
+    border-left: 0;
+}
+
+
+.table tbody tr:last-child td:first-child {
+    border-bottom: 0;
+}
+
+.table tbody tr:last-child td:last-child {
+    border-bottom: 0;
 }
 
 .switch {
@@ -398,4 +466,12 @@ textarea {
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
+}
+
+.fw-500 {
+    font-weight: 500 !important;
+}
+
+.fw-bold {
+    font-weight: bold !important;
 }

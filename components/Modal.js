@@ -10,7 +10,8 @@ const Modal = ({title, modalValue, closeModal, children}) => {
 	useEffect(() => {
 		if (modalValue) {
 			body.style.overflow = "hidden";
-			body.style.paddingRight = "1rem";
+			if(document.body.scrollHeight > window.innerHeight)
+				body.style.paddingRight = "1rem";
 		}
 		
 		if (modalValue) {

@@ -1,20 +1,25 @@
 import React, {useEffect, useState} from 'react';
+import {empty} from "../helpers/common";
 
 
 function ProfileForm({profile = null, onSuccessAction}) {
 	const [formLinks, setFormLinks] = useState([])
 	
 	const [formData, setFormData] = useState(profile ? profile : {
-		firstName: "Shohanur",
-		lastName: "Rahman",
-		email: "shohanbaf@gmail.com",
+		firstName: "",
+		lastName: "",
+		email: "",
+		phoneNumber: "",
 		displayPicture: null,
+		bio: "",
 		title: null,
 		links: formLinks
 	})
 	
 	
 	const [linkCategories, setLinkCategories] = useState([]);
+	
+	console.log(linkCategories, "linkCategories")
 	
 	const updateFormData = (event, value = null) => {
 		setFormData(prevState => ({
@@ -37,8 +42,10 @@ function ProfileForm({profile = null, onSuccessAction}) {
 	useEffect(() => {
 		fetch(`/api/admin/link-category`).then(async (res) => {
 			const {data} = await res.json()
-			setLinkCategories(data)
-			if (profile) {
+			
+			console.log(data, "data")
+			setLinkCategories(data ?? [])
+			if (profile && profile.length) {
 				const links = data.map((item) => {
 					const matched = profile.links.filter(profileLink => profileLink.icon === item.icon)
 					if (!matched.length) {
@@ -56,12 +63,15 @@ function ProfileForm({profile = null, onSuccessAction}) {
 		})
 	}, [profile])
 	
+	useEffect(()=>{
+	}, [linkCategories])
+	
 	const handleSubmit = async (e) => {
-		console.log({...formData, links: formLinks})
+		
 		e.preventDefault();
 		try {
 			const response = await fetch("/api/admin/profile", {
-				method: !profile ? "post" : "put",
+				method: empty(profile) ? "post" : "put",
 				body: JSON.stringify({...formData, links: formLinks}),
 				headers: {
 					'Accept': 'application/json',
@@ -70,10 +80,11 @@ function ProfileForm({profile = null, onSuccessAction}) {
 			})
 			const {data} = await response.json()
 			
-			if (await data.profile) {
+			if (await data && data.profile) {
 				onSuccessAction ? onSuccessAction(data.profile) : null
 			}
 		} catch (e) {
+			console.log(e)
 			console.log(e.message)
 		}
 	}
@@ -112,36 +123,55 @@ function ProfileForm({profile = null, onSuccessAction}) {
 					<input type="title" id={"title"} className={"form-control"} name={"title"} required
 					       defaultValue={formData.title} onInput={updateFormData}/>
 				</div>
-				<div className={"mb-3"}>
-					<label htmlFor="email" className={"form-label"}>Email</label>
-					<input type="email" id={"email"} className={"form-control"} name={"email"} required
-					       defaultValue={formData.email} onInput={updateFormData}/>
+				<div className="row mb-3">
+					<div className={"col"}>
+						<label htmlFor="email" className={"form-label"}>Email</label>
+						<input type="email" id={"email"} className={"form-control"} name={"email"} required
+						       defaultValue={formData.email} onInput={updateFormData}/>
+					</div>
+					
+					<div className={"col"}>
+						<label htmlFor="phone" className={"form-label"}>Phone Number (+880)</label>
+						<input type="number" id={"phone"} className={"form-control"} name={"phoneNumber"} required
+						       aria-label={"Phone Number"} minLength={"10"} maxLength={"11"}
+						       defaultValue={formData.phoneNumber} onInput={updateFormData}/>
+					</div>
 				</div>
 				<div className={"mb-3"}>
-					<label htmlFor="" className={"form-label"}>Profile Image Link</label>
-					<input type="text" className={"form-control"} name={"displayPicture"} required
+					<label htmlFor="display-picture" className={"form-label"}>Profile Image Link</label>
+					<input type="text" id={"display-picture"} className={"form-control"} name={"displayPicture"} required
 					       defaultValue={formData.displayPicture}
 					       onInput={updateFormData}/>
 				</div>
-				{
-					linkCategories.map((item, index) => {
-						return (
-								<div className={"mb-3"} key={index}>
-									<label htmlFor="" className={"form-label"}>
-										<i className={item.icon}/>
-										&nbsp;
-										{item.title} Profile Link
-									</label>
-									<input type="text" className={"form-control"} name={`links[${item.id}][url]`}
-									       defaultValue={getDefaultLink(item.icon)}
-									       onInput={(e) => {
-										       updateFormLinks(item.icon, e.target.value, index)
-									       }}
-									/>
-								</div>
-						)
-					})
-				}
+				<div className={"mb-3"}>
+					<label htmlFor="bio" className={"form-label"}>Bio</label>
+					<textarea id={"bio"} className={"form-control"} name={"bio"} required
+					          maxLength={250}
+					       defaultValue={formData.bio}
+					       onInput={updateFormData}/>
+				</div>
+				<div className="row">
+					{
+						linkCategories.map((item, index) => {
+							return (
+									<div className={`${linkCategories.length > 1 ? 'col-6' : 'col'} mb-3`} key={index}>
+										<label htmlFor="" className={"form-label"}>
+											<i className={item.icon}/>
+											&nbsp;
+											{item.title} Profile Link
+										</label>
+										<input type="text" className={"form-control"} name={`links[${item.id}][url]`}
+										       defaultValue={getDefaultLink(item.icon)}
+										       onInput={(e) => {
+											       updateFormLinks(item.icon, e.target.value, index)
+										       }}
+										/>
+									</div>
+							)
+						})
+					}
+				</div>
+				
 				
 				<button type={"submit"} className={"btn pull-right"}>{!profile ? 'Submit' : 'Update'}</button>
 			</form>

@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import profileStyles from "../../styles/Profile.module.css";
-import styles from "../../styles/Admin.module.css";
 import Card from "../../components/Card";
 import Modal from "../../components/Modal";
 import CreateProjectForm from "../../components/CreateProjectForm";
 import ProfileForm from "../../components/ProfileForm";
+import ActionButton from "../../components/admin/custom/ActionButton";
+import {empty} from "../../helpers/common";
 
 export async function getServerSideProps(context) {
 	const profileRes = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/profile`)
@@ -13,11 +14,12 @@ export async function getServerSideProps(context) {
 	const {data: projects} = await res.json()
 	
 	return {
-		props: {profile: profileData ? profileData : null, projects: projects ? projects : []}, // will be passed to the page component as props
+		props: {profile: profileData, projects: projects ? projects : []}, // will be passed to the page component as props
 	}
 }
 
-function Index({profile = null, projects = []}) {
+function Index({profile, projects = []}) {
+	
 	const [modalOpen, setModalOpen] = useState(false);
 	const [profileModal, setProfileModalOpen] = useState(false);
 	const [selectedProject, setSelectedProjectProject] = useState(null);
@@ -64,33 +66,43 @@ function Index({profile = null, projects = []}) {
 				<div className={"row align-center justify-space-between mb-3"}>
 					<div className={"col"}>
 						{
-							profile ?
+							!empty(profile) ?
 									
-									<div className={"d-flex align-center gap-1 hoverable"} onClick={() => toggleProfileModal()}>
-										<img className={profileStyles.avatar + " mb-0"}
+									<button className={"d-flex align-center gap-1 transparent-btn fs-1"}
+									        onClick={() => toggleProfileModal()}>
+										<img className={profileStyles.avatarAdmin + " mb-0"}
 										     src={profile.displayPicture} style={{width: '60px', height: '60px'}}
 										     alt=""/>
 										<span>{`${profile.firstName} ${profile.lastName}`}</span>
-									</div>
+									</button>
 									:
 									
-									<>
-										<i className="las la-user-circle la-3x hoverable" onClick={() => toggleProfileModal()}/>
-									</>
+									<button className={"transparent-btn"} onClick={() => toggleProfileModal()}>
+										<i className="las la-user-circle la-3x hoverable" />
+									</button>
 						}
 					
 					</div>
 					<div className={"col"}>
-						<div className={styles.createProjectBtn + " ml-auto"} onClick={() => {
-							setSelectedProjectProject(null)
-							toggleModal()
-						}}>
-							<i className={"las la-plus-circle"}/>
-							<br/>
-							Create project
-						</div>
+						<ActionButton className={"pull-right"} title={"Edit profile"} size={"small"} icon={"la-edit"} onClick={() => toggleProfileModal()}/>
 					</div>
 				</div>
+				
+				
+				{/*actions*/}
+				
+				<div className={"row gap-2"}>
+					
+					<ActionButton size={"large"} title={"Create project"} icon={"la-plus-circle"}
+					              onClick={(e) => { setSelectedProjectProject(null); toggleModal();}}/>
+					
+					<ActionButton size={"large"}  icon={"la-link"} title={"Link Categories"} link={"/admin/link-category"}/>
+					
+					<ActionButton size={"large"}  icon={"la-trophy"} title={"Experience"} link={"/admin/experience"}/>
+				
+				</div>
+				
+				
 				<div className={"row"}>
 					{
 						projects && projects.map((item, index) => {

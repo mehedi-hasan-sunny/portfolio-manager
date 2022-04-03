@@ -1,0 +1,74 @@
+.timeline {
+    display: flex;
+    gap: 1rem;
+}
+
+.timeline .timelineLeft {
+    width: 20rem;
+    padding: 0 1rem;
+}
+
+
+.timeline .timelineRight {
+    width: 40rem;
+    padding: 0 2rem;
+    border-left: 1px solid lightslategrey;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 5rem;
+    position: relative;
+}
+
+.timeline .timelineHeader {
+    font-size: 1.25rem;
+    font-weight: normal;
+}
+
+
+.timeline .timelineWrapper {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.timeline .timelineWrapper:nth-of-type(odd):before {
+    content: "";
+    display: block;
+    height: 0.85rem;
+    width: 0.85rem;
+    border: 1px solid lightslategrey;
+    border-radius: 50%;
+    position: absolute;
+    left: -0.45rem;
+    background-color: var(--body-bg);
+}
+
+.timeline .timelineWrapper:nth-of-type(even):before {
+    content: "";
+    display: block;
+    height: 0.85rem;
+    width: 0.85rem;
+    border: 1px solid lightslategrey;
+    border-radius: 50%;
+    position: absolute;
+    left: -0.45rem;
+    background-color: lightslategrey;
+}
+
+.timeline .timelineWrapper .timelineTitleContainer {
+    margin-bottom: 1rem;
+}
+
+.timeline .timelineDate {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.timeline .timelineWrapper .timelineDescription {
+    font-size: 1rem;
+    font-weight: normal;
+    margin: 0;
+}
+
+/*.timeline .timelineWrapper:not(:last-of-type) .timelineDescription {*/
+/*    margin-bottom: 1rem;*/
+/*}*/

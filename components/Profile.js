@@ -1,4 +1,5 @@
 import styles from '../styles/Profile.module.css'
+import ProfileImageBlob from "./custom/ProfileImageBlob";
 
 const Profile = ({profile = null}) => {
 	return (
@@ -18,19 +19,35 @@ const Profile = ({profile = null}) => {
 				{
 					profile ?
 							<>
-								<div style={{position: "relative", zIndex: 2}}>
-									<img className={styles.avatar} src={profile.displayPicture}
-									     alt={profile.firstName + " " + profile.lastName}/>
-									<h4>{profile.firstName + " " + profile.lastName}</h4>
+								<div className={"container"} style={{position: "relative", zIndex: 2}}>
+									
+									<ProfileImageBlob displayPicture={profile.displayPicture} alt={profile.firstName + " " + profile.lastName}/>
+									
+									<h2 className={"fw-bold"}>{profile.firstName + " " + profile.lastName}</h2>
 									<h5>{profile.title}</h5>
-									<div className={"d-flex flex-wrap justify-center mt-3"}>
-										{
-											profile.links.map((item, index) => {
-												return (<a rel={"noreferrer"} href={item.url} target={"_blank"} key={index}>
-													<i className={item.icon + " la-2x mx-2"}/>
-												</a>)
-											})
-										}
+									
+									<div className={"row justify-space-between align-end"}>
+										<div className="col text-left">
+											<h4 className={"fw-bold"}>Reach Me</h4>
+											<a href={"tel:" + profile.phoneCode+profile.phoneNumber}>
+												<span className={"mr-1"}>{profile.phoneCode}</span> {profile.phoneNumber}
+											</a>
+											<br/>
+											<a href={"mailto:" + profile.email}>
+												{profile.email}
+											</a>
+										</div>
+										<div className={"col"}>
+											<div className={"d-flex flex-wrap justify-end mt-3"}>
+												{
+													profile.links.map((item, index) => {
+														return (<a rel={"noreferrer"} href={item.url} target={"_blank"} key={index}>
+															<i className={item.icon + " la-2x mx-2"}/>
+														</a>)
+													})
+												}
+											</div>
+										</div>
 									</div>
 								</div>
 							</> : null
