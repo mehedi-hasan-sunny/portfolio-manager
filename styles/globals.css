@@ -475,3 +475,7 @@ textarea {
 .fw-bold {
     font-weight: bold !important;
 }
+
+.fs-12 {
+    font-size: 0.75rem;
+}

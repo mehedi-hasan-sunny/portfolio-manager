@@ -1,35 +1,45 @@
 import timeline from "../../styles/Timeline.module.css"
+import TimelineContent from "../custom/TimelineContent";
 
-const TimelineContent = () => (
-		
-		<div className={timeline.timelineWrapper}>
-			<div className={timeline.timelineTitleContainer}>
-				<h2 className={timeline.timelineHeader}>Digital Product Manager, <span className={"fw-bold"}>ZX Com</span>
-				</h2>
-				<h4 className={timeline.timelineDate}>Dec 2019 - Present</h4>
-			</div>
-			<p className={timeline.timelineDescription}>
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa dolore fugit magni nesciunt sed? A
-				aspernatur assumenda esse eveniet exercitationem.
-			</p>
-		</div>
-);
-const About = (props) => (
-		<div className={timeline.timeline}>
-			<div className={timeline.timelineLeft}>
-				<h2 className={timeline.timelineHeader + " fw-bold"}>Work Experience</h2>
-			</div>
+const About = ({experiences, isAdmin = false, editExperience = null, deleteExperience = null}) => {
+	return (
+			<div className={timeline.timeline}>
+				<div className={timeline.timelineLeft}>
+					<h2 className={timeline.timelineHeader + " fw-bold"}>Work Experience</h2>
+				</div>
+				
+				<div className={timeline.timelineRight}>
+					{
+						experiences && experiences.map((experience, index) =>
+								<TimelineContent {...experience} key={index} isAdmin={isAdmin}>
+									{
+										isAdmin ?
+												<TimelineContent.AdminActions>
+													<div className={"d-flex align-center gap-1"}>
+														<button className={"transparent-btn"} aria-label={"Edit experience"}
+														        onClick={() => {
+															        editExperience(experience);
+														        }}>
+															<i className={"las la-edit"}/>
+														</button>
+														
+														<button className={"transparent-btn"} aria-label={"Delete experience"}
+														        onClick={() => {
+															        deleteExperience(experience.id)
+														        }}>
+															<i className={"las la-trash-alt text-danger"}/>
+														</button>
+													</div>
+												</TimelineContent.AdminActions> : null
+									}
+								</TimelineContent>
+						)
+					}
+				</div>
 			
-			<div className={timeline.timelineRight}>
-				{
-					[1, 2, 3, 4, 5].map((index) =>
-							<TimelineContent key={index}/>
-					)
-				}
+			
 			</div>
-		
-		
-		</div>
-);
+	)
+};
 
 export default About;

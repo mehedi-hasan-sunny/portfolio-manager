@@ -9,7 +9,7 @@ import db from "../firebaseDb/firebaseAdmin";
 import About from "../components/section/About";
 export async function getStaticProps(context) {
 	try {
-		let projects = [], profile = {}
+		let projects = [], profile = {}, experiences = []
 		
 		const profileCollectionRef = db.collection("profile").limit(1);
 		const profileSnapshot = await profileCollectionRef.get();
@@ -44,8 +44,17 @@ export async function getStaticProps(context) {
 		
 		projects = await Promise.all(projects);
 		
+		const experiencesRef = db.collection("experience");
+		const experienceSnap = await experiencesRef.get();
+		
+		if (!experienceSnap.empty) {
+			experiences = experienceSnap.docs.map(async collection => {
+				return {id: collection.id, ...collection.data()};
+			});
+		}
+		experiences = await Promise.all(experiences);
 		return {
-			props: {projects: projects, profile: profile},
+			props: {projects: projects, profile: profile, experiences: experiences},
 			revalidate: 60
 		}
 		
@@ -56,7 +65,7 @@ export async function getStaticProps(context) {
 	}
 }
 
-export default function Home({projects = [], profile = null}) {
+export default function Home({projects = [], profile = null, experiences}) {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [currentTab, setCurrentTab] = useState('about');
 	const [selectedItem, setSelectedItem] = useState(null);
@@ -104,7 +113,7 @@ export default function Home({projects = [], profile = null}) {
 						{(() => {
 							if (currentTab === "about") {
 								return (
-										<About/>
+										<About experiences={experiences}/>
 								)
 							} else if (currentTab === "projects") {
 								return (

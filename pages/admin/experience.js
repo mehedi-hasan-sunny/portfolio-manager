@@ -22,6 +22,7 @@ function Experience({experiences = []}) {
 	}
 	const handleSelectedExperience = (item) => {
 		setSelectedExperience(item)
+		toggleModal()
 	}
 	const successAction = (data) => {
 		toggleModal()
@@ -51,7 +52,7 @@ function Experience({experiences = []}) {
 						<i className={"las la-plus-circle mr-3"}/> Add
 					</a>
 				</div>
-				<About experiences={experiences} editMode={true}/>
+				<About experiences={experiences} isAdmin={true} editExperience={handleSelectedExperience} deleteExperience={deleteExperience}/>
 				
 				{
 					modalOpen ?

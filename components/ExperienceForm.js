@@ -3,8 +3,12 @@ import React, {useState} from 'react';
 function ExperienceForm({experience = null, onSuccessAction}) {
 	
 	const [formData, setFormData] = useState(experience ? experience : {
-		title: null,
-		icon: null,
+		designation: null,
+		company: null,
+		startDate: null,
+		endDate: null,
+		isPresent: false,
+		description: null,
 	})
 	const updateFormData = (event, value = null) => {
 		setFormData(prevState => ({
@@ -36,34 +40,44 @@ function ExperienceForm({experience = null, onSuccessAction}) {
 	
 	return (
 			<form className={"p-3"} onSubmit={handleSubmit}>
+				<div className="mb-3">
+					<label htmlFor="company" className={"form-label"}>Company</label>
+					<input id={"company"} type="text" className={"form-control"} name={"company"} required
+					       defaultValue={formData.company} onInput={updateFormData}/>
+				</div>
+				<div className="mb-3">
+					<label htmlFor="designation" className={"form-label"}>Designation</label>
+					<input id={"designation"} type="text" className={"form-control"} name={"designation"} required
+					       defaultValue={formData.designation} onInput={updateFormData}/>
+				</div>
 				<div className={"row mb-3"}>
 					<div className={"col-6"}>
-						<label htmlFor="title" className={"form-label"}>Title</label>
-						<input id={"title"} type="text" className={"form-control"} name={"title"} required
-						       defaultValue={formData.title} onInput={updateFormData}/>
+						<label htmlFor="startDate" className={"form-label"}>Start Date</label>
+						<input id={"startDate"} type="date" className={"form-control"} name={"startDate"} required
+						       defaultValue={formData.startDate} onInput={updateFormData}/>
 					</div>
 					<div className={"col-6"}>
-						<label htmlFor="icon" className={"form-label"}>
-							Icon (class name) &nbsp;
-							{
-								formData.icon ? <i className={formData.icon}/> : null
-							}
-						</label>
-						<input id={"icon"} type="text" className={"form-control"} name={"icon"} required
-						       defaultValue={formData.icon} onInput={updateFormData}/>
+						<label htmlFor="endDate" className={"form-label"}>End Date</label>
+						<input id={"endDate"} type="date" className={"form-control"} name={"endDate"}
+						       defaultValue={formData.endDate} onInput={updateFormData}/>
+						
 					</div>
 				</div>
 				
-				<div className={"row"}>
-					<div className="col">
-						<a href={"https://icons8.com/line-awesome"} rel={"noreferrer"} target={"_blank"} className={"btn btn-sm mt-2"}>
-							Line awesome icons
-						</a>
-					</div>
-					<div className="col">
-						<button type={"submit"} className={"btn pull-right"}>{!experience ? 'Submit' : 'Update'}</button>
-					</div>
+				<div className="mb-3">
+					<label htmlFor="isPresent" className={"form-label fs-12"}>
+						<input id={"isPresent"} type="checkbox" name={"isPresent"}
+						       defaultValue={formData.isPresent} onInput={updateFormData}/>
+						Currently working here
+					</label>
 				</div>
+				
+				<div className="mb-3">
+					<label htmlFor="description" className={"form-label"}>Description</label>
+					<textarea rows={2} className={"form-control"} name={"description"} id={"description"} required
+					          onInput={updateFormData} defaultValue={formData.description} maxLength={255}/>
+				</div>
+				<button type={"submit"} className={"btn pull-right"}>{!experience ? 'Submit' : 'Update'}</button>
 			</form>
 	);
 }

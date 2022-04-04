@@ -1,68 +1,60 @@
-import db from "../../../../firebaseDb/firebaseAdmin";
-
 import {errorRes, successRes} from "!/helpers/jsonResponse";
+import MethodNotAllowedException from "../../../../helpers/CustomError";
+import CRUD from "../../../../helpers/CRUD";
 
 export default async function handler(req, res) {
-	const {id} = req.query;
 	
-	switch (req.method) {
-		case "GET": {
-			try {
-				const linkCategoryRef = db.doc("linkCategories/" + id);
-				let linkCategory = await linkCategoryRef.get();
-				if (linkCategory.exists) {
-					linkCategory = {id: linkCategory.id, ...linkCategory.data()}
-					successRes(res, linkCategory)
-				} else {
-					errorRes(res, "Link Category not found.", 404)
-				}
-				
-			} catch (err) {
-				errorRes(res, err.message)
-			}
-			break
-		}
-		case "PUT": {
-			try {
-				const linkCategoryRef = db.doc("linkCategories/" + id);
-				let linkCategory = await linkCategoryRef.get();
-				if (linkCategory.exists) {
-					
-					const updateData = {
-						icon: req.body.icon,
-						title: req.body.title
-					}
-					await linkCategoryRef.update(updateData);
-					
-					linkCategory = {id: linkCategory.id, ...updateData}
-					successRes(res, {linkCategory})
-				} else {
-					errorRes(res, "Link Category not found.", 404)
-				}
-			} catch (err) {
-				errorRes(res, err.message)
-			}
-			break
-		}
-		case "DELETE": {
-			console.log(id)
-			try {
-				const linkCategoryRef = db.doc("linkCategories/" + id);
-				let linkCategory = await linkCategoryRef.get();
-				if (linkCategory.exists) {
-					linkCategory = await linkCategoryRef.delete();
-					successRes(res, "Deleted successfully!")
-				} else {
-					errorRes(res, "Link Category not found.", 404)
-				}
-				
-			} catch (err) {
-				errorRes(res, err.message)
-			}
-			break
-		}
-		default : {
-			errorRes(res, `Method '${req.method}' Not Allowed`, 405)
+	const checkMethod = () => {
+		if (!['GET', 'PUT', 'DELETE'].includes(req.method)) {
+			throw new MethodNotAllowedException(`Method '${req.method}' Not Allowed`)
 		}
 	}
+	try {
+		checkMethod();
+		
+		const {id} = req.query;
+		
+		const experienceCRUD = new CRUD('Experience','experience');
+		let successMessage;
+		let experience = null;
+		
+		switch (req.method) {
+			case "GET": {
+				experience = await experienceCRUD.read(id)
+				break
+			}
+			case "PUT": {
+				const updateData = {
+					designation: req.body.designation.trim(),
+					company: req.body.company.trim(),
+					startDate: req.body.startDate,
+					endDate: req.body.endDate,
+					isPresent: req.body.isPresent,
+					description: req.body.description.trim(),
+				}
+				experience = await experienceCRUD.update(id, updateData)
+				break
+			}
+			case "DELETE": {
+				successMessage =  await experienceCRUD.delete(id)
+				break
+			}
+		}
+		
+		if (successMessage || !(experience instanceof Error)) {
+			successRes(res, successMessage ?? experience)
+		} else {
+			errorRes(res, "Experience not found.", 404)
+		}
+		
+	} catch (err) {
+		console.log(err)
+		if (err instanceof MethodNotAllowedException) {
+			errorRes(res, err.message, 405)
+		} else {
+			errorRes(res, err.message)
+		}
+		
+	}
+	
 }
