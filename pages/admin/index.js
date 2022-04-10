@@ -6,6 +6,7 @@ import CreateProjectForm from "../../components/CreateProjectForm";
 import ProfileForm from "../../components/ProfileForm";
 import ActionButton from "../../components/admin/custom/ActionButton";
 import {empty} from "../../helpers/common";
+import ProfilePictureCropper from "../../components/ProfilePictureCropper";
 
 export async function getServerSideProps(context) {
 	const profileRes = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/profile`)
@@ -21,6 +22,7 @@ export async function getServerSideProps(context) {
 function Index({profile, projects = []}) {
 	
 	const [modalOpen, setModalOpen] = useState(false);
+	const [profilePictureModalOpen, setProfilePictureModalOpen] = useState(false);
 	const [profileModal, setProfileModalOpen] = useState(false);
 	const [selectedProject, setSelectedProjectProject] = useState(null);
 	const handleModalClose = () => {
@@ -30,6 +32,9 @@ function Index({profile, projects = []}) {
 		setModalOpen(prev => !prev)
 	}
 	
+	const toggleProfilePictureModal = () => {
+		setProfilePictureModalOpen(prev => !prev)
+	}
 	const toggleProfileModal = () => {
 		selectedProject ? setSelectedProjectProject(null) : null
 		setProfileModalOpen(prev => !prev)
@@ -51,40 +56,38 @@ function Index({profile, projects = []}) {
 		}
 	}
 	const successAction = (data) => {
-		console.log(data, successAction)
 		handleModalClose()
 		window.location.reload()
 	}
-	
-	useEffect(() => {
-		console.log("profile", profile)
-		console.log("projects", projects)
-	}, [])
 	
 	return (
 			<div className={"container"}>
 				<div className={"row align-center justify-space-between mb-3"}>
 					<div className={"col"}>
-						{
-							!empty(profile) ?
-									
-									<button className={"d-flex align-center gap-1 transparent-btn fs-1"}
-									        onClick={() => toggleProfileModal()}>
-										<img className={profileStyles.avatarAdmin + " mb-0"}
-										     src={profile.displayPicture} style={{width: '60px', height: '60px'}}
-										     alt=""/>
-										<span>{`${profile.firstName} ${profile.lastName}`}</span>
-									</button>
-									:
-									
-									<button className={"transparent-btn"} onClick={() => toggleProfileModal()}>
-										<i className="las la-user-circle la-3x hoverable" />
-									</button>
-						}
-					
+						<div className={"d-flex align-center gap-1 "}>
+							<button className={"transparent-btn"} onClick={() => toggleProfilePictureModal()}>
+								{
+									!empty(profile)
+											? <img className={profileStyles.avatarAdmin + " mb-0"}
+											       src={profile.displayPicture} style={{width: '60px', height: '60px'}}
+											       alt=""/>
+											: <i className="las la-user-circle la-3x hoverable"/>
+								}
+							</button>
+							{
+								!empty(profile) ?
+										<button className={"transparent-btn fs-1"}
+										        onClick={() => toggleProfileModal()}>
+											
+											<span>{`${profile.firstName} ${profile.lastName}`}</span>
+										</button>
+										: null
+							}
+						</div>
 					</div>
 					<div className={"col"}>
-						<ActionButton className={"pull-right"} title={"Edit profile"} size={"small"} icon={"la-edit"} onClick={() => toggleProfileModal()}/>
+						<ActionButton className={"pull-right"} title={"Edit profile"} size={"small"} icon={"la-edit"}
+						              onClick={() => toggleProfileModal()}/>
 					</div>
 				</div>
 				
@@ -93,12 +96,24 @@ function Index({profile, projects = []}) {
 				
 				<div className={"row gap-2"}>
 					
+					<div className={"d-inline-flex gap-1"} style={{width: '14rem'}}>
+						<button className={"btn "} style={{minWidth: '6.5rem', width: '6.5rem'}}>
+							red
+						</button>
+						<button className={"btn"} style={{minWidth: '6.5rem', width: '6.5rem'}}>
+							red
+						</button>
+					</div>
+					
 					<ActionButton size={"large"} title={"Create project"} icon={"la-plus-circle"}
-					              onClick={(e) => { setSelectedProjectProject(null); toggleModal();}}/>
+					              onClick={(e) => {
+						              setSelectedProjectProject(null);
+						              toggleModal();
+					              }}/>
 					
-					<ActionButton size={"large"}  icon={"la-link"} title={"Link Categories"} link={"/admin/link-category"}/>
+					<ActionButton size={"large"} icon={"la-link"} title={"Link Categories"} link={"/admin/link-category"}/>
 					
-					<ActionButton size={"large"}  icon={"la-trophy"} title={"Experience"} link={"/admin/experience"}/>
+					<ActionButton size={"large"} icon={"la-trophy"} title={"Experience"} link={"/admin/experience"}/>
 				
 				</div>
 				
@@ -150,6 +165,16 @@ function Index({profile, projects = []}) {
 								(
 										<Modal title={"Profile"} modalValue={profileModal} closeModal={toggleProfileModal}>
 											<ProfileForm onSuccessAction={successAction} profile={profile}/>
+										</Modal>
+								) : null
+					}
+					
+					{
+						profilePictureModalOpen ?
+								(
+										<Modal title={"Profile Picture"} modalValue={profilePictureModalOpen}
+										       closeModal={toggleProfilePictureModal}>
+											<ProfilePictureCropper image={!empty(profile) ? profile.displayPicture : null}/>
 										</Modal>
 								) : null
 					}

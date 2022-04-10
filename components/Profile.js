@@ -26,7 +26,7 @@ const Profile = ({profile = null}) => {
 									<h2 className={"fw-bold"}>{profile.firstName + " " + profile.lastName}</h2>
 									<h5>{profile.title}</h5>
 									
-									<div className={"row justify-space-between align-end"}>
+									<div className={"row justify-space-between align-end py-3"}>
 										<div className="col text-left">
 											<h4 className={"fw-bold"}>Reach Me</h4>
 											<a href={"tel:" + profile.phoneCode+profile.phoneNumber}>

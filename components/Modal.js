@@ -17,21 +17,22 @@ const Modal = ({title, modalValue, closeModal, children}) => {
 		if (modalValue) {
 			let modal = document.querySelector(".modal");
 			if (modal) {
-				// modal.addEventListener("click", (event) => {
-				// 	const modalContent = document.querySelector("[data-modal-content]");
-				//
-				// 	if (!modalContent.contains(event.target)) {
-				// 		handleClose();
-				// 	}
-				// });
-				modal.addEventListener('keydown', (event) => {
-					if (event.key === 'Escape') {
+				/*modal.addEventListener("click", (event) => {
+					const modalContent = document.querySelector("[data-modal-content]");
+
+					if (!modalContent.contains(event.target)) {
+						handleClose();
+					}
+				});*/
+				document.addEventListener('keydown', (event) => {
+					console.log("")
+					if (modalValue && event.key === 'Escape') {
 						handleClose();
 					}
 				});
 			}
 		}
-	}, [body.style, modalValue]);
+	}, [modalValue]);
 	return (
 			<div className={['modal', styles.modal, modalValue ? styles.open : null].join(' ')} data-modal={true}>
 				<div className={styles.modalWrapper}>

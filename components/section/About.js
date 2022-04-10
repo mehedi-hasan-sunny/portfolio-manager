@@ -1,9 +1,10 @@
 import timeline from "../../styles/Timeline.module.css"
 import TimelineContent from "../custom/TimelineContent";
 
-const About = ({experiences, isAdmin = false, editExperience = null, deleteExperience = null}) => {
+const About = ({experiences, isAdmin = false, editExperience = null, deleteExperience = null, ...props}) => {
+	props.className = timeline.timeline + ' ' + props.className
 	return (
-			<div className={timeline.timeline}>
+			<div className={props.className}>
 				<div className={timeline.timelineLeft}>
 					<h2 className={timeline.timelineHeader + " fw-bold"}>Work Experience</h2>
 				</div>

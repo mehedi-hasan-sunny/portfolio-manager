@@ -7,6 +7,9 @@ import {useState} from "react";
 import modalStyles from "../styles/Modal.module.css";
 import db from "../firebaseDb/firebaseAdmin";
 import About from "../components/section/About";
+import Projects from "../components/section/Projects";
+import Contact from "../components/section/Contact";
+
 export async function getStaticProps(context) {
 	try {
 		let projects = [], profile = {}, experiences = []
@@ -84,6 +87,9 @@ export default function Home({projects = [], profile = null, experiences}) {
 	const checkActiveTab = (value) => {
 		return currentTab === value ? 'active' : ''
 	}
+	const hideOrShowTabSection = (value) => {
+		return currentTab !== value ? ' d-none' : ''
+	}
 	
 	return (
 			<>
@@ -98,63 +104,49 @@ export default function Home({projects = [], profile = null, experiences}) {
 				<main className={main}>
 					<Profile profile={profile}/>
 					
-					<div className="container overflow-hidden">
+					{
+						profile ? (
+								<div className="container pb-0">
+									<div className={"row justify-space-between align-center"}>
+										<div className="col-3">
+											<h2 className={"fw-bold"}>Hello</h2>
+										</div>
+										<div className="col-9">
+											<p className={"my-3 fs-20 lh-22"}>
+												{profile.bio}
+											</p>
+										</div>
+									</div>
+								</div>
+						) : null
+					}
+					
+					
+					<div className="container overflow-hidden px-0">
 						<div className={"tabs"}>
-							<a href="#" className={`tab-item ${checkActiveTab("about")}`}
-							   onClick={() => handleTabSelection('about')}>About</a>
-							<a href="#" className={`tab-item ${checkActiveTab("projects")}`}
-							   onClick={() => handleTabSelection('projects')}>Projects</a>
-							<a href="#" className={`tab-item ${checkActiveTab("blog")}`}
-							   onClick={() => handleTabSelection('blog')}>Blog</a>
-							<a href="#" className={`tab-item ${checkActiveTab("contact")}`}
-							   onClick={() => handleTabSelection('contact')}>Contact</a>
+							<button type={"button"} role={"tab"} className={`tab-item ${checkActiveTab("about")}`}
+							   onClick={() => handleTabSelection('about')}>About</button>
+							<button type={"button"} role={"tab"} className={`tab-item ${checkActiveTab("projects")}`}
+							   onClick={() => handleTabSelection('projects')}>Projects</button>
+							<button type={"button"} role={"tab"} className={`tab-item ${checkActiveTab("blog")}`}
+							   onClick={() => handleTabSelection('blog')}>Blog</button>
+							<button type={"button"} role={"tab"} className={`tab-item ${checkActiveTab("contact")}`}
+							   onClick={() => handleTabSelection('contact')}>Contact</button>
 						</div>
 						
-						{(() => {
-							if (currentTab === "about") {
-								return (
-										<About experiences={experiences}/>
-								)
-							} else if (currentTab === "projects") {
-								return (
-										<div className={"row gx-5"}>
-											{
-												projects.map((project, index) =>
-														<div className={`col-md-6 mb-4`} key={index}>
-															<a href={"#"} onClick={(event) => {
-																event.preventDefault()
-																handleSelectedItem(project)
-															}}>
-																<Card maxWidth={"100%"} className={"mx-auto mb-3"}
-																      imgSrc={
-																	      project.images ?
-																			      (() => {
-																				      if (project.images.length) {
-																					      const thumbnail = project.images.find(item => item.isThumbnail);
-																					      return thumbnail ? thumbnail.url : project.images[0].url;
-																				      } else {
-																					      return "https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg";
-																				      }
-																			      })() : null}
-																      alt={project.title}
-																/>
-																<h4 className={"mb-0"}>{project.title}</h4>
-															</a>
-														
-														</div>
-												)
-											}
-										</div>
-								)
-							} else {
-								return (
-										<div className={"d-flex align-center justify-center"} style={{minHeight: "10rem"}}>
-											<h4>Coming Soon</h4>
-										</div>
-								)
-							}
-						})()}
 						
+						<About className={hideOrShowTabSection("about")} experiences={experiences}/>
+						
+						<Projects className={hideOrShowTabSection("projects")} projects={projects}
+						          handleSelectedItem={handleSelectedItem}/>
+						
+						<div className={"d-flex align-center justify-center" + hideOrShowTabSection("blog")} style={{minHeight: "10rem"}}>
+							<h4>Coming Soon</h4>
+						</div>
+					<div className={"container" + hideOrShowTabSection("contact")} style={{minHeight: "10rem"}}>
+							<Contact/>
+						</div>
+					
 					</div>
 					
 					{

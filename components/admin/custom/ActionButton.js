@@ -1,19 +1,31 @@
 import React from 'react';
 import adminStyles from "../../../styles/admin/Admin.module.css"
 
-function ActionButton({title =null,link = "#", size = null, icon = null, ...props}) {
+const insideElements = ({icon = null, title = null}) => (
+		<>
+			{
+				icon ? <i className={`las ${icon}`}/> : null
+			}
+			{
+				title ? <span className={"fw-500"}>{title}</span> : null
+			}
+		</>
+)
+
+function ActionButton({title = null, link = null, size = null, icon = null, ...props}) {
 	props.className = (`${adminStyles.actionButton} ${(adminStyles[size] ?? '')} ${props.className}`).trim()
 	return (
-			<a href={link} aria-label={title + ' button'}
-			   {...props}>
-				{
-					icon ? <i className={`las ${icon}`}/> : null
-				}
-				{
-					title ? <span className={"fw-500"}>{title}</span> : null
-				}
-				
-			</a>
+			link ?
+					<a href={link} aria-label={title + ' button'} {...props}>
+						{
+							insideElements({title, icon})
+						}
+					</a>
+					: <button aria-label={title + ' button'} {...props}>
+						{
+							insideElements({title, icon})
+						}
+					</button>
 	);
 }
 
