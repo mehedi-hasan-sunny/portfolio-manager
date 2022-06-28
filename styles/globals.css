@@ -4,6 +4,7 @@
     --dark-bg: #10222DFF;
     --dark-color: #FFFFFF;
     --profile-bg-color: #10222d;
+    --border-color: #D0D3D0;
 }
 
 [data-mode="dark"]:root {
@@ -11,13 +12,14 @@
     --body-bg: #10222DFF;
     --body-color: #FFFFFF;
     --modal-bg: #2b2b2b;
+    --border-color: #D0D3D0;
 }
 
 [data-mode="light"]:root {
-    --body-bg: #F1F1F1;
+    --body-bg: #F7F6F1;
     --body-color: #202124;
     --modal-bg: var(--body-bg);
-
+    --border-color: #D0D3D0;
 }
 
 @media (prefers-color-scheme: light) {
@@ -39,7 +41,7 @@ html,
 body {
     padding: 0;
     margin: 0;
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    font-family: "Manrope", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     font-size: 16px;
     line-height: 1.25rem;
@@ -218,7 +220,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .container {
     padding: 1rem;
-    max-width: 60rem;
+    max-width: 70rem;
     margin: 0 auto;
     width: 100%;
 }
@@ -303,7 +305,7 @@ textarea.form-control {
     text-decoration: none;
     border-radius: 5px;
     font-size: 1rem;
-    color: #fff;
+    color: #8162ff;
     border: 2px solid #8162ff;
     padding: 0.75rem 1.5rem;
     transition: all .3s ease-in-out;
@@ -322,8 +324,8 @@ textarea.form-control {
 }
 
 .btn:hover {
-    border-color: var(--body-color);
     background-color: #8162ff;
+    color: #fff;
 }
 
 .btn-block {
@@ -459,12 +461,13 @@ textarea.form-control {
     align-items: center;
     justify-content: center;
     gap: 2.5rem;
-    margin: 2rem auto 3rem;
+    margin: 2rem auto 0;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .tab-item {
-    font-size: 1.25rem;
-    padding: 0.5rem;
+    font-size: 1.15rem;
+    padding: 0.5rem 0.5rem 1rem;
     color: #a3a3a3;
     background-color: transparent;
     border: none;
@@ -472,7 +475,8 @@ textarea.form-control {
 
 .tab-item.active {
     color: var(--body-color);
-    border-bottom: 2px solid #0099ff;
+    border-bottom: 2px solid var(--body-color);
+    font-weight: 700;
 }
 
 textarea {
@@ -524,9 +528,16 @@ input[type="range"].form-control{
     font-size: 2rem;
 }
 
+.fs-36 {
+    font-size: 2.25rem;
+}
+
 /*line-height*/
 .lh-22 {
     line-height: 1.75rem;
+}
+.lh-48 {
+    line-height: 2.65rem;
 }
 
 /*clip-path: circle(124px at 219px 231px);*/
@@ -534,4 +545,8 @@ input[type="range"].form-control{
 .img-fluid{
     display: block;
     max-width: 100%;
+}
+
+.border-bottom{
+    border-bottom: 1px solid var(--border-color);
 }

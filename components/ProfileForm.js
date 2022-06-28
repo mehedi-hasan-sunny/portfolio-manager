@@ -11,8 +11,12 @@ function ProfileForm({profile = null, onSuccessAction}) {
 		email: "",
 		phoneNumber: "",
 		displayPicture: null,
+		bioTitle: "",
 		bio: "",
 		title: null,
+		liveIn: "",
+		experienceInYears: "",
+		dob:"",
 		links: formLinks
 	})
 	
@@ -123,6 +127,13 @@ function ProfileForm({profile = null, onSuccessAction}) {
 					<input type="title" id={"title"} className={"form-control"} name={"title"} required
 					       defaultValue={formData.title} onInput={updateFormData}/>
 				</div>
+				
+				<div className={"mb-3"}>
+					<label htmlFor="dob" className={"form-label"}>Date of Birth</label>
+					<input id={"dob"} className={"form-control"} name={"dob"} required
+					       defaultValue={formData.dob} type={"date"}
+					       onInput={updateFormData}/>
+				</div>
 				<div className="row mb-3">
 					<div className={"col"}>
 						<label htmlFor="email" className={"form-label"}>Email</label>
@@ -133,7 +144,7 @@ function ProfileForm({profile = null, onSuccessAction}) {
 					<div className={"col"}>
 						<label htmlFor="phone" className={"form-label"}>Phone Number (+880)</label>
 						<input type="number" id={"phone"} className={"form-control"} name={"phoneNumber"} required
-						       aria-label={"Phone Number"} minLength={"10"} maxLength={"11"}
+						       aria-label={"Phone Number"} minLength={10} maxLength={11}
 						       defaultValue={formData.phoneNumber} onInput={updateFormData}/>
 					</div>
 				</div>
@@ -144,11 +155,30 @@ function ProfileForm({profile = null, onSuccessAction}) {
 					       onInput={updateFormData}/>
 				</div>
 				<div className={"mb-3"}>
+					<label htmlFor="bioTitle" className={"form-label"}>Bio Title</label>
+					<input id={"bioTitle"} className={"form-control"} name={"bioTitle"} required
+					          maxLength={250}
+					          defaultValue={formData.bioTitle}
+					          onInput={updateFormData}/>
+				</div>
+				<div className={"mb-3"}>
 					<label htmlFor="bio" className={"form-label"}>Bio</label>
 					<textarea id={"bio"} className={"form-control"} name={"bio"} required
-					          maxLength={250}
+					          maxLength={550}
 					       defaultValue={formData.bio}
 					       onInput={updateFormData}/>
+				</div>
+				<div className={"mb-3"}>
+					<label htmlFor="liveIn" className={"form-label"}>I live in</label>
+					<input id={"liveIn"} className={"form-control"} name={"liveIn"} required
+					       defaultValue={formData.liveIn}
+					       onInput={updateFormData}/>
+				</div>
+				<div className={"mb-3"}>
+					<label htmlFor="experienceInYears" className={"form-label"}>Experience (in years)</label>
+					<input type="number" id={"experienceInYears"} className={"form-control"} name={"experienceInYears"} required
+					       aria-label={"Experience (in years)"} minLength={1} maxLength={3} min={0.1} step={0.1}
+					       defaultValue={formData.experienceInYears} onInput={updateFormData}/>
 				</div>
 				<div className="row">
 					{

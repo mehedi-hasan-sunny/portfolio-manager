@@ -4,18 +4,6 @@ import ProfileImageBlob from "./custom/ProfileImageBlob";
 const Profile = ({profile = null}) => {
 	return (
 			<div className={"text-center " + styles.profile__wrapper}>
-				<div className={styles.profileBg}>
-					<div className={styles.profileBgStars}/>
-					<div className={styles.profileBgCliff}/>
-					<div className={styles.profileBgShootingStar}/>
-					<div className={styles.profileBgMoon}/>
-					<div className={styles.profileBgSun}/>
-					<div className={styles.profileBgCloud1}/>
-					<div className={styles.profileBgCloud2}/>
-					<div className={styles.profileBgCloud3}/>
-					<div className={styles.profileBgCloud4}/>
-					<div className={styles.profileBgCloud5}/>
-				</div>
 				{
 					profile ?
 							<>
@@ -23,10 +11,10 @@ const Profile = ({profile = null}) => {
 									
 									<ProfileImageBlob displayPicture={profile.displayPicture} alt={profile.firstName + " " + profile.lastName}/>
 									
-									<h2 className={"fw-bold"}>{profile.firstName + " " + profile.lastName}</h2>
-									<h5>{profile.title}</h5>
+									<h1 className={"fw-bold mb-3"}>{profile.firstName + " " + profile.lastName}</h1>
+									<h4 className={"fw-bold mb-5"}>{profile.title}</h4>
 									
-									<div className={"row justify-space-between align-end py-3"}>
+									<div className={"row justify-space-between align-end py-3 border " + styles.reachMeSection}>
 										<div className="col text-left">
 											<h4 className={"fw-bold"}>Reach Me</h4>
 											<a href={"tel:" + profile.phoneCode+profile.phoneNumber}>

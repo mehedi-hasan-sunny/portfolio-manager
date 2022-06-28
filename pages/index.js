@@ -102,17 +102,61 @@ export default function Home({projects = [], profile = null, experiences}) {
 					<link rel="icon" href="/favicon.ico"/>
 				</Head>
 				<main className={main}>
+					<header className={"w-100"}>
+						<div className={"tabs"}>
+							<button type={"button"} role={"tab"} className={`tab-item ${checkActiveTab("about")}`}
+							        onClick={() => handleTabSelection('about')}>About
+							</button>
+							<button type={"button"} role={"tab"} className={`tab-item ${checkActiveTab("projects")}`}
+							        onClick={() => handleTabSelection('projects')}>Projects
+							</button>
+							<button type={"button"} role={"tab"} className={`tab-item ${checkActiveTab("blog")}`}
+							        onClick={() => handleTabSelection('blog')}>Blog
+							</button>
+							<button type={"button"} role={"tab"} className={`tab-item ${checkActiveTab("contact")}`}
+							        onClick={() => handleTabSelection('contact')}>Contact
+							</button>
+						</div>
+					</header>
 					<Profile profile={profile}/>
 					
 					{
 						profile ? (
 								<div className="container pb-0">
 									<div className={"row justify-space-between align-center"}>
-										<div className="col-3">
-											<h2 className={"fw-bold"}>Hello</h2>
+										<div className="col-xs-12 offset-sm-3 col-sm-9">
+											<div className={"row gap-2 border-bottom pb-4"}>
+												<div className="col ">
+													<h4 className={"mb-4"}>Live in</h4>
+													<span className={"my-3 fs-18 fw-bold lh-22"}>
+														{profile.liveIn}
+													</span>
+												</div>
+												<div className="col">
+													<h4 className={"mb-4"}>Experience</h4>
+													<span className={"my-3 fs-18 fw-bold lh-22"}>
+														{profile.experienceInYears} years
+													</span>
+												</div>
+												<div className="col">
+													<h4 className={"mb-4"}>Birth Date</h4>
+													<span className={"my-3 fs-18 fw-bold lh-22"}>
+														{profile.dob}
+													</span>
+												</div>
+											</div>
 										</div>
-										<div className="col-9">
-											<p className={"my-3 fs-20 lh-22"}>
+									</div>
+									
+									<div className={"row py-5 border-bottom"}>
+										<div className="col-xs-12 col-sm-3">
+											<h2 className={"fw-bold lh-48"}>Hello</h2>
+										</div>
+										<div className="col-xs-12 col-sm-9">
+											<h1 className={"fw-bold fs-36 lh-48 mb-4"}>{profile.bioTitle}</h1>
+										</div>
+										<div className="col-xs-12 offset-sm-3 col-sm-9">
+											<p className={"my-3 fs-16 lh-22"}>
 												{profile.bio}
 											</p>
 										</div>
@@ -123,16 +167,6 @@ export default function Home({projects = [], profile = null, experiences}) {
 					
 					
 					<div className="container overflow-hidden px-0">
-						<div className={"tabs"}>
-							<button type={"button"} role={"tab"} className={`tab-item ${checkActiveTab("about")}`}
-							   onClick={() => handleTabSelection('about')}>About</button>
-							<button type={"button"} role={"tab"} className={`tab-item ${checkActiveTab("projects")}`}
-							   onClick={() => handleTabSelection('projects')}>Projects</button>
-							<button type={"button"} role={"tab"} className={`tab-item ${checkActiveTab("blog")}`}
-							   onClick={() => handleTabSelection('blog')}>Blog</button>
-							<button type={"button"} role={"tab"} className={`tab-item ${checkActiveTab("contact")}`}
-							   onClick={() => handleTabSelection('contact')}>Contact</button>
-						</div>
 						
 						
 						<About className={hideOrShowTabSection("about")} experiences={experiences}/>
@@ -140,10 +174,11 @@ export default function Home({projects = [], profile = null, experiences}) {
 						<Projects className={hideOrShowTabSection("projects")} projects={projects}
 						          handleSelectedItem={handleSelectedItem}/>
 						
-						<div className={"d-flex align-center justify-center" + hideOrShowTabSection("blog")} style={{minHeight: "10rem"}}>
+						<div className={"d-flex align-center justify-center" + hideOrShowTabSection("blog")}
+						     style={{minHeight: "10rem"}}>
 							<h4>Coming Soon</h4>
 						</div>
-					<div className={"container" + hideOrShowTabSection("contact")} style={{minHeight: "10rem"}}>
+						<div className={"container" + hideOrShowTabSection("contact")} style={{minHeight: "10rem"}}>
 							<Contact/>
 						</div>
 					
@@ -170,10 +205,10 @@ export default function Home({projects = [], profile = null, experiences}) {
 												overflow: 'hidden'
 											}}>
 												{
-													selectedItem.images && selectedItem.images.filter(item => !item.isThumbnail).map((item, index) => {
-														return <img className={modalStyles.modalImage} src={item.url} key={index} loading={"lazy"}
-														            alt={selectedItem.title + ' ' + index}/>
-													})
+														selectedItem.images && selectedItem.images.filter(item => !item.isThumbnail).map((item, index) => {
+															return <img className={modalStyles.modalImage} src={item.url} key={index} loading={"lazy"}
+															            alt={selectedItem.title + ' ' + index}/>
+														})
 												}
 											</div>
 										
