@@ -30,8 +30,8 @@ function CertificationForm({certification = null, onSuccessAction}) {
 				},
 			})
 			const {data} = await response.json()
-			if (data.certification) {
-				onSuccessAction ? onSuccessAction(data.certification) : null
+			if (data.certifications) {
+				onSuccessAction ? onSuccessAction(data.certifications) : null
 			}
 		} catch (e) {
 			console.log(e.message)

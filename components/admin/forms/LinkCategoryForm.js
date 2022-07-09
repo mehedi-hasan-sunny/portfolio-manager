@@ -17,7 +17,7 @@ function LinkCategoryForm({linkCategory = null, onSuccessAction}) {
 		const form = new FormData(e.target)
 		const formProps = Object.fromEntries(form);
 		try {
-			const response = await fetch(`/api/admin/link-category${linkCategory ? ('/' + linkCategory.id) : ''}`, {
+			const response = await fetch(`/api/admin/link-categories${linkCategory ? ('/' + linkCategory.id) : ''}`, {
 				method: !linkCategory ? "post" : "put",
 				body: JSON.stringify(formProps),
 				headers: {
@@ -26,8 +26,8 @@ function LinkCategoryForm({linkCategory = null, onSuccessAction}) {
 				},
 			})
 			const {data} = await response.json()
-			if (data.linkCategory) {
-				onSuccessAction ? onSuccessAction(data.linkCategory) : null
+			if (data.linkCategories) {
+				onSuccessAction ? onSuccessAction(data.linkCategories) : null
 			}
 		} catch (e) {
 			console.log(e.message)

@@ -4,11 +4,10 @@ export default async function handler(req, res) {
 	let formData;
 	if ((req.method === "PUT")) {
 		formData = {
-			title: req.body.title.trim(),
-			type: req.body.type.trim(),
-			rating: req.body.rating
+			icon: req.body.icon,
+			title: req.body.title
 		}
 	}
 	
-	return await EditDeleteGetByIdAction(req, res, 'skills', formData)
+	return await EditDeleteGetByIdAction(req, res, 'linkCategories', formData)
 }

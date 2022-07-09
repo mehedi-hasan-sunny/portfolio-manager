@@ -1,33 +1,33 @@
 import React, {useState} from "react";
 import Modal from "../../components/Modal";
-import EducationForm from "../../components/admin/forms/EducationForm";
+import TestimonialsForm from "../../components/admin/forms/TestimonialsForm";
 import GoBack from "../../components/custom/GoBack";
-import EducationsSection from "../../components/EducationsSection";
+import TestimonialsSection from "../../components/TestimonialsSection";
 
 export async function getServerSideProps(context) {
 	try {
-		const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/educations`)
+		const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/testimonials`)
 		const {data} = await res.json()
 		return {
-			props: {educations: data ? data : []}
+			props: {testimonials: data ? data.reverse() : []}
 		}
 	} catch (e) {
 		return {
-			props: {educations: []}
+			props: {testimonials: []}
 		}
 	}
 }
 
-function Educations({educations = []}) {
+function Testimonials({testimonials = []}) {
 	
 	const [modalOpen, setModalOpen] = useState(false);
-	const [selectedEducation, setSelectedEducation] = useState(null);
+	const [selectedSkill, setSelectedSkill] = useState(null);
 	
 	const toggleModal = () => {
 		setModalOpen(prev => !prev)
 	}
-	const handleSelectedEducation = (item) => {
-		setSelectedEducation(item)
+	const handleSelectedSkill = (item) => {
+		setSelectedSkill(item)
 		toggleModal()
 	}
 	const successAction = (data) => {
@@ -35,11 +35,11 @@ function Educations({educations = []}) {
 		window.location.reload()
 	}
 	
-	const deleteEducation = async (id) => {
+	const deleteSkill = async (id) => {
 		
-		let text = "Are you sure?\nYou are about to delete this education!";
+		let text = "Are you sure?\nYou are about to delete this skill!";
 		if (confirm(text) === true) {
-			const res = await fetch(`/api/admin/educations/${id}`, {method: "delete"})
+			const res = await fetch(`/api/admin/testimonials/${id}`, {method: "delete"})
 			const {data} = await res.json()
 			if (data) {
 				window.location.reload()
@@ -58,16 +58,17 @@ function Educations({educations = []}) {
 						<i className={"las la-plus-circle mr-3"}/> Add
 					</a>
 				</div>
-				<EducationsSection educations={educations} isAdmin={true} editEducation={handleSelectedEducation}
-				                   deleteEducation={deleteEducation}/>
+				<TestimonialsSection testimonials={testimonials} isAdmin={true}
+				                       editSkill={handleSelectedSkill}
+				                       deleteSkill={deleteSkill}/>
 				
 				{
 					modalOpen ?
 							(
-									<Modal title={`${!selectedEducation ? "Create" : "Update"} Education `}
+									<Modal title={`${!selectedSkill ? "Create" : "Update"} Skill `}
 									       modalValue={modalOpen}
 									       closeModal={toggleModal}>
-										<EducationForm education={selectedEducation} onSuccessAction={successAction}/>
+										<TestimonialsForm skill={selectedSkill} onSuccessAction={successAction}/>
 									</Modal>
 							) : null
 				}
@@ -75,4 +76,4 @@ function Educations({educations = []}) {
 	);
 }
 
-export default Educations;
+export default Testimonials;

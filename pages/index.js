@@ -12,10 +12,11 @@ import EducationsSection from "../components/EducationsSection";
 import ExperiencesSection from "../components/ExperiencesSection";
 import CertificationsSection from "../components/CertificationsSection";
 import SkillsSection from "../components/SkillsSection";
+import TestimonialsSection from "../components/TestimonialsSection";
 
 export async function getStaticProps(context) {
 	try {
-		let projects = [], profile = {}, experiences = [], educations = [], certifications = [], skills = []
+		let projects = [], profile = {}
 		
 		const profileCollectionRef = db.collection("profile").limit(1);
 		const profileSnapshot = await profileCollectionRef.get();
@@ -49,51 +50,32 @@ export async function getStaticProps(context) {
 		}
 		
 		projects = await Promise.all(projects);
+
 		
-		const experiencesRef = db.collection("experience");
-		const experienceSnap = await experiencesRef.get();
 		
-		if (!experienceSnap.empty) {
-			experiences = experienceSnap.docs.map(async collection => {
-				return {id: collection.id, ...collection.data()};
-			});
+		const docs = ["experiences", "educations","certifications", "skills", "testimonials"]
+		const docRes = async (doc) => {
+			const docRef = db.collection(doc);
+			const docSnap = await docRef.get();
+			if (!docSnap.empty) {
+				return docSnap.docs.reverse().map(collection => {
+					return {id: collection.id, ...collection.data()};
+				})
+			}
+			return []
 		}
-		experiences = await Promise.all(experiences);
+		const docMapped = docs.map(async (doc) => {
+			return {[doc]: await docRes(doc)}
+		});
+		const docMappedRes = await Promise.all(docMapped);
+		const docResults = docs.reduce((acc, doc, index) => ({
+			...acc, [doc]: docMappedRes[index][doc]
+		}), {});
+		const {experiences, educations, certifications, skills, testimonials} = docResults
 		
-		const educationsRef = db.collection("education");
-		const educationSnap = await educationsRef.get();
-		
-		if (!educationSnap.empty) {
-			educations = educationSnap.docs.reverse().map(async collection => {
-				return {id: collection.id, ...collection.data()};
-			});
-		}
-		educations = await Promise.all(educations);
-		
-		
-		const certificationsRef = db.collection("certifications");
-		const certificationSnap = await certificationsRef.get();
-		
-		if (!certificationSnap.empty) {
-			certifications = certificationSnap.docs.reverse().map(async collection => {
-				return {id: collection.id, ...collection.data()};
-			});
-		}
-		certifications = await Promise.all(certifications);
-		
-		
-		const skillsRef = db.collection("skills");
-		const skillsSnap = await skillsRef.get();
-		
-		if (!skillsSnap.empty) {
-			skills = skillsSnap.docs.reverse().map(async collection => {
-				return {id: collection.id, ...collection.data()};
-			});
-		}
-		skills = await Promise.all(skills);
 		
 		return {
-			props: {projects, profile, experiences, educations, certifications, skills},
+			props: {projects, profile, experiences, educations, certifications, docResults, skills, testimonials},
 			revalidate: 60
 		}
 		
@@ -104,7 +86,15 @@ export async function getStaticProps(context) {
 	}
 }
 
-export default function Home({projects = [], profile = null, experiences, educations, certifications, skills}) {
+export default function Home({
+	                             projects = [],
+	                             profile = null,
+	                             experiences,
+	                             educations,
+	                             certifications,
+	                             skills, testimonials
+                             }) {
+	
 	const [modalOpen, setModalOpen] = useState(false);
 	const [currentTab, setCurrentTab] = useState('about');
 	const [selectedItem, setSelectedItem] = useState(null);
@@ -192,6 +182,7 @@ export default function Home({projects = [], profile = null, experiences, educat
 															<EducationsSection className={"border-bottom mb-3"} educations={educations}/>
 															<CertificationsSection className={"border-bottom mb-3"} certifications={certifications}/>
 															<SkillsSection className={"border-bottom mb-3"} skills={skills}/>
+															<TestimonialsSection className={"border-bottom mb-3"} testimonials={testimonials}/>
 														</>
 												)
 											

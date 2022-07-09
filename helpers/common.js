@@ -10,3 +10,7 @@ export const empty = (e) => {
 			return !!(Array.isArray(e) || typeof (e) == "undefined" || !Object.keys(e).length);
 	}
 }
+
+export const ucFirst = (e) => {
+	return e.charAt(0).toUpperCase() + e.slice(1)
+}

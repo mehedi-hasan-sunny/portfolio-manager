@@ -4,11 +4,10 @@ export default async function handler(req, res) {
 	let formData;
 	if ((req.method === "POST")) {
 		formData = {
-			title: req.body.title.trim(),
-			type: req.body.type.trim(),
-			rating: req.body.rating
+			name: req.body.name.trim(),
+			designation: req.body.designation.trim(),
+			feedback: req.body.feedback.trim()
 		}
 	}
-	
-	return await GetPostAction(req, res, 'skills', formData)
+	return await GetPostAction(req, res, 'testimonials', formData)
 }

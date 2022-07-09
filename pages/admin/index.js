@@ -100,7 +100,7 @@ function Index({profile, projects = []}) {
 				
 				{/*actions*/}
 				
-				<div className={"row justify-space-between gap-2"}>
+				<div className={"row gap-2"}>
 					
 					{/*					<div className={"d-inline-flex gap-1"} style={{width: '14rem'}}>
 						<button className={"btn "} style={{minWidth: '6.5rem', width: '6.5rem'}}>
@@ -117,7 +117,7 @@ function Index({profile, projects = []}) {
 						              toggleModal();
 					              }}/>
 					
-					<ActionButton size={"large"} icon={"la-link"} title={"Link Categories"} link={"/admin/link-category"}/>
+					<ActionButton size={"large"} icon={"la-link"} title={"Link Categories"} link={"/admin/link-categories"}/>
 					
 					<ActionButton size={"large"} icon={"la-trophy"} title={"Experiences"} link={"/admin/experiences"}/>
 					
@@ -126,6 +126,8 @@ function Index({profile, projects = []}) {
 					<ActionButton size={"large"} icon={"la-certificate"} title={"Certifications"} link={"/admin/certifications"}/>
 					
 					<ActionButton size={"large"} icon={"la-wave-square"} title={"Skills"} link={"/admin/skills"}/>
+					
+					<ActionButton size={"large"} icon={"la-comment"} title={"Testimonials"} link={"/admin/testimonials"}/>
 				
 				
 				</div>

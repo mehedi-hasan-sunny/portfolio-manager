@@ -2,6 +2,13 @@ import React from 'react';
 import SectionLayout from "./layout/SectionLayout";
 
 const SkillsSection = ({skills, isAdmin = false, editSkill = null, deleteSkill = null, className = null, ...props}) => {
+	
+	const makeStar = (skill) => {
+	  return Array(skill.rating - (skill.rating % 1)).fill("*").map((val, index) => {
+		  return <i className={"la la-star"} key={skill.id+"-star-" + index}></i>
+	  })
+	}
+	
 	return (
 			<SectionLayout className={className} title={"Skills"}>
 				<ul className={"row "} style={{listStyleType: "square"}}>
@@ -9,15 +16,13 @@ const SkillsSection = ({skills, isAdmin = false, editSkill = null, deleteSkill =
 						skills.map((skill, index) => {
 							return (
 									<li key={index} className={"col relative"}>
-										<h3 className={"lh-22 mb-0"}>{skill.title} <span className={"fw-bold"}>{skill.type}</span></h3>
+										<h4 className={"lh-22 mb-0"}>{skill.title} <span className={"fw-bold"}>{skill.type}</span></h4>
 										<h5>
 											{
-												Array(skill.rating - (skill.rating % 1)).fill("*").map(({index}) => {
-													return (<i className={"la la-star"} key={index}></i>)
-												})
+												makeStar(skill)
 											}
 											{
-												(skill.rating % 1 === 0.5) ? <i className={"la la-star-half"} key={index}></i> : null
+												(skill.rating % 1 === 0.5) ? <i className={"la la-star-half"}></i> : null
 											}
 										</h5>
 										

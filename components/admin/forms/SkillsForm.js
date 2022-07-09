@@ -27,8 +27,8 @@ function SkillsForm({skill = null, onSuccessAction}) {
 				},
 			})
 			const {data} = await response.json()
-			if (data.skill) {
-				onSuccessAction ? onSuccessAction(data.skill) : null
+			if (data.skills) {
+				onSuccessAction ? onSuccessAction(data.skills) : null
 			}
 		} catch (e) {
 			console.log(e.message)

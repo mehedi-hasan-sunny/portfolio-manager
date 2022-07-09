@@ -6,7 +6,7 @@ import SectionLayout from "../../components/layout/SectionLayout";
 
 export async function getServerSideProps(context) {
 	try {
-		const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/link-category`)
+		const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/link-categories`)
 		const {data} = await res.json()
 		return {
 			props: {linkCategories: data ? data : []}
@@ -18,7 +18,7 @@ export async function getServerSideProps(context) {
 	}
 }
 
-function LinkCategory({linkCategories = []}) {
+function LinkCategories({linkCategories = []}) {
 	
 	const [modalOpen, setModalOpen] = useState(false);
 	const [selectedLink, setSelectedLink] = useState(null);
@@ -39,7 +39,7 @@ function LinkCategory({linkCategories = []}) {
 		
 		let text = "Are you sure?\nYou are about to delete this link category!";
 		if (confirm(text) === true) {
-			const res = await fetch(`/api/admin/link-category/${id}`, {method: "delete"})
+			const res = await fetch(`/api/admin/link-categories/${id}`, {method: "delete"})
 			const {data} = await res.json()
 			if (data) {
 				window.location.reload()
@@ -119,4 +119,4 @@ function LinkCategory({linkCategories = []}) {
 	);
 }
 
-export default LinkCategory;
+export default LinkCategories;

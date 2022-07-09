@@ -2,12 +2,11 @@ import React, {useState} from "react";
 import Modal from "../../components/Modal";
 import ExperienceForm from "../../components/admin/forms/ExperienceForm";
 import GoBack from "../../components/custom/GoBack";
-import About from "../../components/section/About";
 import ExperiencesSection from "../../components/ExperiencesSection";
 
 export async function getServerSideProps(context) {
 	try {
-		const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/experience`)
+		const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/experiences`)
 		const {data} = await res.json()
 		return {
 			props: {experiences: data ? data : []}

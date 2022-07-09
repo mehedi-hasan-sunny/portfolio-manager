@@ -302,6 +302,7 @@ textarea.form-control {
 .text-muted {
     color: #909090;
 }
+
 .text-gold {
     color: #e8dc00;
 }
@@ -579,6 +580,12 @@ input[type="range"].form-control {
 
 .relative {
     position: relative;
+}
+
+.top-right {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .skill-edit-top-right {

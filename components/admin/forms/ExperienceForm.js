@@ -21,7 +21,7 @@ function ExperienceForm({experience = null, onSuccessAction}) {
 		const form = new FormData(e.target)
 		const formProps = Object.fromEntries(form);
 		try {
-			const response = await fetch(`/api/admin/experience${experience ? `/${experience.id}` : ''}`, {
+			const response = await fetch(`/api/admin/experiences${experience ? `/${experience.id}` : ''}`, {
 				method: !experience ? "post" : "put",
 				body: JSON.stringify(formProps),
 				headers: {
@@ -30,8 +30,8 @@ function ExperienceForm({experience = null, onSuccessAction}) {
 				},
 			})
 			const {data} = await response.json()
-			if (data.experience) {
-				onSuccessAction ? onSuccessAction(data.experience) : null
+			if (data.experiences) {
+				onSuccessAction ? onSuccessAction(data.experiences) : null
 			}
 		} catch (e) {
 			console.log(e.message)
@@ -58,9 +58,8 @@ function ExperienceForm({experience = null, onSuccessAction}) {
 					</div>
 					<div className={"col-6"}>
 						<label htmlFor="endDate" className={"form-label"}>End Date</label>
-						<input id={"endDate"} type="date" className={"form-control"} name={"endDate"}
+						<input id={"endDate"} type="date" className={"form-control"} name={"endDate"} disabled={formData.isPresent}
 						       defaultValue={formData.endDate} onInput={updateFormData}/>
-						
 					</div>
 				</div>
 				

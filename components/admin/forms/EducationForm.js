@@ -18,7 +18,7 @@ function EducationForm({education = null, onSuccessAction}) {
 		const form = new FormData(e.target)
 		const formProps = Object.fromEntries(form);
 		try {
-			const response = await fetch(`/api/admin/education${education ? `/${education.id}` : ''}`, {
+			const response = await fetch(`/api/admin/educations${education ? `/${education.id}` : ''}`, {
 				method: !education ? "post" : "put",
 				body: JSON.stringify(formProps),
 				headers: {
@@ -27,8 +27,8 @@ function EducationForm({education = null, onSuccessAction}) {
 				},
 			})
 			const {data} = await response.json()
-			if (data.education) {
-				onSuccessAction ? onSuccessAction(data.education) : null
+			if (data.educations) {
+				onSuccessAction ? onSuccessAction(data.educations) : null
 			}
 		} catch (e) {
 			console.log(e.message)
