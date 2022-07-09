@@ -13,13 +13,14 @@ const TimelineContent = ({designation, company, startDate, endDate = null, descr
 					<h2 className={timeline.timelineHeader}>{designation}, <span className={"fw-bold"}>{company}</span>
 					</h2>
 					<h4 className={timeline.timelineDate}>{startDate + ' - ' + (!empty(endDate) ? endDate : 'Present')}</h4>
+					
+					{
+						isAdmin ? adminActions.props.children : null
+					}
 				</div>
 				<p className={timeline.timelineDescription}>
 					{description}
 				</p>
-				{
-					isAdmin ? adminActions.props.children : null
-				}
 			</div>
 	)
 };

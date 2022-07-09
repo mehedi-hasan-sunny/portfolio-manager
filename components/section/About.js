@@ -1,45 +1,41 @@
-import timeline from "../../styles/Timeline.module.css"
-import TimelineContent from "../custom/TimelineContent";
+import SectionLayout from "../layout/SectionLayout";
 
-const About = ({experiences, isAdmin = false, editExperience = null, deleteExperience = null, ...props}) => {
-	props.className = timeline.timeline + ' ' + props.className
+const About = ({profile, ...props}) => {
 	return (
-			<div className={props.className}>
-				<div className={timeline.timelineLeft}>
-					<h2 className={timeline.timelineHeader + " fw-bold"}>Work Experience</h2>
-				</div>
-				
-				<div className={timeline.timelineRight}>
-					{
-						experiences && experiences.map((experience, index) =>
-								<TimelineContent {...experience} key={index} isAdmin={isAdmin}>
-									{
-										isAdmin ?
-												<TimelineContent.AdminActions>
-													<div className={"d-flex align-center gap-1"}>
-														<button className={"transparent-btn"} aria-label={"Edit experience"}
-														        onClick={() => {
-															        editExperience(experience);
-														        }}>
-															<i className={"las la-edit"}/>
-														</button>
-														
-														<button className={"transparent-btn"} aria-label={"Delete experience"}
-														        onClick={() => {
-															        deleteExperience(experience.id)
-														        }}>
-															<i className={"las la-trash-alt text-danger"}/>
-														</button>
-													</div>
-												</TimelineContent.AdminActions> : null
-									}
-								</TimelineContent>
-						)
-					}
-				</div>
+		<>
 			
-			
+			<div className={"row justify-space-between align-center"}>
+				<div className="col-xs-12 offset-sm-3 col-sm-9">
+					<div className={"row gap-2 border-bottom pb-4"}>
+						<div className="col ">
+							<h4 className={"mb-4"}>Live in</h4>
+							<span className={"my-3 fs-18 fw-bold lh-22"}>
+														{profile.liveIn}
+													</span>
+						</div>
+						<div className="col">
+							<h4 className={"mb-4"}>Experience</h4>
+							<span className={"my-3 fs-18 fw-bold lh-22"}>
+														{profile.experienceInYears} years
+													</span>
+						</div>
+						<div className="col">
+							<h4 className={"mb-4"}>Birth Date</h4>
+							<span className={"my-3 fs-18 fw-bold lh-22"}>
+														{profile.dob}
+													</span>
+						</div>
+					</div>
+				</div>
 			</div>
+			
+			<SectionLayout className={"border-bottom mb-3"} title={"Hello"} header={profile.bioTitle}>
+				<p className={"my-3 fs-16 lh-22"}>
+					{profile.bio}
+				</p>
+			</SectionLayout>
+			
+		</>
 	)
 };
 

@@ -10,12 +10,12 @@
 
 
 .timeline .timelineRight {
-    width: 40rem;
+    /*width: 40rem;*/
     padding: 0 2rem;
     border-left: 1px solid lightslategrey;
     display: inline-flex;
     flex-direction: column;
-    gap: 5rem;
+    gap: 3rem;
     position: relative;
 }
 
@@ -56,6 +56,7 @@
 
 .timeline .timelineWrapper .timelineTitleContainer {
     margin-bottom: 1rem;
+    position: relative;
 }
 
 .timeline .timelineDate {

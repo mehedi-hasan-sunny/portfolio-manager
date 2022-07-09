@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import {container, main} from '../styles/Home.module.css'
 import Profile from "../components/Profile";
-import Card from "../components/Card";
 import Modal from "../components/Modal";
 import {useState} from "react";
 import modalStyles from "../styles/Modal.module.css";
@@ -9,10 +8,13 @@ import db from "../firebaseDb/firebaseAdmin";
 import About from "../components/section/About";
 import Projects from "../components/section/Projects";
 import Contact from "../components/section/Contact";
+import EducationsSection from "../components/EducationsSection";
+import ExperiencesSection from "../components/ExperiencesSection";
+import CertificationsSection from "../components/CertificationsSection";
 
 export async function getStaticProps(context) {
 	try {
-		let projects = [], profile = {}, experiences = []
+		let projects = [], profile = {}, experiences = [], educations = [], certifications = []
 		
 		const profileCollectionRef = db.collection("profile").limit(1);
 		const profileSnapshot = await profileCollectionRef.get();
@@ -56,19 +58,41 @@ export async function getStaticProps(context) {
 			});
 		}
 		experiences = await Promise.all(experiences);
+		
+		const educationsRef = db.collection("education");
+		const educationSnap = await educationsRef.get();
+		
+		if (!educationSnap.empty) {
+			educations = educationSnap.docs.map(async collection => {
+				return {id: collection.id, ...collection.data()};
+			});
+		}
+		educations = await Promise.all(educations);
+		
+		
+		const certificationsRef = db.collection("certifications");
+		const certificationSnap = await certificationsRef.get();
+		
+		if (!certificationSnap.empty) {
+			certifications = certificationSnap.docs.map(async collection => {
+				return {id: collection.id, ...collection.data()};
+			});
+		}
+		certifications = await Promise.all(certifications);
+		
 		return {
-			props: {projects: projects, profile: profile, experiences: experiences},
+			props: {projects, profile, experiences, educations, certifications},
 			revalidate: 60
 		}
 		
 	} catch (e) {
 		return {
-			props: {projects: [], profile: null}, // will be passed to the page component as props
+			props: {projects: [], profile: null, experiences: [], educations: [], certifications: []}, // will be passed to the page component as props
 		}
 	}
 }
 
-export default function Home({projects = [], profile = null, experiences}) {
+export default function Home({projects = [], profile = null, experiences, educations, certifications}) {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [currentTab, setCurrentTab] = useState('about');
 	const [selectedItem, setSelectedItem] = useState(null);
@@ -120,68 +144,48 @@ export default function Home({projects = [], profile = null, experiences}) {
 					</header>
 					<Profile profile={profile}/>
 					
-					{
-						profile ? (
-								<div className="container pb-0">
-									<div className={"row justify-space-between align-center"}>
-										<div className="col-xs-12 offset-sm-3 col-sm-9">
-											<div className={"row gap-2 border-bottom pb-4"}>
-												<div className="col ">
-													<h4 className={"mb-4"}>Live in</h4>
-													<span className={"my-3 fs-18 fw-bold lh-22"}>
-														{profile.liveIn}
-													</span>
-												</div>
-												<div className="col">
-													<h4 className={"mb-4"}>Experience</h4>
-													<span className={"my-3 fs-18 fw-bold lh-22"}>
-														{profile.experienceInYears} years
-													</span>
-												</div>
-												<div className="col">
-													<h4 className={"mb-4"}>Birth Date</h4>
-													<span className={"my-3 fs-18 fw-bold lh-22"}>
-														{profile.dob}
-													</span>
-												</div>
-											</div>
-										</div>
-									</div>
-									
-									<div className={"row py-5 border-bottom"}>
-										<div className="col-xs-12 col-sm-3">
-											<h2 className={"fw-bold lh-48"}>Hello</h2>
-										</div>
-										<div className="col-xs-12 col-sm-9">
-											<h1 className={"fw-bold fs-36 lh-48 mb-4"}>{profile.bioTitle}</h1>
-										</div>
-										<div className="col-xs-12 offset-sm-3 col-sm-9">
-											<p className={"my-3 fs-16 lh-22"}>
-												{profile.bio}
-											</p>
-										</div>
-									</div>
-								</div>
-						) : null
-					}
-					
-					
 					<div className="container overflow-hidden px-0">
 						
-						
-						<About className={hideOrShowTabSection("about")} experiences={experiences}/>
-						
-						<Projects className={hideOrShowTabSection("projects")} projects={projects}
-						          handleSelectedItem={handleSelectedItem}/>
-						
-						<div className={"d-flex align-center justify-center" + hideOrShowTabSection("blog")}
-						     style={{minHeight: "10rem"}}>
-							<h4>Coming Soon</h4>
-						</div>
-						<div className={"container" + hideOrShowTabSection("contact")} style={{minHeight: "10rem"}}>
-							<Contact/>
-						</div>
-					
+						{
+							(
+									() => {
+										switch (currentTab) {
+											case "projects":
+												return (
+														<>
+															<Projects projects={projects} handleSelectedItem={handleSelectedItem}/>
+														</>
+												)
+											case "blog":
+												return (
+														<>
+															<div className={"d-flex align-center justify-center"}
+															     style={{minHeight: "10rem"}}>
+																<h4>Coming Soon</h4>
+															</div>
+														</>
+												)
+											case "contact":
+												return (
+														<>
+															<Contact/>
+														</>
+												)
+											case "about":
+											default:
+												return (
+														<>
+															<About profile={profile}/>
+															<ExperiencesSection className={"border-bottom mb-3"} experiences={experiences}/>
+															<EducationsSection className={"border-bottom mb-3"} educations={educations}/>
+															<CertificationsSection className={"border-bottom mb-3"} certifications={certifications}/>
+														</>
+												)
+											
+										}
+									}
+							)()
+						}
 					</div>
 					
 					{

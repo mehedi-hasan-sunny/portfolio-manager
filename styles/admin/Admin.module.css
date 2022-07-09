@@ -25,7 +25,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
     transition: all 0.3s ease-in-out;
 }
 
@@ -37,7 +36,7 @@
 
 .actionButton.large {
     height: 8rem;
-    width: 13rem;
+    width: 12.3rem;
     font-size: 1.25rem;
     gap: 1rem;
 }
@@ -49,3 +48,13 @@
     gap: 0.1rem;
 }
 
+.actionButton.primary {
+    color: #8162ff;
+    border-color: #8162ff;
+    border-width: 2px;
+    font-weight: 700;
+}
+
+.actionButton i {
+    color: currentColor;
+}

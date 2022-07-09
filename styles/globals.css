@@ -63,17 +63,15 @@ html[data-mode="light"] {
     color: var(--body-color);
 }
 
-a , button{
+a, button {
     color: inherit;
     text-decoration: none;
 }
 
-a i , button i{
+a i, button i {
     color: var(--body-color);
     transition: all 0.25s ease-in-out;
 }
-
-
 
 
 *, *:before, *:after {
@@ -277,6 +275,9 @@ textarea.form-control {
     overflow: hidden !important;
 }
 
+.gap-0\.5 {
+    gap: 0.5rem;
+}
 
 .gap-1 {
     gap: 1rem;
@@ -298,6 +299,13 @@ textarea.form-control {
     color: #cb193c;
 }
 
+.text-muted {
+    color: #909090;
+}
+.text-gold {
+    color: #e8dc00;
+}
+
 
 .btn {
     display: inline-block;
@@ -305,26 +313,38 @@ textarea.form-control {
     text-decoration: none;
     border-radius: 5px;
     font-size: 1rem;
-    color: #8162ff;
-    border: 2px solid #8162ff;
+    color: var(--body-color);
+    border: 2px solid var(--body-color);
     padding: 0.75rem 1.5rem;
-    transition: all .3s ease-in-out;
+    transition: background-color .3s ease-in-out;
     background-color: transparent;
+    text-align: center;
 }
 
 .btn-sm {
-    display: inline-block;
+    display: inline-flex;
     min-width: auto;
     text-decoration: none;
     color: var(--body-color);
-    border: 2px solid var(--body-color);
-    padding: 0.5rem 1rem;
+    border: 1px solid var(--body-color);
+    padding: 0.5rem 0.75rem;
     font-size: 0.85rem;
     line-height: 0.85rem;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.btn i {
+    color: var(--body-color);
 }
 
 .btn:hover {
     background-color: #8162ff;
+    color: #fff;
+}
+
+.btn:hover i {
     color: #fff;
 }
 
@@ -340,10 +360,11 @@ textarea.form-control {
     color: var(--body-color);
     min-width: auto;
     font-size: 1rem;
-
+    padding: 0;
+    font-weight: 600;
 }
 
-.btn i, .transparent-btn i:not(.la-2x):not(.la-3x) {
+.btn i, .transparent-btn i:not(.la-2x):not(.la-3x):not(.fs-*) {
     font-size: 1.25rem;
 }
 
@@ -483,7 +504,7 @@ textarea {
     resize: vertical;
 }
 
-input[type="range"].form-control{
+input[type="range"].form-control {
     padding: 0;
 
 }
@@ -498,6 +519,10 @@ input[type="range"].form-control{
 
 .fw-500 {
     font-weight: 500 !important;
+}
+
+.fw-600 {
+    font-weight: 600 !important;
 }
 
 .fw-bold {
@@ -536,17 +561,28 @@ input[type="range"].form-control{
 .lh-22 {
     line-height: 1.75rem;
 }
+
 .lh-48 {
     line-height: 2.65rem;
 }
 
 /*clip-path: circle(124px at 219px 231px);*/
 
-.img-fluid{
+.img-fluid {
     display: block;
     max-width: 100%;
 }
 
-.border-bottom{
+.border-bottom {
     border-bottom: 1px solid var(--border-color);
+}
+
+.relative {
+    position: relative;
+}
+
+.top-right {
+    position: absolute;
+    top: 0;
+    right: 0;
 }

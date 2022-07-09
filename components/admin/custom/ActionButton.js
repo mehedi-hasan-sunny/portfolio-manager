@@ -12,8 +12,16 @@ const insideElements = ({icon = null, title = null}) => (
 		</>
 )
 
-function ActionButton({title = null, link = null, size = null, icon = null, ...props}) {
-	props.className = (`${adminStyles.actionButton} ${(adminStyles[size] ?? '')} ${props.className}`).trim()
+function ActionButton({
+	                      title = null,
+	                      link = null,
+	                      size = null,
+	                      icon = null,
+	                      primary = false,
+	                      className = null,
+	                      ...props
+                      }) {
+	props.className = (`${adminStyles.actionButton} ${(adminStyles[size] ?? '')} ${primary  ? adminStyles.primary : ''} ${className}`).trim()
 	return (
 			link ?
 					<a href={link} aria-label={title + ' button'} {...props}>

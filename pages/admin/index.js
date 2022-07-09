@@ -1,21 +1,27 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import profileStyles from "../../styles/Profile.module.css";
 import Card from "../../components/Card";
 import Modal from "../../components/Modal";
-import CreateProjectForm from "../../components/CreateProjectForm";
-import ProfileForm from "../../components/ProfileForm";
+import CreateProjectForm from "../../components/admin/forms/CreateProjectForm";
+import ProfileForm from "../../components/admin/forms/ProfileForm";
 import ActionButton from "../../components/admin/custom/ActionButton";
 import {empty} from "../../helpers/common";
 import ProfilePictureCropper from "../../components/ProfilePictureCropper";
 
 export async function getServerSideProps(context) {
-	const profileRes = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/profile`)
-	const {data: profileData} = await profileRes.json()
-	const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/projects`)
-	const {data: projects} = await res.json()
-	
-	return {
-		props: {profile: profileData, projects: projects ? projects : []}, // will be passed to the page component as props
+	try {
+		const profileRes = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/profile`)
+		const {data: profileData} = await profileRes.json()
+		const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/projects`)
+		const {data: projects} = await res.json()
+		
+		return {
+			props: {profile: profileData, projects: projects ? projects : []}, // will be passed to the page component as props
+		}
+	} catch (e) {
+		return {
+			props: {profile: null, projects: []},
+		}
 	}
 }
 
@@ -94,18 +100,18 @@ function Index({profile, projects = []}) {
 				
 				{/*actions*/}
 				
-				<div className={"row gap-2"}>
+				<div className={"row justify-space-between gap-2"}>
 					
-					<div className={"d-inline-flex gap-1"} style={{width: '14rem'}}>
+					{/*					<div className={"d-inline-flex gap-1"} style={{width: '14rem'}}>
 						<button className={"btn "} style={{minWidth: '6.5rem', width: '6.5rem'}}>
 							red
 						</button>
 						<button className={"btn"} style={{minWidth: '6.5rem', width: '6.5rem'}}>
 							red
 						</button>
-					</div>
+					</div>*/}
 					
-					<ActionButton size={"large"} title={"Create project"} icon={"la-plus-circle"}
+					<ActionButton size={"large"} title={"Create project"} icon={"la-plus-circle"} primary={true}
 					              onClick={(e) => {
 						              setSelectedProjectProject(null);
 						              toggleModal();
@@ -113,42 +119,47 @@ function Index({profile, projects = []}) {
 					
 					<ActionButton size={"large"} icon={"la-link"} title={"Link Categories"} link={"/admin/link-category"}/>
 					
-					<ActionButton size={"large"} icon={"la-trophy"} title={"Experience"} link={"/admin/experience"}/>
+					<ActionButton size={"large"} icon={"la-trophy"} title={"Experiences"} link={"/admin/experiences"}/>
+					
+					<ActionButton size={"large"} icon={"la-school"} title={"Educations"} link={"/admin/educations"}/>
+					
+					<ActionButton size={"large"} icon={"la-certificate"} title={"Certifications"} link={"/admin/certifications"}/>
+				
 				
 				</div>
 				
 				
 				<div className={"row"}>
 					{
-						projects && projects.map((item, index) => {
-							return (
-									<div className={"col-6 mb-3"} key={index}>
-										<Card key={index} imgSrc={
-											item.images ?
-													(() => {
-														if (item.images.length) {
-															const thumbnail = item.images.find(item => item.isThumbnail);
-															return thumbnail ? thumbnail.url : item.images[0].url;
-														} else {
-															return "https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg";
-														}
-													})() : null}
-										      className={"mb-2"}/>
-										<div className={"d-flex justify-space-between"}>
-											<h4 className={"px-2"}>{item.title}</h4>
-											<div>
-												<i className={"las la-edit hoverable"} onClick={() => {
-													handleSelectProject(item)
-													toggleModal();
-												}}/>
-												&nbsp;
-												<i className="las la-trash-alt ml-auto text-danger" onClick={() => deleteProject(item.id)}/>
+							projects && projects.map((item, index) => {
+								return (
+										<div className={"col-6 mb-3"} key={index}>
+											<Card key={index} imgSrc={
+												item.images ?
+														(() => {
+															if (item.images.length) {
+																const thumbnail = item.images.find(item => item.isThumbnail);
+																return thumbnail ? thumbnail.url : item.images[0].url;
+															} else {
+																return "https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg";
+															}
+														})() : null}
+											      className={"mb-2"}/>
+											<div className={"d-flex justify-space-between"}>
+												<h4 className={"px-2"}>{item.title}</h4>
+												<div>
+													<i className={"las la-edit hoverable"} onClick={() => {
+														handleSelectProject(item)
+														toggleModal();
+													}}/>
+													&nbsp;
+													<i className="las la-trash-alt ml-auto text-danger" onClick={() => deleteProject(item.id)}/>
+												</div>
+											
 											</div>
-										
 										</div>
-									</div>
-							)
-						})
+								)
+							})
 					}
 					{
 						modalOpen ?

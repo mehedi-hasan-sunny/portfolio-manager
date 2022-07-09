@@ -1,18 +1,25 @@
 import React, {useState} from "react";
 import Modal from "../../components/Modal";
-import ExperienceForm from "../../components/ExperienceForm";
+import ExperienceForm from "../../components/admin/forms/ExperienceForm";
 import GoBack from "../../components/custom/GoBack";
 import About from "../../components/section/About";
+import ExperiencesSection from "../../components/ExperiencesSection";
 
 export async function getServerSideProps(context) {
-	const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/experience`)
-	const {data} = await res.json()
-	return {
-		props: {experiences: data ? data : []}
+	try {
+		const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/experience`)
+		const {data} = await res.json()
+		return {
+			props: {experiences: data ? data : []}
+		}
+	} catch (e) {
+		return {
+			props: {experiences: []}
+		}
 	}
 }
 
-function Experience({experiences = []}) {
+function Experiences({experiences = []}) {
 	
 	const [modalOpen, setModalOpen] = useState(false);
 	const [selectedExperience, setSelectedExperience] = useState(null);
@@ -44,7 +51,7 @@ function Experience({experiences = []}) {
 	return (
 			<div className={"container"}>
 				<div className={"d-flex align-center justify-space-between mb-3"}>
-					<h2 className={"mb-0"}><GoBack/> Experience</h2>
+					<GoBack/>
 					<a href={"#"} className={"btn btn-sm"} onClick={(e) => {
 						e.preventDefault();
 						toggleModal();
@@ -52,7 +59,10 @@ function Experience({experiences = []}) {
 						<i className={"las la-plus-circle mr-3"}/> Add
 					</a>
 				</div>
-				<About experiences={experiences} isAdmin={true} editExperience={handleSelectedExperience} deleteExperience={deleteExperience}/>
+				
+				<ExperiencesSection
+						className={"border-bottom"} experiences={experiences}
+						isAdmin={true} editExperience={handleSelectedExperience} deleteExperience={deleteExperience}/>
 				
 				{
 					modalOpen ?
@@ -68,4 +78,4 @@ function Experience({experiences = []}) {
 	);
 }
 
-export default Experience;
+export default Experiences;

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {empty} from "../helpers/common";
+import {empty} from "../../../helpers/common";
 
 
 function ProfileForm({profile = null, onSuccessAction}) {
