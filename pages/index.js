@@ -11,10 +11,11 @@ import Contact from "../components/section/Contact";
 import EducationsSection from "../components/EducationsSection";
 import ExperiencesSection from "../components/ExperiencesSection";
 import CertificationsSection from "../components/CertificationsSection";
+import SkillsSection from "../components/SkillsSection";
 
 export async function getStaticProps(context) {
 	try {
-		let projects = [], profile = {}, experiences = [], educations = [], certifications = []
+		let projects = [], profile = {}, experiences = [], educations = [], certifications = [], skills = []
 		
 		const profileCollectionRef = db.collection("profile").limit(1);
 		const profileSnapshot = await profileCollectionRef.get();
@@ -63,7 +64,7 @@ export async function getStaticProps(context) {
 		const educationSnap = await educationsRef.get();
 		
 		if (!educationSnap.empty) {
-			educations = educationSnap.docs.map(async collection => {
+			educations = educationSnap.docs.reverse().map(async collection => {
 				return {id: collection.id, ...collection.data()};
 			});
 		}
@@ -74,25 +75,36 @@ export async function getStaticProps(context) {
 		const certificationSnap = await certificationsRef.get();
 		
 		if (!certificationSnap.empty) {
-			certifications = certificationSnap.docs.map(async collection => {
+			certifications = certificationSnap.docs.reverse().map(async collection => {
 				return {id: collection.id, ...collection.data()};
 			});
 		}
 		certifications = await Promise.all(certifications);
 		
+		
+		const skillsRef = db.collection("skills");
+		const skillsSnap = await skillsRef.get();
+		
+		if (!skillsSnap.empty) {
+			skills = skillsSnap.docs.reverse().map(async collection => {
+				return {id: collection.id, ...collection.data()};
+			});
+		}
+		skills = await Promise.all(skills);
+		
 		return {
-			props: {projects, profile, experiences, educations, certifications},
+			props: {projects, profile, experiences, educations, certifications, skills},
 			revalidate: 60
 		}
 		
 	} catch (e) {
 		return {
-			props: {projects: [], profile: null, experiences: [], educations: [], certifications: []}, // will be passed to the page component as props
+			props: {projects: [], profile: null, experiences: [], educations: [], certifications: [], skills: []}, // will be passed to the page component as props
 		}
 	}
 }
 
-export default function Home({projects = [], profile = null, experiences, educations, certifications}) {
+export default function Home({projects = [], profile = null, experiences, educations, certifications, skills}) {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [currentTab, setCurrentTab] = useState('about');
 	const [selectedItem, setSelectedItem] = useState(null);
@@ -179,6 +191,7 @@ export default function Home({projects = [], profile = null, experiences, educat
 															<ExperiencesSection className={"border-bottom mb-3"} experiences={experiences}/>
 															<EducationsSection className={"border-bottom mb-3"} educations={educations}/>
 															<CertificationsSection className={"border-bottom mb-3"} certifications={certifications}/>
+															<SkillsSection className={"border-bottom mb-3"} skills={skills}/>
 														</>
 												)
 											

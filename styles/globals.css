@@ -581,8 +581,8 @@ input[type="range"].form-control {
     position: relative;
 }
 
-.top-right {
+.skill-edit-top-right {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 0.25rem;
+    right: 3.5rem;
 }
