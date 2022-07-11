@@ -1,9 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Cropper from 'cropperjs';
 import "cropper/dist/cropper.min.css"
+import {empty} from "../../helpers/common";
 
-function ProfilePictureCropper({image}) {
-	const [picture, setPicture] = useState(image)
+function ProfilePictureCropper({displayPicture, profileId = null, onSuccessAction = null}) {
+	const [picture, setPicture] = useState(displayPicture?.displayPicture ?? null);
+	const [id, setId] = useState(displayPicture?.id ?? null);
 	const cropperImage = useRef(null);
 	const inputStraighten = useRef(null);
 	const inputZoom = useRef(null);
@@ -25,6 +27,8 @@ function ProfilePictureCropper({image}) {
 				allowSelect: false,
 				rotatable: true,
 				viewMode: 1,
+				width: 300,
+				checkOrientation: false,
 				data: { //define cropbox size
 					width: 300,
 					height: 300,
@@ -65,9 +69,50 @@ function ProfilePictureCropper({image}) {
 		inputZoom.current.value = 0.5;
 	}
 	
-	const getCroppedFile = () => {
-		console.log(cropper.getData()) // save this data to db to set the cropper > data preset
-		console.log(cropper.getCroppedCanvas().toDataURL())
+	const getCroppedFile = async () => {
+		// console.log(cropper)
+		// console.log(cropper.getData()) // save this data to db to set the cropper > data preset
+		// console.log(cropper.getCroppedCanvas().toDataURL("image/jpeg"))
+		// console.log(picture)
+		
+		/*const formData = new FormData();
+		formData.append("id", id);
+		formData.append("profileId", profileId);
+		formData.append("displayPicture", await (await fetch(cropper.getCroppedCanvas().toDataURL("image/jpeg"))).blob());
+		formData.append("originalImage", await (await fetch(picture)).blob());
+		formData.append("positions", cropper.getData());*/
+		const formData = {
+			id,
+			profileId,
+			displayPicture: cropper.getCroppedCanvas().toDataURL("image/jpeg"),
+			originalImage: picture,
+			positions: cropper.getData(),
+		}
+		try {
+			const response = await fetch("/api/admin/upload-profile-picture", {
+				method:"post",
+				body: JSON.stringify(formData),
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+			})
+			const {data} = await response.json()
+			
+			if (await data) {
+				if(!id){
+					setId(data.id);
+				}
+				console.log(data)
+				// onSuccessAction ? onSuccessAction(data) : null
+			}
+		} catch (e) {
+			console.log(e)
+			console.log(e.message)
+		}
+		
+		
+		
 	}
 	
 	return (
@@ -102,12 +147,12 @@ function ProfilePictureCropper({image}) {
 									</div>
 									<div className="row align-center">
 										<div className="col-6">
-											<button className={"btn btn-sm"} onClick={handleReset}>
+											<button className={"btn btn-sm border-1"} onClick={handleReset}>
 												Reset
 											</button>
 										</div>
 										<div className="col-6 text-right">
-											<button className={"btn"} onClick={getCroppedFile}>
+											<button className={"btn bg-olive text-white border-1"} onClick={getCroppedFile}>
 												Save photo
 											</button>
 										</div>
@@ -117,7 +162,7 @@ function ProfilePictureCropper({image}) {
 							:
 							<div className={"container text-center"}>
 								<input hidden type="file" id="upload-image" accept="image/*" onChange={uploadImage}/>
-								<label htmlFor="upload-image" className={"btn text-center d-inline-flex flex-column align-center justify-center hover-able"} tabIndex={1} style={{minHeight: "8rem"}}>
+								<label htmlFor="upload-image" className={"btn text-center d-inline-flex flex-column align-center justify-center hover-able border-1"} tabIndex={1} style={{minHeight: "8rem"}}>
 									
 									<i className="las la-cloud-upload-alt mb-2"/>
 									<span>

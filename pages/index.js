@@ -19,10 +19,10 @@ import ProjectsSection from "../components/section/ProjectsSection";
 
 export async function getStaticProps(context) {
 	const {req, res} = context;
-	console.log("kjhgffghjkljhfghj")
-	setCookie('test', 'value', {req, res, maxAge: 60 * 6 * 24});
-	console.log(getCookie('test'))
-	
+	// console.log("kjhgffghjkljhfghj")
+	// setCookie('test', 'value', {req, res, maxAge: 60 * 6 * 24});
+	// console.log(getCookie('test'))
+	//
 	try {
 		let projects = [], profile = {}
 		
@@ -32,11 +32,13 @@ export async function getStaticProps(context) {
 			const profileDoc = profileSnapshot.docs[0];
 			profile = {id: profileDoc.id, ...profileDoc.data()}
 			const linksRef = await db.collection(`profile/${profileDoc.id}/links`).get();
+			const displayImageRef = await db.collection(`profile/${profileDoc.id}/displayPicture`).limit(1).get();
 			const links = linksRef.docs.map(link => {
 				return {id: link.id, ...link.data()}
 			})
 			
 			profile.links = await Promise.all(links);
+			profile.displayPicture = displayImageRef.docs[0].data();
 		}
 		const collectionRef = db.collection("projects");
 		const snapshots = await collectionRef.get();
@@ -46,7 +48,6 @@ export async function getStaticProps(context) {
 				const links = linksRef.docs.map(link => {
 					return {id: link.id, ...link.data()}
 				})
-				
 				
 				const imagesRef = await db.collection(`projects/${project.id}/images`).get();
 				const images = imagesRef.docs.map(image => {
@@ -104,8 +105,6 @@ export default function Home({
                              }) {
 	
 	const [currentTab, setCurrentTab] = useState('about');
-	
-	Home.title = profile.firstName + " " + profile.lastName;
 	return (
 			<HomeContext.Provider value={{state: {currentTab}, setCurrentTab}}>
 				<Head key={"main"}>
@@ -139,7 +138,7 @@ export default function Home({
 											case "contact":
 												return (
 														<>
-															<Contact/>
+															<Contact email={profile.email} phone={profile.phoneCode+profile.phoneNumber}/>
 														</>
 												)
 											case "about":

@@ -26,9 +26,9 @@ export async function getServerSideProps(context) {
 }
 
 function Index({profile, projects = []}) {
-	
 	const [modalOpen, setModalOpen] = useState(false);
 	const [profilePictureModalOpen, setProfilePictureModalOpen] = useState(false);
+	const [profilePictureModalType, setProfilePictureModalType] = useState(null);
 	const [profileModal, setProfileModalOpen] = useState(false);
 	const [selectedProject, setSelectedProjectProject] = useState(null);
 	const handleModalClose = () => {
@@ -38,7 +38,8 @@ function Index({profile, projects = []}) {
 		setModalOpen(prev => !prev)
 	}
 	
-	const toggleProfilePictureModal = () => {
+	const toggleProfilePictureModal = (type = "edit") => {
+		setProfilePictureModalType(type);
 		setProfilePictureModalOpen(prev => !prev)
 	}
 	const toggleProfileModal = () => {
@@ -71,15 +72,29 @@ function Index({profile, projects = []}) {
 				<div className={"row align-center justify-space-between mb-3"}>
 					<div className={"col"}>
 						<div className={"d-flex align-center gap-1 "}>
-							<button className={"transparent-btn"} onClick={() => toggleProfilePictureModal()}>
-								{
-									!empty(profile)
-											? <img className={profileStyles.avatarAdmin + " mb-0"}
-											       src={profile.displayPicture} style={{width: '60px', height: '60px'}}
-											       alt=""/>
-											: <i className="las la-user-circle la-3x hover-able"/>
-								}
-							</button>
+							<div className={profileStyles.avatarAdminContainer}>
+								<button className={"transparent-btn"}>
+									{
+										!empty(profile) && !empty(profile.displayPicture)
+												? <img className={profileStyles.avatarAdmin + " mb-0"}
+												       src={profile.displayPicture.displayPicture} style={{width: '60px', height: '60px'}}
+												       alt=""/>
+												: <i className="las la-user-circle la-3x hover-able"/>
+									}
+								</button>
+								<div className={profileStyles.profileImgDropdown}>
+									<button className={"transparent-btn px-3 py-2 w-100 text-left border-bottom"}
+									        onClick={() => toggleProfilePictureModal("upload")}>
+										Upload
+									</button>
+									{
+										profile?.displayPicture ? <button className={"transparent-btn px-3 py-2 w-100 text-left"}
+										                                  onClick={() => toggleProfilePictureModal()}>Edit
+										</button> : null
+									}
+									
+								</div>
+							</div>
 							{
 								!empty(profile) ?
 										<button className={"transparent-btn fs-1"}
@@ -189,7 +204,7 @@ function Index({profile, projects = []}) {
 								(
 										<Modal title={"Profile Picture"} modalValue={profilePictureModalOpen}
 										       closeModal={toggleProfilePictureModal}>
-											<ProfilePictureCropper image={!empty(profile) ? profile.displayPicture : null}/>
+											<ProfilePictureCropper profileId={profile?.id} displayPicture={!empty(profile?.displayPicture) && profilePictureModalType !== "upload" ? profile.displayPicture : null}/>
 										</Modal>
 								) : null
 					}

@@ -6,7 +6,7 @@ function SectionLayout({title = null, header = null, className = null, ...props}
 				{
 					title ? (
 							<div className="col-xs-12 col-sm-3">
-								<h2 className={"fw-bold lh-48"}>{title}</h2>
+								<h2 className={"fw-bold lh-48 fs-22"}>{title}</h2>
 							</div>
 					): null
 				}

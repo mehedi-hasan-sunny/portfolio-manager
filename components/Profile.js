@@ -9,7 +9,7 @@ const Profile = ({profile = null}) => {
 							<>
 								<div className={"container"} style={{position: "relative", zIndex: 2}}>
 									
-									<ProfileImageBlob displayPicture={profile.displayPicture} alt={profile.firstName + " " + profile.lastName}/>
+									<ProfileImageBlob displayPicture={profile.displayPicture.displayPicture} alt={profile.firstName + " " + profile.lastName}/>
 									
 									<h1 className={"fw-bold mb-3"}>{profile.firstName + " " + profile.lastName}</h1>
 									<h4 className={"fw-bold mb-5"}>{profile.title}</h4>

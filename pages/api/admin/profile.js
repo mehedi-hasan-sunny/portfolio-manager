@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 		liveIn: req.body.liveIn.trim(),
 		dob: req.body.dob.trim(),
 		experienceInYears: req.body.experienceInYears.trim(),
-		displayPicture: req.body.displayPicture.trim()
+		// displayPicture: req.body.displayPicture.trim()
 	})
 	
 	
@@ -32,9 +32,12 @@ export default async function handler(req, res) {
 					const linksRef = await db.collection(`profile/${profileDoc.id}/links`).get();
 					const links = linksRef.docs.map(link => {
 						return {id: link.id, ...link.data()}
-					})
+					});
+					const displayRef = await db.collection(`profile/${profileDoc.id}/displayPicture`).get();
+					const displayDoc = displayRef.docs[0] ?? null;
 					
 					profile.links = await Promise.all(links);
+					profile.displayPicture = displayDoc ? {id: displayDoc.id, ...displayDoc.data()} : null;
 					
 					successRes(res, profile)
 					
@@ -77,7 +80,6 @@ export default async function handler(req, res) {
 					
 					const linksData = req.body.links;
 					
-					console.log(linksData)
 					const links = await linksManager(
 							"profile",
 							profileSnap.id,

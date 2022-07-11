@@ -10,7 +10,7 @@ function ProfileForm({profile = null, onSuccessAction}) {
 		lastName: "",
 		email: "",
 		phoneNumber: "",
-		displayPicture: null,
+		// displayPicture: null,
 		bioTitle: "",
 		bio: "",
 		title: null,
@@ -22,8 +22,6 @@ function ProfileForm({profile = null, onSuccessAction}) {
 	
 	
 	const [linkCategories, setLinkCategories] = useState([]);
-	
-	console.log(linkCategories, "linkCategories")
 	
 	const updateFormData = (event, value = null) => {
 		setFormData(prevState => ({
@@ -44,7 +42,7 @@ function ProfileForm({profile = null, onSuccessAction}) {
 	}
 	
 	useEffect(() => {
-		fetch(`/api/admin/link-category`).then(async (res) => {
+		fetch(`/api/admin/link-categories`).then(async (res) => {
 			const {data} = await res.json()
 			
 			console.log(data, "data")
@@ -148,12 +146,12 @@ function ProfileForm({profile = null, onSuccessAction}) {
 						       defaultValue={formData.phoneNumber} onInput={updateFormData}/>
 					</div>
 				</div>
-				<div className={"mb-3"}>
-					<label htmlFor="display-picture" className={"form-label"}>Profile Image Link</label>
-					<input type="text" id={"display-picture"} className={"form-control"} name={"displayPicture"} required
-					       defaultValue={formData.displayPicture}
-					       onInput={updateFormData}/>
-				</div>
+				{/*<div className={"mb-3"}>*/}
+				{/*	<label htmlFor="display-picture" className={"form-label"}>Profile Image Link</label>*/}
+				{/*	<input type="text" id={"display-picture"} className={"form-control"} name={"displayPicture"} required*/}
+				{/*	       defaultValue={formData.displayPicture}*/}
+				{/*	       onInput={updateFormData}/>*/}
+				{/*</div>*/}
 				<div className={"mb-3"}>
 					<label htmlFor="bioTitle" className={"form-label"}>Bio Title</label>
 					<input id={"bioTitle"} className={"form-control"} name={"bioTitle"} required

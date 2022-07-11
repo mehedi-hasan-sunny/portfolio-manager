@@ -38,8 +38,6 @@ export default async function (linkableType, linkableId, links) {
 			}
 		})
 		
-		console.log(links)
-		
 		result = await Promise.all(links)
 	}
 	

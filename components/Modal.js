@@ -12,24 +12,20 @@ const Modal = ({title, modalValue, closeModal, children}) => {
 			body.style.overflow = "hidden";
 			if(document.body.scrollHeight > window.innerHeight)
 				body.style.paddingRight = "1rem";
-		}
 		
-		if (modalValue) {
 			let modal = document.querySelector(".modal");
 			if (modal) {
-				/*modal.addEventListener("click", (event) => {
-					const modalContent = document.querySelector("[data-modal-content]");
-
-					if (!modalContent.contains(event.target)) {
-						handleClose();
-					}
-				});*/
-				document.addEventListener('keydown', (event) => {
-					console.log("")
-					if (modalValue && event.key === 'Escape') {
-						handleClose();
-					}
-				});
+				// modal.addEventListener("click", (event) => {
+				// 	const modalContent = document.querySelector("[data-modal-content]");
+				// 	if (!modalContent.contains(event.target)) {
+				// 		handleClose();
+				// 	}
+				// });
+				// document.addEventListener('keydown', (event) => {
+				// 	if (modalValue && event.key === 'Escape') {
+				// 		handleClose();
+				// 	}
+				// });
 			}
 		}
 	}, [modalValue]);

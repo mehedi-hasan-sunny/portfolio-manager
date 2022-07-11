@@ -91,17 +91,16 @@ export default async function handler(req, res) {
 						)
 						
 						
-						let thumbnail = null
+						
 						if (files && files.thumbnail) {
-							thumbnail = await imageUploader(cloudinary,
+							await imageUploader(cloudinary,
 									project.id, files.thumbnail,
 									true,
 							);
 						}
 						
-						let images = []
 						if (files && files.images) {
-							images = await imageUploader(cloudinary,
+							await imageUploader(cloudinary,
 									project.id, files.images,
 									false
 							);
