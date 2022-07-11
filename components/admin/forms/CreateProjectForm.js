@@ -34,9 +34,14 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 					if (image.width >= 800 && image.width <= 860 && image.height >= 600 && image.height <= 660) {
 						setThumbnail([{url: image.src}]);
 						updateFormData(event, thumbnailFile);
+						if(thumbnailErrorMessage){
+							setThumbnailErrorMessage(null)
+						}
 					} else {
 						updateFormData(event, null);
 						event.target.value = null;
+						setThumbnailErrorMessage("Thumbnail width x height must between 800x600 px to 860x660 px")
+						setThumbnail(null)
 					}
 				}
 				
@@ -63,7 +68,7 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 				imagePreviews.push(URL.createObjectURL(file))
 			});
 			
-			setImage(imagePreviews);
+			setImage([...images, ...imagePreviews]);
 		}
 		
 	}
@@ -131,7 +136,7 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 	
 	useEffect(() => {
 		
-		fetch(`api/admin/link-category`).then(async (res) => {
+		fetch(`api/admin/link-categories`).then(async (res) => {
 			const {data} = await res.json()
 			setLinkCategories(data)
 			if (project) {
@@ -164,7 +169,9 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 					<label htmlFor="thumbnail" className={"form-label"}>Thumbnail</label>
 					<input type="file" accept={"image/*"} className={"form-control"} name={"thumbnail"}
 					       id={"thumbnail"} onChange={handleThumbnailImage} required={!project}/>
-					
+					{
+						thumbnailErrorMessage ? <span className={"fs-12 text-danger"}>{thumbnailErrorMessage}</span> : null
+					}
 					{
 						thumbnail ? <Card className={"mt-3"} maxHeight={"27.5rem"} imgSrc={thumbnail[0].url}/> : null
 					}
@@ -177,14 +184,14 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 						{
 							images.filter(item => !item.isThumbnail).map((image, index) => {
 								return (
-										<div className={"my-2 mr-2 w-100"} key={index}>
+										<div className={"my-2 me-2 w-100"} key={index}>
 											<img alt={index} style={{maxWidth: "100%"}} src={image && image.url ? image.url : image}/>
 											<div className={"d-flex justify-space-between"}
 											     onClick={() => {
 												     removeImage(index)
 											     }}
 											>
-												<i className="las la-trash-alt ml-auto text-danger"/>
+												<i className="las la-trash-alt ms-auto text-danger"/>
 											</div>
 										</div>
 								)
@@ -233,7 +240,7 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 						)
 					})
 				}
-				<button type={"submit"} className={"btn pull-right"}>{!project ? 'Submit' : 'Update'}</button>
+				<button type={"submit"} className={"btn bg-olive text-white pull-right"}>{!project ? 'Submit' : 'Update'}</button>
 			
 			</form>
 	

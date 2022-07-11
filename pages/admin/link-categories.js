@@ -55,7 +55,7 @@ function LinkCategories({linkCategories = []}) {
 						e.preventDefault();
 						toggleModal();
 					}}>
-						<i className={"las la-plus-circle mr-3"}/> Add
+						<i className={"las la-plus-circle me-3"}/> Add
 					</a>
 				</div>
 				<SectionLayout title={"Link Categories"}>

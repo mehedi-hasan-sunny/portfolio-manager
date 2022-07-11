@@ -1,31 +1,31 @@
 import '../styles/globals.css'
 import Head from "next/head";
 import React from "react";
+import {getCookie, getCookies, setCookie} from "cookies-next";
 
-function MyApp({Component, pageProps}) {
-	const isDarkModeOn = false;
+export async function getStaticProps() {
+	getCookies();
+	getCookie('key');
+	setCookie('key', 'value');
+	console.log(getCookie('key')), "kjhgfds";
+}
+
+function MyApp({Component, pageProps, ...rest}) {
 	const toggleDarkMode = (e) => {
 		const mode = document.querySelector("[data-mode]");
 		mode.dataset.mode = e.target.checked ? "dark" : 'light';
+		
+		pageProps.isDarkModeOn = e.target.checked
 	}
+	
 	return (
 			<>
 				<Head>
-					<html data-mode={isDarkModeOn ? "dark" : "light"}/>
-					<link rel="preconnect" href="https://fonts.googleapis.com"/>
-					<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin/>
-					<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@100;200;300;400;500;600;700&display=swap"
-					      rel="stylesheet"/>
-					<link rel="stylesheet"
-					      href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"/>
-					<link rel="stylesheet"
-					      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap-grid.min.css"
-					      crossOrigin="anonymous" referrerPolicy="no-referrer"/>
-					<title>Shohanur Rahman - UI-UX, Frontend Developer</title>
+					<title>{process.env.NEXT_PUBLIC_TITLE}</title>
 				</Head>
-				<div style={{position: 'absolute', right: '1rem', top: "1rem", zIndex: 9}}>
-					<label className="switch">
-						<input type="checkbox" defaultChecked={isDarkModeOn} onChange={(e) => toggleDarkMode(e)}/>
+				<div className={"fixed-right"} style={{zIndex: 9}}>
+					<label className="switch mt-4 me-3">
+						<input type="checkbox" defaultChecked={false} onChange={toggleDarkMode}/>
 						<span className="slider round"/>
 					</label>
 				</div>

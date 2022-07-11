@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import SectionLayout from "./layout/SectionLayout";
+import SectionLayout from "../layout/SectionLayout";
 
 const TestimonialsSection = ({
 	                             testimonials,
@@ -19,18 +19,18 @@ const TestimonialsSection = ({
 			<SectionLayout className={className} title={"Testimonials"}>
 				{
 					<div key={currentIndex} className={"relative"}>
-						<h4 className={"lh-22 mb-0"}>{testimonials[currentIndex].name}</h4>
+						<h3 className={"lh-22 mb-0 fw-600"}>{testimonials[currentIndex].name}</h3>
 						<h5 className={"mb-0"}>{testimonials[currentIndex].designation}</h5>
 						<p style={{minHeight: "7rem"}}>
 							{testimonials[currentIndex].feedback}
 						</p>
-						<button className={"mr-2"} onClick={() => {
+						<button className={"me-2 btn btn-sm rounded bg-cream text-dark border-0"} onClick={() => {
 							handleCurrentIndex(currentIndex - 1)
-						}} disabled={currentIndex <= 0}><i className={"la la-chevron-left"}></i></button>
-						<button onClick={() => {
+						}} disabled={currentIndex <= 0}><i className={"la la-angle-left"}></i></button>
+						<button className={"btn btn-sm rounded bg-cream text-dark border-0"} onClick={() => {
 							handleCurrentIndex(currentIndex + 1)
 						}} disabled={currentIndex >= testimonials.length - 1}>
-							<i className={"la la-chevron-right"}></i>
+							<i className={"la la-angle-right"}></i>
 						</button>
 						{
 							isAdmin ?

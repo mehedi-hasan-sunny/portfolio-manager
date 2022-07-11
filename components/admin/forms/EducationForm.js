@@ -52,7 +52,7 @@ function EducationForm({education = null, onSuccessAction}) {
 					<input id={"passingYear"} type="number" className={"form-control"} name={"passingYear"} required
 					       defaultValue={formData.passingYear} onInput={updateFormData}/>
 				</div>
-				<button type={"submit"} className={"btn pull-right"}>{!education ? 'Submit' : 'Update'}</button>
+				<button type={"submit"} className={"btn bg-olive text-white pull-right"}>{!education ? 'Submit' : 'Update'}</button>
 			</form>
 	);
 }

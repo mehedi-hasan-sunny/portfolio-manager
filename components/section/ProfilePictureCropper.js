@@ -117,7 +117,7 @@ function ProfilePictureCropper({image}) {
 							:
 							<div className={"container text-center"}>
 								<input hidden type="file" id="upload-image" accept="image/*" onChange={uploadImage}/>
-								<label htmlFor="upload-image" className={"btn text-center d-inline-flex flex-column align-center justify-center hoverable"} tabIndex={1} style={{minHeight: "8rem"}}>
+								<label htmlFor="upload-image" className={"btn text-center d-inline-flex flex-column align-center justify-center hover-able"} tabIndex={1} style={{minHeight: "8rem"}}>
 									
 									<i className="las la-cloud-upload-alt mb-2"/>
 									<span>

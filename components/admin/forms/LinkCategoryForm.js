@@ -61,7 +61,7 @@ function LinkCategoryForm({linkCategory = null, onSuccessAction}) {
 						</a>
 					</div>
 					<div className="col">
-						<button type={"submit"} className={"btn pull-right"}>{!linkCategory ? 'Submit' : 'Update'}</button>
+						<button type={"submit"} className={"btn bg-olive text-white pull-right"}>{!linkCategory ? 'Submit' : 'Update'}</button>
 					</div>
 				</div>
 			</form>

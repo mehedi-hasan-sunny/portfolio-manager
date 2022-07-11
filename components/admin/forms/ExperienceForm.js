@@ -76,7 +76,7 @@ function ExperienceForm({experience = null, onSuccessAction}) {
 					<textarea rows={2} className={"form-control"} name={"description"} id={"description"} required
 					          onInput={updateFormData} defaultValue={formData.description} maxLength={255}/>
 				</div>
-				<button type={"submit"} className={"btn pull-right"}>{!experience ? 'Submit' : 'Update'}</button>
+				<button type={"submit"} className={"btn bg-olive text-white pull-right"}>{!experience ? 'Submit' : 'Update'}</button>
 			</form>
 	);
 }

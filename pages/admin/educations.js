@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import Modal from "../../components/Modal";
 import EducationForm from "../../components/admin/forms/EducationForm";
 import GoBack from "../../components/custom/GoBack";
-import EducationsSection from "../../components/EducationsSection";
+import EducationsSection from "../../components/section/EducationsSection";
 
 export async function getServerSideProps(context) {
 	try {
@@ -55,7 +55,7 @@ function Educations({educations = []}) {
 						e.preventDefault();
 						toggleModal();
 					}}>
-						<i className={"las la-plus-circle mr-3"}/> Add
+						<i className={"las la-plus-circle me-3"}/> Add
 					</a>
 				</div>
 				<EducationsSection educations={educations} isAdmin={true} editEducation={handleSelectedEducation}

@@ -12,6 +12,7 @@
     "@emailjs/browser": "^3.5.0",
     "@google-cloud/firestore": "^5.0.1",
     "cloudinary": "^1.27.1",
+    "cookies-next": "^2.1.1",
     "cropper": "^4.1.0",
     "dotenv": "^10.0.0",
     "firebase": "^9.6.1",

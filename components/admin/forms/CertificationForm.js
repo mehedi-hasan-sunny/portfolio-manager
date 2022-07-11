@@ -72,7 +72,7 @@ function CertificationForm({certification = null, onSuccessAction}) {
 					<input id={"certificateLink"} type="text" className={"form-control"} name={"certificateLink"} required
 					       defaultValue={formData.certificateLink} onInput={updateFormData}/>
 				</div>
-				<button type={"submit"} className={"btn pull-right"}>{!certification ? 'Submit' : 'Update'}</button>
+				<button type={"submit"} className={"btn bg-olive text-white pull-right"}>{!certification ? 'Submit' : 'Update'}</button>
 			</form>
 	);
 }

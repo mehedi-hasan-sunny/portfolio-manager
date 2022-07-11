@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import Modal from "../../components/Modal";
 import SkillsForm from "../../components/admin/forms/SkillsForm";
 import GoBack from "../../components/custom/GoBack";
-import SkillsSection from "../../components/SkillsSection";
+import SkillsSection from "../../components/section/SkillsSection";
 
 export async function getServerSideProps(context) {
 	try {
@@ -55,7 +55,7 @@ function Skills({skills = []}) {
 						e.preventDefault();
 						toggleModal();
 					}}>
-						<i className={"las la-plus-circle mr-3"}/> Add
+						<i className={"las la-plus-circle me-3"}/> Add
 					</a>
 				</div>
 				<SkillsSection skills={skills} isAdmin={true}

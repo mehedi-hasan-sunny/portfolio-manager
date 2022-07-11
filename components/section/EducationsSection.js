@@ -1,5 +1,5 @@
 import React from 'react';
-import SectionLayout from "./layout/SectionLayout";
+import SectionLayout from "../layout/SectionLayout";
 
 const EducationsSection = ({educations, isAdmin = false, editEducation = null, deleteEducation = null, className = null, ...props}) => {
 	return (

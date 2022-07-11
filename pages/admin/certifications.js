@@ -2,7 +2,8 @@ import React, {useState} from "react";
 import Modal from "../../components/Modal";
 import CertificationForm from "../../components/admin/forms/CertificationForm";
 import GoBack from "../../components/custom/GoBack";
-import CertificationsSection from "../../components/CertificationsSection";
+import CertificationsSection from "../../components/section/CertificationsSection";
+import AddButton from "../../components/custom/AddButton";
 
 export async function getServerSideProps(context) {
 	try {
@@ -51,12 +52,7 @@ function Certifications({certifications = []}) {
 			<div className={"container"}>
 				<div className={"d-flex align-center justify-space-between mb-3"}>
 					<GoBack/>
-					<a href={"#"} className={"btn btn-sm"} onClick={(e) => {
-						e.preventDefault();
-						toggleModal();
-					}}>
-						<i className={"las la-plus-circle mr-3"}/> Add
-					</a>
+					<AddButton toggleModal={toggleModal}/>
 				</div>
 				<CertificationsSection certifications={certifications} isAdmin={true}
 				                       editCertification={handleSelectedCertification}

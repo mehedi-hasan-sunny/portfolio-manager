@@ -64,7 +64,7 @@ function SkillsForm({skill = null, onSuccessAction}) {
 					</select>
 				</div>
 				
-				<button type={"submit"} className={"btn pull-right"}>{!skill ? 'Submit' : 'Update'}</button>
+				<button type={"submit"} className={"btn bg-olive text-white pull-right"}>{!skill ? 'Submit' : 'Update'}</button>
 			</form>
 	);
 }

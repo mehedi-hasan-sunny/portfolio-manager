@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import Modal from "../../components/Modal";
 import ExperienceForm from "../../components/admin/forms/ExperienceForm";
 import GoBack from "../../components/custom/GoBack";
-import ExperiencesSection from "../../components/ExperiencesSection";
+import ExperiencesSection from "../../components/section/ExperiencesSection";
 
 export async function getServerSideProps(context) {
 	try {
@@ -55,7 +55,7 @@ function Experiences({experiences = []}) {
 						e.preventDefault();
 						toggleModal();
 					}}>
-						<i className={"las la-plus-circle mr-3"}/> Add
+						<i className={"las la-plus-circle me-3"}/> Add
 					</a>
 				</div>
 				

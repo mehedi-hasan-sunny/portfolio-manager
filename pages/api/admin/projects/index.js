@@ -70,7 +70,7 @@ export default async function handler(req, res) {
 					req.body = fields
 					req.files = files
 					try {
-						
+						console.log(req.body)
 						const collectionRef = db.collection("projects");
 						
 						let project = await collectionRef.add({

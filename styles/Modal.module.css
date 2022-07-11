@@ -37,7 +37,7 @@
     padding: 1rem 1rem 0;
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #3d3838;
+    border-bottom: 1px solid var(--border-color);
     line-height: 1.5rem;
 }
 

@@ -56,7 +56,7 @@ function TestimonialsForm({testimonial = null, onSuccessAction}) {
 					          onInput={updateFormData}/>
 				</div>
 				
-				<button type={"submit"} className={"btn pull-right"}>{!testimonial ? 'Submit' : 'Update'}</button>
+				<button type={"submit"} className={"btn bg-olive text-white pull-right"}>{!testimonial ? 'Submit' : 'Update'}</button>
 			</form>
 	);
 }

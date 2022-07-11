@@ -18,7 +18,7 @@ const Profile = ({profile = null}) => {
 										<div className="col text-left">
 											<h4 className={"fw-bold"}>Reach Me</h4>
 											<a href={"tel:" + profile.phoneCode+profile.phoneNumber}>
-												<span className={"mr-1"}>{profile.phoneCode}</span> {profile.phoneNumber}
+												<span className={"me-1"}>{profile.phoneCode}</span> {profile.phoneNumber}
 											</a>
 											<br/>
 											<a href={"mailto:" + profile.email}>

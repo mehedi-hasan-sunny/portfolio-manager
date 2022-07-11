@@ -6,7 +6,7 @@ import CreateProjectForm from "../../components/admin/forms/CreateProjectForm";
 import ProfileForm from "../../components/admin/forms/ProfileForm";
 import ActionButton from "../../components/admin/custom/ActionButton";
 import {empty} from "../../helpers/common";
-import ProfilePictureCropper from "../../components/ProfilePictureCropper";
+import ProfilePictureCropper from "../../components/section/ProfilePictureCropper";
 
 export async function getServerSideProps(context) {
 	try {
@@ -77,7 +77,7 @@ function Index({profile, projects = []}) {
 											? <img className={profileStyles.avatarAdmin + " mb-0"}
 											       src={profile.displayPicture} style={{width: '60px', height: '60px'}}
 											       alt=""/>
-											: <i className="las la-user-circle la-3x hoverable"/>
+											: <i className="las la-user-circle la-3x hover-able"/>
 								}
 							</button>
 							{
@@ -100,7 +100,7 @@ function Index({profile, projects = []}) {
 				
 				{/*actions*/}
 				
-				<div className={"row gap-2"}>
+				<div className={"row gap-2 mb-4 px-3"}>
 					
 					{/*					<div className={"d-inline-flex gap-1"} style={{width: '14rem'}}>
 						<button className={"btn "} style={{minWidth: '6.5rem', width: '6.5rem'}}>
@@ -137,7 +137,7 @@ function Index({profile, projects = []}) {
 					{
 							projects && projects.map((item, index) => {
 								return (
-										<div className={"col-6 mb-3"} key={index}>
+										<div className={"col-xs-12 col-md-6 col-lg-4 mb-3"} key={index}>
 											<Card key={index} imgSrc={
 												item.images ?
 														(() => {
@@ -152,12 +152,12 @@ function Index({profile, projects = []}) {
 											<div className={"d-flex justify-space-between"}>
 												<h4 className={"px-2"}>{item.title}</h4>
 												<div>
-													<i className={"las la-edit hoverable"} onClick={() => {
+													<i className={"las la-edit hover-able"} onClick={() => {
 														handleSelectProject(item)
 														toggleModal();
 													}}/>
 													&nbsp;
-													<i className="las la-trash-alt ml-auto text-danger" onClick={() => deleteProject(item.id)}/>
+													<i className="las la-trash-alt ms-auto text-danger" onClick={() => deleteProject(item.id)}/>
 												</div>
 											
 											</div>

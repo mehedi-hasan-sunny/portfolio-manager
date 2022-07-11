@@ -1,5 +1,6 @@
 import db from "../firebaseDb/firebaseAdmin";
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default async function (cloudinary, projectId, imageFiles, isThumbnail = false, previousImages = []) {
 	let images = []
 	
@@ -33,10 +34,10 @@ export default async function (cloudinary, projectId, imageFiles, isThumbnail = 
 		
 		if (imageFiles.length) {
 			multiplePicturePromise = [...imageFiles].map((picture) =>
-					cloudinary.v2.uploader.upload(picture.path)
+					cloudinary.uploader.upload(picture.path)
 			);
 		} else if (imageFiles.size) {
-			multiplePicturePromise = [cloudinary.v2.uploader.upload(imageFiles.path)]
+			multiplePicturePromise = [cloudinary.uploader.upload(imageFiles.path)]
 		}
 		
 		if (multiplePicturePromise) {
