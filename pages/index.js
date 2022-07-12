@@ -15,6 +15,7 @@ import Navbar from "../components/layout/Navbar";
 import HomeContext from "../context/HomeContext";
 import ProjectsSection from "../components/section/ProjectsSection";
 import ServicesSection from "../components/section/ServicesSection";
+import {empty} from "../helpers/common";
 
 export async function getStaticProps(context) {
 	const {req, res} = context;
@@ -108,7 +109,7 @@ export default function Home({
 	return (
 			<HomeContext.Provider value={{state: {currentTab}, setCurrentTab}}>
 				<Head key={"main"}>
-					<title>{profile ? profile.firstName + " " + profile.lastName : process.env.NEXT_PUBLIC_TITLE}</title>
+					<title>{!empty(profile) ? profile.firstName + " " + profile.lastName : process.env.NEXT_PUBLIC_TITLE}</title>
 				</Head>
 				<Navbar className={"w-100"}/>
 				<main className={main + " nav-bar-spacer"}>
@@ -144,7 +145,7 @@ export default function Home({
 											case "contact":
 												return (
 														<>
-															<Contact email={profile.email} phone={profile.phoneCode+profile.phoneNumber}/>
+															<Contact email={profile?.email} phone={profile?.phoneCode+profile?.phoneNumber}/>
 														</>
 												)
 											case "about":

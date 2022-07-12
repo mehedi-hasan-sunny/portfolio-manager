@@ -4,9 +4,6 @@ import React from "react";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-export async function getStaticProps() {
-}
-
 function MyApp({Component, pageProps, ...rest}) {
 	const toggleDarkMode = (e) => {
 		const mode = document.querySelector("[data-mode]");
