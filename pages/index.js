@@ -37,7 +37,7 @@ export async function getStaticProps(context) {
 			})
 			
 			profile.links = await Promise.all(links);
-			profile.displayPicture = displayImageRef.docs[0].data();
+			profile.displayPicture = displayImageRef.docs[0].data() ?? null;
 		}
 		const collectionRef = db.collection("projects");
 		const snapshots = await collectionRef.get();

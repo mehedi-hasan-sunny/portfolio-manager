@@ -1,15 +1,16 @@
 import styles from '../styles/Profile.module.css'
 import ProfileImageBlob from "./custom/ProfileImageBlob";
+import {empty} from "../helpers/common";
 
 const Profile = ({profile = null}) => {
 	return (
 			<div className={"text-center " + styles.profile__wrapper}>
 				{
-					profile ?
+					!empty(profile) ?
 							<>
 								<div className={"container"} style={{position: "relative", zIndex: 2}}>
 									
-									<ProfileImageBlob displayPicture={profile.displayPicture.displayPicture} alt={profile.firstName + " " + profile.lastName}/>
+									<ProfileImageBlob displayPicture={profile?.displayPicture?.displayPicture} alt={profile.firstName + " " + profile.lastName}/>
 									
 									<h1 className={"fw-bold mb-3"}>{profile.firstName + " " + profile.lastName}</h1>
 									<h4 className={"fw-bold mb-5"}>{profile.title}</h4>
