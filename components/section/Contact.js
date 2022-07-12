@@ -1,42 +1,21 @@
 import Input from "../custom/Input";
 import React from "react";
-import {toast} from 'react-toastify';
-import {disabledFullForm, resetAndEnableFullForm} from "../../helpers/common";
+import {commonFromSubmitHandler} from "../../helpers/common";
 
 const Contact = ({email = null, phone = null}) => {
-	const notify = (type, message) => {
-		toast[type](message, {
-			position: "bottom-right",
-			hideProgressBar: true,
-			theme: "colored"
-		})
-	};
+	
 	const handleEmailSubmit = async (e) => {
 		e.preventDefault();
-		
 		const form = new FormData(e.target)
 		const formProps = Object.fromEntries(form);
 		
-		disabledFullForm(e.target);
-		
-		try {
-			const response = await fetch(`/api/contact-me`, {
-				method: "post",
-				body: JSON.stringify(formProps),
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-			})
-			const {data} = await response.json()
-			if (data?.message) {
-				notify("success", data.message);
-				resetAndEnableFullForm(e.target);
-			}
-		} catch (error) {
-			notify("error", "Email couldn't be sent at this moment.")
-		}
+		await commonFromSubmitHandler(e, formProps, "/contact-me", null, null,
+				{
+					customSuccessMessage: "Email Sent.",
+					customErrorMessage: "Email couldn't be sent at this moment!"
+				})
 	}
+		
 	
 	return (
 			<>
@@ -73,7 +52,7 @@ const Contact = ({email = null, phone = null}) => {
 								<br/>
 								nor ham saw calling talking.
 							</p>
-						
+							
 							{/*<h3><i className={"la la-globe me-1"}></i>{email}</h3>*/}
 							<h3 className={"mb-4 fw-500"}>
 								<a href={"mailto:" + email}>

@@ -82,13 +82,13 @@ html[data-mode="light"] {
 a, button {
     color: inherit;
     text-decoration: none;
+    -webkit-transition: all 0.25s ease-in-out;
+    -o-transition: all 0.25s ease-in-out;
+    transition: all 0.25s ease-in-out;
 }
 
 a i, button i {
     color: var(--body-color);
-    -webkit-transition: all 0.25s ease-in-out;
-    -o-transition: all 0.25s ease-in-out;
-    transition: all 0.25s ease-in-out;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -284,9 +284,10 @@ button {
     font-family: inherit;
 }
 
-.form-control[disabled]{
+.form-control[disabled] {
     background-color: #c6c6c6;
 }
+
 textarea.form-control {
     height: auto;
     min-height: calc(1.5em + 0.75rem + 2px);
@@ -625,6 +626,10 @@ input[type="range"].form-control {
     font-size: 0.75rem;
 }
 
+.fs-14 {
+    font-size: 0.85rem;
+}
+
 .fs-16 {
     font-size: 1rem;
 }
@@ -683,6 +688,12 @@ input[type="range"].form-control {
     right: 0;
 }
 
+.top-right-0\.5 {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+
 .skill-edit-top-right {
     position: absolute;
     top: 0.25rem;
@@ -706,7 +717,11 @@ input[type="range"].form-control {
 }
 
 .rounded {
-    border-radius: 3px;
+    border-radius: 4px;
+}
+
+.rounded-lg {
+    border-radius: 0.65rem;
 }
 
 .fixed {

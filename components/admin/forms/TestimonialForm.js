@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
+import {commonFromSubmitHandler} from "../../../helpers/common";
 
-function TestimonialsForm({testimonial = null, onSuccessAction}) {
+function TestimonialForm({testimonial = null, onSuccessAction}) {
 	
 	const [formData, setFormData] = useState(testimonial ? testimonial : {
 		name: null,
@@ -13,27 +14,11 @@ function TestimonialsForm({testimonial = null, onSuccessAction}) {
 			[event.target.name]: value ? value : event.target.value
 		}))
 	}
-	const handleSubmit = async (e) => {
-		e.preventDefault()
-		const form = new FormData(e.target)
+	const handleSubmit = async (event) => {
+		event.preventDefault()
+		const form = new FormData(event.target)
 		const formProps = Object.fromEntries(form);
-		try {
-			const response = await fetch(`/api/admin/testimonials${testimonial ? `/${testimonial.id}` : ''}`, {
-				method: !testimonial ? "post" : "put",
-				body: JSON.stringify(formProps),
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-			})
-			const {data} = await response.json()
-			console.log(data)
-			if (data.testimonials) {
-				onSuccessAction ? onSuccessAction(data.testimonials) : null
-			}
-		} catch (e) {
-			console.log(e.message)
-		}
+		await commonFromSubmitHandler(event, formProps,"/admin/testimonials",testimonial, onSuccessAction)
 	}
 	
 	return (
@@ -51,7 +36,7 @@ function TestimonialsForm({testimonial = null, onSuccessAction}) {
 				<div className={"mb-3"}>
 					<label htmlFor="feedback" className={"form-label"}>Feedback</label>
 					<textarea id={"feedback"} className={"form-control"} name={"feedback"} required
-					          maxLength={550}
+					          maxLength={550} rows={5}
 					          defaultValue={formData.feedback}
 					          onInput={updateFormData}/>
 				</div>
@@ -61,4 +46,4 @@ function TestimonialsForm({testimonial = null, onSuccessAction}) {
 	);
 }
 
-export default TestimonialsForm;
+export default TestimonialForm;

@@ -18,7 +18,7 @@ function ProjectsSection({projects}) {
 	}
 	
 	return (
-			<sectoin>
+			<section>
 				<h2 className={"row fw-bold pb-4 border-bottom-2-dark ps-2 ps-md-0"}>UI UX Case Studies</h2>
 				
 				{
@@ -60,7 +60,7 @@ function ProjectsSection({projects}) {
 							) : null
 				}
 			
-			</sectoin>
+			</section>
 	);
 }
 

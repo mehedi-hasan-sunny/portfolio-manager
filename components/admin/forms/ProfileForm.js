@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {empty} from "../../../helpers/common";
+import {commonFromSubmitHandler, empty} from "../../../helpers/common";
 
 
 function ProfileForm({profile = null, onSuccessAction}) {
@@ -68,27 +68,10 @@ function ProfileForm({profile = null, onSuccessAction}) {
 	useEffect(()=>{
 	}, [linkCategories])
 	
-	const handleSubmit = async (e) => {
-		
-		e.preventDefault();
-		try {
-			const response = await fetch("/api/admin/profile", {
-				method: empty(profile) ? "post" : "put",
-				body: JSON.stringify({...formData, links: formLinks}),
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-			})
-			const {data} = await response.json()
-			
-			if (await data && data.profile) {
-				onSuccessAction ? onSuccessAction(data.profile) : null
-			}
-		} catch (e) {
-			console.log(e)
-			console.log(e.message)
-		}
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		const {id, ...item} = profile
+		await commonFromSubmitHandler(event, {...formData, links: formLinks}, "/admin/profile", item, onSuccessAction)
 	}
 	
 	const getDefaultLink = (icon) => {

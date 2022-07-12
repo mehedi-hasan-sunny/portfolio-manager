@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Cropper from 'cropperjs';
 import "cropper/dist/cropper.min.css"
-import {empty} from "../../helpers/common";
 
 function ProfilePictureCropper({displayPicture, profileId = null, onSuccessAction = null}) {
 	const [picture, setPicture] = useState(displayPicture?.displayPicture ?? null);
@@ -110,9 +109,6 @@ function ProfilePictureCropper({displayPicture, profileId = null, onSuccessActio
 			console.log(e)
 			console.log(e.message)
 		}
-		
-		
-		
 	}
 	
 	return (

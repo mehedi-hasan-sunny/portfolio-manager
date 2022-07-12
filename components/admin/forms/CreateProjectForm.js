@@ -1,11 +1,15 @@
 import {useEffect, useState} from 'react';
 import Card from "../../Card";
+import Input from "../../custom/Input";
+import {disabledFullForm, notify, resetAndEnableFullForm} from "../../../helpers/common";
 
 
 const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
+	
 	const [formLinks, setFormLinks] = useState([])
 	
 	const [images, setImage] = useState(project && project.images ? project.images : []);
+	
 	const [thumbnail, setThumbnail] = useState(project && project.images.length ? project.images.filter(item => item.isThumbnail) : null);
 	
 	const [thumbnailErrorMessage, setThumbnailErrorMessage] = useState(null);
@@ -34,7 +38,7 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 					if (image.width >= 800 && image.width <= 860 && image.height >= 600 && image.height <= 660) {
 						setThumbnail([{url: image.src}]);
 						updateFormData(event, thumbnailFile);
-						if(thumbnailErrorMessage){
+						if (thumbnailErrorMessage) {
 							setThumbnailErrorMessage(null)
 						}
 					} else {
@@ -99,18 +103,28 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 		}
 		// form.append('images', formData.images)
 		form.append('links', JSON.stringify(formLinks))
-		
+		disabledFullForm(e.target)
 		try {
 			const response = await fetch(`api/admin/projects${project ? ("/" + project.id) : ''}`, {
 				method: !project ? "post" : "put",
 				body: form,
 			})
-			const {data} = await response.json()
-			if (await data.project) {
-				onSuccessAction ? onSuccessAction(data.project) : null
+			if (response.status === 200) {
+				const {data} = await response.json()
+				if (data.project) {
+					notify('success', `Project ${project ? 'updated' : 'created'} successfully.`)
+					setTimeout(() => {
+						resetAndEnableFullForm(e.target)
+						onSuccessAction ? onSuccessAction(data) : null
+					}, 500)
+				}
+			} else {
+				throw Error(response.status + " " + response.statusText)
 			}
-		} catch (e) {
-			console.log(e.message)
+			
+		} catch (err) {
+			resetAndEnableFullForm(event.target, false)
+			notify('error', err?.message ?? err)
 		}
 	}
 	
@@ -159,23 +173,18 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 	
 	return (
 			<form className={"p-3"} onSubmit={handleSubmit}>
-				<div className={"mb-3"}>
-					<label htmlFor="title" className={"form-label"}>Title</label>
-					<input type="text" className={"form-control"} name={"title"} id={"title"} required
-					       defaultValue={formData.title}
-					       onInput={updateFormData}/>
-				</div>
-				<div className={"mb-3"}>
-					<label htmlFor="thumbnail" className={"form-label"}>Thumbnail</label>
-					<input type="file" accept={"image/*"} className={"form-control"} name={"thumbnail"}
-					       id={"thumbnail"} onChange={handleThumbnailImage} required={!project}/>
-					{
-						thumbnailErrorMessage ? <span className={"fs-12 text-danger"}>{thumbnailErrorMessage}</span> : null
-					}
+				<Input label={"Title"} id={"title"} name={"title"} required
+				       defaultValue={formData.title}
+				       onInput={updateFormData}/>
+				
+				<Input label={"Thumbnail"} id={"thumbnail"} name={"thumbnail"} type={"file"}
+				       defaultValue={formData.thumbnail} accept={"image/*"} required={!project}
+				       onChange={handleThumbnailImage} errorMessage={thumbnailErrorMessage}>
 					{
 						thumbnail ? <Card className={"mt-3"} maxHeight={"27.5rem"} imgSrc={thumbnail[0].url}/> : null
 					}
-				</div>
+				</Input>
+				
 				<div className={"mb-3"}>
 					<label htmlFor="images" className={"form-label"}>Image(s)</label>
 					<input type="file" accept={"image/*"} multiple className={"form-control"} name={"images"}
@@ -200,25 +209,20 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 					</div>
 				</div>
 				<div className={"mb-3"}>
-					<label htmlFor="description" className={"form-label"}>Description</label>
-					<textarea rows={3} className={"form-control"} name={"description"} id={"description"} required
-					          onInput={updateFormData} defaultValue={formData.description}/>
+					
+					<Input label={"Description"} type="textarea" id={"description"} defaultValue={formData.description}
+					       name={"description"} required rows={3}
+					       onInput={updateFormData}/>
 				</div>
 				
 				<div className="row">
 					<div className="col-6">
-						<div className={"mb-3"}>
-							<label htmlFor="startDate" className={"form-label"}>Start Date</label>
-							<input type="date" className={"form-control"} name={"startDate"} id={"startDate"}
-							       defaultValue={formData.startDate} onInput={updateFormData}/>
-						</div>
+						<Input label={"Start Date"} type="date" id={"startDate"} defaultValue={formData.startDate}
+						       name={"startDate"} required onInput={updateFormData}/>
 					</div>
 					<div className="col-6">
-						<div className={"mb-3"}>
-							<label htmlFor="endDate" className={"form-label"}>End Date</label>
-							<input type="date" className={"form-control"} name={"endDate"} id={"endDate"}
-							       defaultValue={formData.endDate} onInput={updateFormData}/>
-						</div>
+						<Input label={"End Date"} type="date" id={"endDate"} defaultValue={formData.endDate} name={"endDate"}
+						       onInput={updateFormData}/>
 					</div>
 				</div>
 				{
@@ -240,7 +244,8 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 						)
 					})
 				}
-				<button type={"submit"} className={"btn bg-olive text-white pull-right"}>{!project ? 'Submit' : 'Update'}</button>
+				<button type={"submit"}
+				        className={"btn bg-olive text-white pull-right"}>{!project ? 'Submit' : 'Update'}</button>
 			
 			</form>
 	

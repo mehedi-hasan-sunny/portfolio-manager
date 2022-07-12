@@ -18,14 +18,14 @@
     padding: 0.5rem;
     border-radius: 10px;
     border: 1px solid #a7a7a7;
-    background-color: rgba(255, 255, 255, 0.25);
+    background-color: rgba(255, 255, 255, 0.75);
     cursor: pointer;
     font-size: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.25s ease-in-out;
 }
 
 .actionButton:hover {
@@ -62,4 +62,8 @@
 
 .actionButton i {
     color: currentColor;
+}
+
+[data-mode="dark"] .actionButton {
+    background-color: rgba(255, 255, 255, 0.25);
 }

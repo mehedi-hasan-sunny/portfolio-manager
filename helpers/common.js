@@ -1,3 +1,5 @@
+import {toast} from "react-toastify";
+
 export const empty = (e) => {
 	switch (e) {
 		case "":
@@ -7,7 +9,7 @@ export const empty = (e) => {
 		case false:
 			return true;
 		default:
-			return !!(Array.isArray(e) || typeof (e) == "undefined" || !Object.keys(e).length);
+			return !!((Array.isArray(e) && !e.length) || typeof (e) == "undefined" || !Object.keys(e).length);
 	}
 }
 
@@ -22,10 +24,68 @@ export const disabledFullForm = (form) => {
 }
 
 export const resetAndEnableFullForm = (form, reset = true) => {
-	if(reset){
+	if (reset) {
 		form.reset();
 	}
 	for (let i = 0; i < form.elements.length; ++i) {
 		form.elements[i].disabled = false;
 	}
 }
+
+export const commonGetServerSideProps = async (props = {}) => {
+	try {
+		const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/${props.adminApiUrl}`)
+		const {data} = await res.json()
+		return {
+			props: {...props, responseData: data ? data.reverse() : []}
+		}
+	} catch (e) {
+		return {
+			props: {...props, responseData: []}
+		}
+	}
+}
+
+export const notify = (type, message) => {
+	toast[type](message, {
+		position: "bottom-right",
+		hideProgressBar: true,
+		theme: "colored"
+	})
+};
+
+
+export const commonFromSubmitHandler = async (event, formData, apiUrl, item = null, onSuccessAction = null, {
+	customSuccessMessage = null,
+	customErrorMessage = null
+} = {}) => {
+	try {
+		disabledFullForm(event.target);
+		
+		const response = await fetch(`/api/${apiUrl.trim().replace(/^(\/)+/, '')}${!empty(item) && item?.id? `/${item.id}` : ''}`, {
+			method: empty(item) ? "post" : "put",
+			body: JSON.stringify(formData),
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+		})
+		
+		if (response.status === 200) {
+			const {data} = await response.json()
+			if (data) {
+				notify('success', customSuccessMessage ?? `${item ? 'Updated' : 'Created'} successfully.`)
+				setTimeout(() => {
+					resetAndEnableFullForm(event.target)
+					onSuccessAction ? onSuccessAction(data) : null
+				}, 500)
+			}
+		} else {
+			throw Error(response.status + " " + response.statusText)
+		}
+		
+	} catch (err) {
+		resetAndEnableFullForm(event.target, false)
+		notify('error', customErrorMessage ?? `${err}`)
+	}
+};

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {commonFromSubmitHandler} from "../../../helpers/common";
 
 function LinkCategoryForm({linkCategory = null, onSuccessAction}) {
 	
@@ -12,26 +13,12 @@ function LinkCategoryForm({linkCategory = null, onSuccessAction}) {
 			[event.target.name]: value ? value : event.target.value
 		}))
 	}
-	const handleSubmit = async (e) => {
-		e.preventDefault()
-		const form = new FormData(e.target)
+	const handleSubmit = async (event) => {
+		event.preventDefault()
+		const form = new FormData(event.target)
 		const formProps = Object.fromEntries(form);
-		try {
-			const response = await fetch(`/api/admin/link-categories${linkCategory ? ('/' + linkCategory.id) : ''}`, {
-				method: !linkCategory ? "post" : "put",
-				body: JSON.stringify(formProps),
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-			})
-			const {data} = await response.json()
-			if (data.linkCategories) {
-				onSuccessAction ? onSuccessAction(data.linkCategories) : null
-			}
-		} catch (e) {
-			console.log(e.message)
-		}
+		await commonFromSubmitHandler(event, formProps, "/admin/link-categories", linkCategory, onSuccessAction)
+		
 	}
 	
 	return (
@@ -56,12 +43,14 @@ function LinkCategoryForm({linkCategory = null, onSuccessAction}) {
 				
 				<div className={"row"}>
 					<div className="col">
-						<a href={"https://icons8.com/line-awesome"} rel={"noreferrer"} target={"_blank"} className={"btn btn-sm mt-2"}>
+						<a href={"https://icons8.com/line-awesome"} rel={"noreferrer"} target={"_blank"}
+						   className={"btn btn-sm mt-2"}>
 							Line awesome icons
 						</a>
 					</div>
 					<div className="col">
-						<button type={"submit"} className={"btn bg-olive text-white pull-right"}>{!linkCategory ? 'Submit' : 'Update'}</button>
+						<button type={"submit"}
+						        className={"btn bg-olive text-white pull-right"}>{!linkCategory ? 'Submit' : 'Update'}</button>
 					</div>
 				</div>
 			</form>

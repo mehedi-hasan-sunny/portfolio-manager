@@ -143,6 +143,8 @@ function Index({profile, projects = []}) {
 					<ActionButton size={"large"} icon={"la-wave-square"} title={"Skills"} link={"/admin/skills"}/>
 					
 					<ActionButton size={"large"} icon={"la-comment"} title={"Testimonials"} link={"/admin/testimonials"}/>
+					
+					<ActionButton size={"large"} icon={"la-briefcase"} title={"Services"} link={"/admin/services"}/>
 				
 				
 				</div>

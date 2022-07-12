@@ -4,8 +4,8 @@ import SectionLayout from "../layout/SectionLayout";
 const TestimonialsSection = ({
 	                             testimonials,
 	                             isAdmin = false,
-	                             editSkill = null,
-	                             deleteSkill = null,
+	                             editTestimonial = null,
+	                             deleteTestimonial = null,
 	                             className = null,
 	                             ...props
                              }) => {
@@ -38,14 +38,14 @@ const TestimonialsSection = ({
 										<div className={"d-flex align-center gap-0.5"}>
 											<button className={"transparent-btn"} aria-label={"Edit experience"}
 											        onClick={() => {
-												        editSkill(testimonial);
+												        editTestimonial(testimonials[currentIndex]);
 											        }}>
 												<i className={"las la-edit"}/>
 											</button>
 											
 											<button className={"transparent-btn"} aria-label={"Delete experience"}
 											        onClick={() => {
-												        deleteSkill(testimonial.id)
+												        deleteTestimonial(testimonials[currentIndex].id)
 											        }}>
 												<i className={"las la-trash-alt text-danger"}/>
 											</button>

@@ -9,6 +9,8 @@ function Input({
 	               labelClassName = '',
 	               name = null,
 	               defaultValue = null,
+	               errorMessage = null,
+	               children = null,
 	               ...otherProps
                }) {
 	className = `mb-3 ${className}`.trim();
@@ -27,7 +29,20 @@ function Input({
 				{
 					label ? <label htmlFor={id} className={labelClassName}>{label}</label> : null
 				}
-				<input className={inputClassName} {...otherProps}/>
+				
+				{
+					type !== "textarea"  ?
+							<input className={inputClassName} {...otherProps}/>
+							:
+							<textarea className={inputClassName} {...otherProps}></textarea>
+				}
+				
+				{
+					errorMessage ? <span className={"d-block text-danger fs-12"}>{errorMessage}</span> : null
+				}
+				{
+					children
+				}
 			</div>
 	);
 }

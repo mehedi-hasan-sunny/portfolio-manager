@@ -1,6 +1,4 @@
 import db from "../../../firebaseDb/firebaseAdmin"
-
-import linksManager from "!/actions/linksManager";
 import {errorRes, successRes} from "!/helpers/jsonResponse";
 import {v2 as cloudinary} from "cloudinary";
 

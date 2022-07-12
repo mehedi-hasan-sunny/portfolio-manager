@@ -1,41 +1,30 @@
 import React, {useState} from 'react';
+import {commonFromSubmitHandler} from "../../../helpers/common";
 
 function ExperienceForm({experience = null, onSuccessAction}) {
-	
+	const [isPresent, setIsPresent] = useState(!!(experience && experience?.endDate))
 	const [formData, setFormData] = useState(experience ? experience : {
 		designation: null,
 		company: null,
 		startDate: null,
 		endDate: null,
-		isPresent: false,
 		description: null,
 	})
+	const toggleIsPresent = (e) =>{
+		setIsPresent(e.target.checked)
+	}
+	
 	const updateFormData = (event, value = null) => {
 		setFormData(prevState => ({
 			...prevState,
 			[event.target.name]: value ? value : event.target.value
 		}))
 	}
-	const handleSubmit = async (e) => {
-		e.preventDefault()
-		const form = new FormData(e.target)
+	const handleSubmit = async (event) => {
+		event.preventDefault()
+		const form = new FormData(event.target)
 		const formProps = Object.fromEntries(form);
-		try {
-			const response = await fetch(`/api/admin/experiences${experience ? `/${experience.id}` : ''}`, {
-				method: !experience ? "post" : "put",
-				body: JSON.stringify(formProps),
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-			})
-			const {data} = await response.json()
-			if (data.experiences) {
-				onSuccessAction ? onSuccessAction(data.experiences) : null
-			}
-		} catch (e) {
-			console.log(e.message)
-		}
+		await commonFromSubmitHandler(event, formProps, "/admin/experiences", experience, onSuccessAction)
 	}
 	
 	return (
@@ -58,15 +47,15 @@ function ExperienceForm({experience = null, onSuccessAction}) {
 					</div>
 					<div className={"col-6"}>
 						<label htmlFor="endDate" className={"form-label"}>End Date</label>
-						<input id={"endDate"} type="date" className={"form-control"} name={"endDate"} disabled={formData.isPresent}
-						       defaultValue={formData.endDate} onInput={updateFormData}/>
+						<input id={"endDate"} type="date" className={"form-control"} name={"endDate"} disabled={isPresent}
+						       required={!isPresent} defaultValue={formData.endDate} onInput={updateFormData}/>
 					</div>
 				</div>
 				
 				<div className="mb-3">
 					<label htmlFor="isPresent" className={"form-label fs-12"}>
 						<input id={"isPresent"} type="checkbox" name={"isPresent"}
-						       defaultValue={formData.isPresent} onInput={updateFormData}/>
+						       defaultValue={isPresent} onChange={toggleIsPresent}/>
 						Currently working here
 					</label>
 				</div>

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
+import {commonFromSubmitHandler} from "../../../helpers/common";
 
-function SkillsForm({skill = null, onSuccessAction}) {
+function SkillForm({skill = null, onSuccessAction}) {
 	
 	const [formData, setFormData] = useState(skill ? skill : {
 		title: null,
@@ -13,26 +14,11 @@ function SkillsForm({skill = null, onSuccessAction}) {
 			[event.target.name]: value ? value : event.target.value
 		}))
 	}
-	const handleSubmit = async (e) => {
-		e.preventDefault()
-		const form = new FormData(e.target)
+	const handleSubmit = async (event) => {
+		event.preventDefault()
+		const form = new FormData(event.target)
 		const formProps = Object.fromEntries(form);
-		try {
-			const response = await fetch(`/api/admin/skills${skill ? `/${skill.id}` : ''}`, {
-				method: !skill ? "post" : "put",
-				body: JSON.stringify(formProps),
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-			})
-			const {data} = await response.json()
-			if (data.skills) {
-				onSuccessAction ? onSuccessAction(data.skills) : null
-			}
-		} catch (e) {
-			console.log(e.message)
-		}
+		await commonFromSubmitHandler(event, formProps,"/admin/skills",skill, onSuccessAction)
 	}
 	
 	return (
@@ -69,4 +55,4 @@ function SkillsForm({skill = null, onSuccessAction}) {
 	);
 }
 
-export default SkillsForm;
+export default SkillForm;

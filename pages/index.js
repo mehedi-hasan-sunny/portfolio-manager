@@ -4,7 +4,6 @@ import Profile from "../components/Profile";
 import {useState} from "react";
 import db from "../firebaseDb/firebaseAdmin";
 import About from "../components/section/About";
-import Projects from "../components/section/Projects";
 import Contact from "../components/section/Contact";
 import EducationsSection from "../components/section/EducationsSection";
 import ExperiencesSection from "../components/section/ExperiencesSection";
@@ -13,9 +12,9 @@ import SkillsSection from "../components/section/SkillsSection";
 import TestimonialsSection from "../components/section/TestimonialsSection";
 import SectionLayout from "../components/layout/SectionLayout";
 import Navbar from "../components/layout/Navbar";
-import {getCookie, setCookie} from "cookies-next";
 import HomeContext from "../context/HomeContext";
 import ProjectsSection from "../components/section/ProjectsSection";
+import ServicesSection from "../components/section/ServicesSection";
 
 export async function getStaticProps(context) {
 	const {req, res} = context;
@@ -61,7 +60,7 @@ export async function getStaticProps(context) {
 		projects = await Promise.all(projects);
 		
 		
-		const docs = ["experiences", "educations", "certifications", "skills", "testimonials"]
+		const docs = ["experiences", "educations", "certifications", "skills", "testimonials", "services"]
 		const docRes = async (doc) => {
 			const docRef = db.collection(doc);
 			const docSnap = await docRef.get();
@@ -79,11 +78,11 @@ export async function getStaticProps(context) {
 		const docResults = docs.reduce((acc, doc, index) => ({
 			...acc, [doc]: docMappedRes[index][doc]
 		}), {});
-		const {experiences, educations, certifications, skills, testimonials} = docResults
+		const {experiences, educations, certifications, skills, testimonials, services} = docResults
 		
 		
 		return {
-			props: {projects, profile, experiences, educations, certifications, docResults, skills, testimonials},
+			props: {projects, profile, experiences, educations, certifications, docResults, skills, testimonials, services},
 			revalidate: 60
 		}
 		
@@ -101,7 +100,8 @@ export default function Home({
 	                             educations,
 	                             certifications,
 	                             skills,
-	                             testimonials
+	                             testimonials,
+	                             services
                              }) {
 	
 	const [currentTab, setCurrentTab] = useState('about');
@@ -126,7 +126,13 @@ export default function Home({
 															<ProjectsSection projects={projects}/>
 														</>
 												)
-											case "blog":
+											case "services":
+												return (
+														<>
+															<ServicesSection services={services}/>
+														</>
+												)
+											case "blogs":
 												return (
 														<>
 															<div className={"d-flex align-center justify-center"}

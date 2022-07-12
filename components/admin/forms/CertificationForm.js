@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {commonFromSubmitHandler} from "../../../helpers/common";
 
 function CertificationForm({certification = null, onSuccessAction}) {
 	
@@ -16,26 +17,11 @@ function CertificationForm({certification = null, onSuccessAction}) {
 			[event.target.name]: value ? value : event.target.value
 		}))
 	}
-	const handleSubmit = async (e) => {
-		e.preventDefault()
-		const form = new FormData(e.target)
+	const handleSubmit = async (event) => {
+		event.preventDefault()
+		const form = new FormData(event.target)
 		const formProps = Object.fromEntries(form);
-		try {
-			const response = await fetch(`/api/admin/certifications${certification ? `/${certification.id}` : ''}`, {
-				method: !certification ? "post" : "put",
-				body: JSON.stringify(formProps),
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-			})
-			const {data} = await response.json()
-			if (data.certifications) {
-				onSuccessAction ? onSuccessAction(data.certifications) : null
-			}
-		} catch (e) {
-			console.log(e.message)
-		}
+		await commonFromSubmitHandler(event, formProps, "/admin/certifications", certification, onSuccessAction)
 	}
 	
 	return (
