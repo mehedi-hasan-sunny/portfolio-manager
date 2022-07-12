@@ -1,13 +1,10 @@
 import '../styles/globals.css'
 import Head from "next/head";
 import React from "react";
-import {getCookie, getCookies, setCookie} from "cookies-next";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export async function getStaticProps() {
-	getCookies();
-	getCookie('key');
-	setCookie('key', 'value');
-	console.log(getCookie('key')), "kjhgfds";
 }
 
 function MyApp({Component, pageProps, ...rest}) {
@@ -30,6 +27,7 @@ function MyApp({Component, pageProps, ...rest}) {
 					</label>
 				</div>
 				<Component {...pageProps} />
+				<ToastContainer/>
 			</>
 	)
 	

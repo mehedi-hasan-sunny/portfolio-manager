@@ -284,6 +284,9 @@ button {
     font-family: inherit;
 }
 
+.form-control[disabled]{
+    background-color: #c6c6c6;
+}
 textarea.form-control {
     height: auto;
     min-height: calc(1.5em + 0.75rem + 2px);
@@ -390,7 +393,7 @@ textarea.form-control {
 }
 
 .btn[disabled] {
-    background-color: rgba(167, 167, 167, 0.28);
+    background-color: #a7a7a7;
 }
 
 .btn[disabled] * {

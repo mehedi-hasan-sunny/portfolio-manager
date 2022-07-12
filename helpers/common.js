@@ -14,3 +14,18 @@ export const empty = (e) => {
 export const ucFirst = (e) => {
 	return e.charAt(0).toUpperCase() + e.slice(1)
 }
+
+export const disabledFullForm = (form) => {
+	for (let i = 0; i < form.elements.length; ++i) {
+		form.elements[i].disabled = true;
+	}
+}
+
+export const resetAndEnableFullForm = (form, reset = true) => {
+	if(reset){
+		form.reset();
+	}
+	for (let i = 0; i < form.elements.length; ++i) {
+		form.elements[i].disabled = false;
+	}
+}

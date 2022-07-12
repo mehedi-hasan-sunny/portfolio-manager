@@ -1,9 +1,43 @@
-import timeline from "../../styles/Timeline.module.css"
 import Input from "../custom/Input";
 import React from "react";
+import {toast} from 'react-toastify';
+import {disabledFullForm, resetAndEnableFullForm} from "../../helpers/common";
 
 const Contact = ({email = null, phone = null}) => {
-
+	const notify = (type, message) => {
+		toast[type](message, {
+			position: "bottom-right",
+			hideProgressBar: true,
+			theme: "colored"
+		})
+	};
+	const handleEmailSubmit = async (e) => {
+		e.preventDefault();
+		
+		const form = new FormData(e.target)
+		const formProps = Object.fromEntries(form);
+		
+		disabledFullForm(e.target);
+		
+		try {
+			const response = await fetch(`/api/contact-me`, {
+				method: "post",
+				body: JSON.stringify(formProps),
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+			})
+			const {data} = await response.json()
+			if (data?.message) {
+				notify("success", data.message);
+				resetAndEnableFullForm(e.target);
+			}
+		} catch (error) {
+			notify("error", "Email couldn't be sent at this moment.")
+		}
+	}
+	
 	return (
 			<>
 				<section>
@@ -22,26 +56,26 @@ const Contact = ({email = null, phone = null}) => {
 					<div className="row py-5">
 						<div className="col-12 col-md-5">
 							<h2 className={"mb-4 fw-bold"}>Message me</h2>
-							<form action="" method={"post"}>
-								<Input placeholder={"Full name"} name={"name"} id={"name"} />
-								<Input placeholder={"Email"} name={"email"} type={"email"} id={"email"} />
-								<Input placeholder={"Subject"} name={"subject"} id={"subject"} />
-								<textarea placeholder={"Message"} className={"form-control mb-3"} name="message" id="message" rows="4" />
-								<button className={"btn btn-block bg-olive text-white"}>
+							<form method={"post"} onSubmit={handleEmailSubmit}>
+								<Input placeholder={"Full name"} name={"name"} id={"name"}/>
+								<Input placeholder={"Email"} name={"email"} type={"email"} id={"email"}/>
+								<Input placeholder={"Subject"} name={"subject"} id={"subject"}/>
+								<textarea placeholder={"Message"} className={"form-control mb-3"} name="message" id="message" rows="4"/>
+								<button type={"submit"} className={"btn btn-block bg-olive text-white"}>
 									Send
 								</button>
 							</form>
 						</div>
 						<div className="col-md-5 offset-md-2">
 							<h2 className={"fs-24 mb-4"}>Reach Me</h2>
-							<p className={"fs-18 lh-22 mt-0"}>
+							<p className={"fs-18 lh-22 mt-0 mb-5"}>
 								Village did removed the enjoyed explain
 								<br/>
 								nor ham saw calling talking.
 							</p>
-							
+						
 							{/*<h3><i className={"la la-globe me-1"}></i>{email}</h3>*/}
-							<h3 className={"my-5 fw-500"}>
+							<h3 className={"mb-4 fw-500"}>
 								<a href={"mailto:" + email}>
 									<i className={"la la-envelope-o me-1"}></i>{email}
 								</a>
@@ -51,7 +85,7 @@ const Contact = ({email = null, phone = null}) => {
 									<i className={"la la-phone me-1"}></i>{phone}
 								</a>
 							</h3>
-							
+						
 						</div>
 					</div>
 				</section>
