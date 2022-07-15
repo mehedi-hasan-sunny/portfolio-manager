@@ -3,7 +3,7 @@
     --light-color: #202124;
     --dark-bg: #10222DFF;
     --dark-color: #FFFFFF;
-    --profile-bg-color: #10222d;
+    --profile-bg-color: #292929;
     --border-color: #D0D3D0;
     --olive-color: #4A5149;
     --cream-color: #FFF1C0;
@@ -11,9 +11,9 @@
 }
 
 [data-mode="dark"]:root {
-    --profile-bg-color: #1e4157;
-    --body-bg: #10222DFF;
-    --body-color: #FFFFFF;
+    --profile-bg-color: #292929;
+    --body-bg: #292929;
+    --body-color: #fefefe;
     --modal-bg: #2b2b2b;
     --border-color: #D0D3D0;
     --olive-color: #647462;
