@@ -4,8 +4,8 @@ import linksManager from "!/actions/linksManager";
 import {errorRes, successRes} from "!/helpers/jsonResponse";
 
 export default async function handler(req, res) {
-
-	const reqData = (req) =>  ({
+	
+	const reqData = (req) => ({
 		firstName: req.body.firstName.trim(),
 		lastName: req.body.lastName.trim(),
 		email: req.body.email.trim().toLowerCase(),
@@ -53,16 +53,33 @@ export default async function handler(req, res) {
 		case "POST": {
 			try {
 				const collectionRef = db.collection("profile");
-				let profile = await collectionRef.add(reqData(req));
-				const linksData = req.body.links;
-				const links = await linksManager(
-						"profile",
-						profile.id,
-						linksData
-				)
 				
-				successRes(res, {profile: (await profile.get()).data()}, 202)
+				const profileSnapshot = await collectionRef.limit(1).get();
+				let profile, links
 				
+				if (profileSnapshot.empty) {
+					profile = await collectionRef.add(reqData(req));
+					const linksData = req.body.links;
+					links = await linksManager(
+							"profile",
+							profile.id,
+							linksData
+					)
+					
+					profile = await profile.get().data()
+					successRes(res, {profile: {...profile, links: links}}, 202)
+					
+				} else {
+					const profileRef = db.doc("profile/" + profileSnapshot.docs[0].id);
+					profile = await profileRef.set(reqData(req), {merge: true});
+					const linksData = req.body.links;
+					links = await linksManager(
+							"profile",
+							profile.id,
+							linksData
+					)
+					successRes(res, {profile: {...profile, links: links}}, 200)
+				}
 			} catch (err) {
 				console.log(err)
 				errorRes(res, err.message)

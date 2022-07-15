@@ -109,7 +109,6 @@ export default async function handler(req, res) {
 						successRes(res, {project: (await project.get()).data()});
 						
 					} catch (err) {
-						console.log(err)
 						errorRes(res, err.message)
 					}
 					

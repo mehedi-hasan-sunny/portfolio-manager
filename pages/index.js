@@ -18,7 +18,7 @@ import ServicesSection from "../components/section/ServicesSection";
 import {empty} from "../helpers/common";
 
 export async function getStaticProps(context) {
-	const {req, res} = context;
+	// const {req, res} = context;
 	// console.log("kjhgffghjkljhfghj")
 	// setCookie('test', 'value', {req, res, maxAge: 60 * 6 * 24});
 	// console.log(getCookie('test'))
@@ -28,6 +28,7 @@ export async function getStaticProps(context) {
 		
 		const profileCollectionRef = db.collection("profile").limit(1);
 		const profileSnapshot = await profileCollectionRef.get();
+		
 		if (!profileSnapshot.empty) {
 			const profileDoc = profileSnapshot.docs[0];
 			profile = {id: profileDoc.id, ...profileDoc.data()}
@@ -38,7 +39,7 @@ export async function getStaticProps(context) {
 			})
 			
 			profile.links = await Promise.all(links);
-			profile.displayPicture = displayImageRef.docs[0].data() ?? null;
+			profile.displayPicture = displayImageRef?.docs[0]?.data() ?? null;
 		}
 		const collectionRef = db.collection("projects");
 		const snapshots = await collectionRef.get();
@@ -88,6 +89,7 @@ export async function getStaticProps(context) {
 		}
 		
 	} catch (e) {
+		console.log(e)
 		return {
 			props: {projects: [], profile: null, experiences: [], educations: [], certifications: [], skills: []}, // will be passed to the page component as props
 		}

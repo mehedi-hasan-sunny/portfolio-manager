@@ -71,7 +71,7 @@ export const commonFromSubmitHandler = async (event, formData, apiUrl, item = nu
 			},
 		})
 		
-		if (response.status === 200) {
+		if (response.status === 200 || response.status === 202) {
 			const {data} = await response.json()
 			if (data) {
 				notify('success', customSuccessMessage ?? `${item ? 'Updated' : 'Created'} successfully.`)

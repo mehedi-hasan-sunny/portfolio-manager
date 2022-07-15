@@ -72,7 +72,6 @@ export default class CommonPageLayout extends Component {
 		this.toggleModal()
 	}
 	successAction = (data) => {
-		console.log(data)
 		this.toggleModal()
 		window.location.reload()
 	}

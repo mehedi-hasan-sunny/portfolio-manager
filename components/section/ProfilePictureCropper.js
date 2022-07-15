@@ -102,12 +102,10 @@ function ProfilePictureCropper({displayPicture, profileId = null, onSuccessActio
 				if(!id){
 					setId(data.id);
 				}
-				console.log(data)
 				// onSuccessAction ? onSuccessAction(data) : null
 			}
 		} catch (e) {
 			console.log(e)
-			console.log(e.message)
 		}
 	}
 	

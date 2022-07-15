@@ -31,7 +31,6 @@ function ProfileForm({profile = null, onSuccessAction}) {
 	}
 	const updateFormLinks = (icon, value, index) => {
 		let data = formLinks
-		console.log(data)
 		
 		if (!data[index])
 			data[index] = {}
@@ -45,7 +44,6 @@ function ProfileForm({profile = null, onSuccessAction}) {
 		fetch(`/api/admin/link-categories`).then(async (res) => {
 			const {data} = await res.json()
 			
-			console.log(data, "data")
 			setLinkCategories(data ?? [])
 			if (profile && profile.length) {
 				const links = data.map((item) => {

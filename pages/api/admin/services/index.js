@@ -11,7 +11,6 @@ export const config = {
 export default async function handler(req, res) {
 	let formData;
 	if ((req.method === "POST")) {
-		console.log(req.body)
 		formData = {
 			title: req.body.title.trim(),
 			description: req.body.description.trim(),

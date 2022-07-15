@@ -115,7 +115,7 @@ function Index({profile, projects = []}) {
 				
 				{/*actions*/}
 				
-				<div className={"row gap-2 mb-4 px-3"}>
+				<div className={"row gap-xs-1 gap-2 mb-4 px-3"}>
 					
 					{/*					<div className={"d-inline-flex gap-1"} style={{width: '14rem'}}>
 						<button className={"btn "} style={{minWidth: '6.5rem', width: '6.5rem'}}>
