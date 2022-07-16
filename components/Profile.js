@@ -1,6 +1,7 @@
 import styles from '../styles/Profile.module.css'
 import ProfileImageBlob from "./custom/ProfileImageBlob";
 import {empty} from "../helpers/common";
+import CircleText from "./custom/CircleText";
 
 const Profile = ({profile = null}) => {
 	return (
@@ -9,6 +10,8 @@ const Profile = ({profile = null}) => {
 					!empty(profile) ?
 							<>
 								<div className={"container"} style={{position: "relative", zIndex: 2}}>
+									
+									<CircleText text={profile?.circleText} size={profile?.circleTextSize} deg={profile.circleTextDegree}/>
 									
 									<ProfileImageBlob displayPicture={profile?.displayPicture?.displayPicture} alt={profile.firstName + " " + profile.lastName}/>
 									
@@ -19,7 +22,7 @@ const Profile = ({profile = null}) => {
 										<div className="col text-left">
 											<h4 className={"fw-bold"}>Reach Me</h4>
 											<a href={"tel:" + profile.phoneCode+profile.phoneNumber}>
-												<span className={"me-1"}>{profile.phoneCode}</span> {profile.phoneNumber}
+												<span className={""}>{profile.phoneCode}</span> {profile.phoneNumber}
 											</a>
 											<br/>
 											<a href={"mailto:" + profile.email}>

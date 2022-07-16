@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {commonFromSubmitHandler, empty} from "../../../helpers/common";
+import Input from "../../custom/Input";
+import CircleText from "../../custom/CircleText";
 
 
 function ProfileForm({profile = null, onSuccessAction}) {
@@ -10,13 +12,16 @@ function ProfileForm({profile = null, onSuccessAction}) {
 		lastName: "",
 		email: "",
 		phoneNumber: "",
-		// displayPicture: null,
 		bioTitle: "",
 		bio: "",
 		title: null,
 		liveIn: "",
 		experienceInYears: "",
-		dob:"",
+		dob: "",
+		cvDownloadLink: "",
+		circleText: "",
+		circleTextSize: "",
+		circleTextDegree: "",
 		links: formLinks
 	})
 	
@@ -25,15 +30,13 @@ function ProfileForm({profile = null, onSuccessAction}) {
 	
 	const updateFormData = (event, value = null) => {
 		setFormData(prevState => ({
-			...prevState,
-			[event.target.name]: value ? value : event.target.value
+			...prevState, [event.target.name]: value ? value : event.target.value
 		}))
 	}
 	const updateFormLinks = (icon, value, index) => {
 		let data = formLinks
 		
-		if (!data[index])
-			data[index] = {}
+		if (!data[index]) data[index] = {}
 		data[index]["icon"] = icon
 		data[index]["url"] = value
 		
@@ -50,8 +53,7 @@ function ProfileForm({profile = null, onSuccessAction}) {
 					const matched = profile.links.filter(profileLink => profileLink.icon === item.icon)
 					if (!matched.length) {
 						return {
-							icon: item.icon,
-							url: null
+							icon: item.icon, url: null
 						}
 					}
 					return matched[0]
@@ -63,7 +65,7 @@ function ProfileForm({profile = null, onSuccessAction}) {
 		})
 	}, [profile])
 	
-	useEffect(()=>{
+	useEffect(() => {
 	}, [linkCategories])
 	
 	const handleSubmit = async (event) => {
@@ -84,107 +86,81 @@ function ProfileForm({profile = null, onSuccessAction}) {
 		return item.url
 	}
 	
-	return (
-			<form className={"p-3"} onSubmit={handleSubmit}>
-				{
-					profile && profile.id ? <input type={"hidden"} name={"id"} defaultValue={profile.id}/> : null
-				}
-				<div className={"row mb-3"}>
-					<div className={"col-6"}>
-						<label htmlFor="" className={"form-label"}>First Name</label>
-						<input type="text" className={"form-control"} name={"firstName"} required
-						       defaultValue={formData.firstName} onInput={updateFormData}/>
-					</div>
-					<div className={"col-6"}>
-						<label htmlFor="" className={"form-label"}>Last Name</label>
-						<input type="text" className={"form-control"} name={"lastName"} required defaultValue={formData.lastName}
-						       onInput={updateFormData}/>
-					</div>
-				</div>
-				<div className={"mb-3"}>
-					<label htmlFor="title" className={"form-label"}>Title</label>
-					<input type="title" id={"title"} className={"form-control"} name={"title"} required
-					       defaultValue={formData.title} onInput={updateFormData}/>
-				</div>
-				
-				<div className={"mb-3"}>
-					<label htmlFor="dob" className={"form-label"}>Date of Birth</label>
-					<input id={"dob"} className={"form-control"} name={"dob"} required
-					       defaultValue={formData.dob} type={"date"}
-					       onInput={updateFormData}/>
-				</div>
-				<div className="row mb-3">
-					<div className={"col"}>
-						<label htmlFor="email" className={"form-label"}>Email</label>
-						<input type="email" id={"email"} className={"form-control"} name={"email"} required
-						       defaultValue={formData.email} onInput={updateFormData}/>
-					</div>
-					
-					<div className={"col"}>
-						<label htmlFor="phone" className={"form-label"}>Phone Number (+880)</label>
-						<input type="number" id={"phone"} className={"form-control"} name={"phoneNumber"} required
-						       aria-label={"Phone Number"} minLength={10} maxLength={11}
-						       defaultValue={formData.phoneNumber} onInput={updateFormData}/>
-					</div>
-				</div>
-				{/*<div className={"mb-3"}>*/}
-				{/*	<label htmlFor="display-picture" className={"form-label"}>Profile Image Link</label>*/}
-				{/*	<input type="text" id={"display-picture"} className={"form-control"} name={"displayPicture"} required*/}
-				{/*	       defaultValue={formData.displayPicture}*/}
-				{/*	       onInput={updateFormData}/>*/}
-				{/*</div>*/}
-				<div className={"mb-3"}>
-					<label htmlFor="bioTitle" className={"form-label"}>Bio Title</label>
-					<input id={"bioTitle"} className={"form-control"} name={"bioTitle"} required
-					          maxLength={250}
-					          defaultValue={formData.bioTitle}
-					          onInput={updateFormData}/>
-				</div>
-				<div className={"mb-3"}>
-					<label htmlFor="bio" className={"form-label"}>Bio</label>
-					<textarea id={"bio"} className={"form-control"} name={"bio"} required
-					          maxLength={550}
-					       defaultValue={formData.bio}
-					       onInput={updateFormData}/>
-				</div>
-				<div className={"mb-3"}>
-					<label htmlFor="liveIn" className={"form-label"}>I live in</label>
-					<input id={"liveIn"} className={"form-control"} name={"liveIn"} required
-					       defaultValue={formData.liveIn}
-					       onInput={updateFormData}/>
-				</div>
-				<div className={"mb-3"}>
-					<label htmlFor="experienceInYears" className={"form-label"}>Experience (in years)</label>
-					<input type="number" id={"experienceInYears"} className={"form-control"} name={"experienceInYears"} required
-					       aria-label={"Experience (in years)"} minLength={1} maxLength={3} min={0.1} step={0.1}
-					       defaultValue={formData.experienceInYears} onInput={updateFormData}/>
-				</div>
-				<div className="row">
-					{
-						linkCategories.map((item, index) => {
-							return (
-									<div className={`${linkCategories.length > 1 ? 'col-6' : 'col'} mb-3`} key={index}>
-										<label htmlFor="" className={"form-label"}>
-											<i className={item.icon}/>
-											&nbsp;
-											{item.title} Profile Link
-										</label>
-										<input type="text" className={"form-control"} name={`links[${item.id}][url]`}
-										       defaultValue={getDefaultLink(item.icon)}
-										       onInput={(e) => {
-											       updateFormLinks(item.icon, e.target.value, index)
-										       }}
-										/>
-									</div>
-							)
-						})
-					}
-				</div>
-				
-				
-				<button type={"submit"} className={"btn bg-olive text-white pull-right"}>{!profile ? 'Submit' : 'Update'}</button>
-			</form>
-	);
+	return (<form className={"p-3"} onSubmit={handleSubmit}>
+		{profile && profile.id ? <input type={"hidden"} name={"id"} defaultValue={profile.id}/> : null}
+		<div className={"row"}>
+			<Input className={"col-12 col-md-6"} label={"First Name"} id={"firstName"} name={"firstName"} required
+			       defaultValue={formData.firstName} onInput={updateFormData}/>
+			
+			<Input className={"col-12 col-md-6"} label={"Last Name"} id={"lastName"} name={"lastName"} required
+			       defaultValue={formData.lastName} onInput={updateFormData}/>
+		</div>
+		
+		<Input className={"mb-3"} label={"Title"} id={"title"} name={"title"} required
+		       defaultValue={formData.title} onInput={updateFormData}/>
+		
+		<Input className={"mb-3"} type="date" label={"Date of Birth"} id={"dob"} name={"dob"} required
+		       defaultValue={formData.dob} onInput={updateFormData}/>
+		
+		<div className="row">
+			<Input className={"col-12 col-md-6"} type="email" label={"Email"} id={"email"} name={"email"} required
+			       defaultValue={formData.email} onInput={updateFormData}/>
+			
+			<Input className={"col-12 col-md-6"} type="number" label={"Phone Number (+880)"} id={"phoneNumber"}
+			       aria-label={"Phone Number"} minLength={10} maxLength={11} name={"phoneNumber"} required
+			       defaultValue={formData.phoneNumber} onInput={updateFormData}/>
+		</div>
+		
+		<Input className={"mb-3"} label={"Bio Title"} id={"bioTitle"} maxLength={220}
+		       name={"bioTitle"} required defaultValue={formData.bioTitle} onInput={updateFormData}/>
+		
+		<Input type={"textarea"} className={"mb-3"} label={"Bio"} id={"bio"}
+		       name={"bio"} required maxLength={550} defaultValue={formData.bio} onInput={updateFormData}/>
+		
+		<div className={"row"}>
+			<Input className={"col-12 col-md-7 col-lg-8"} label={"I live in"} id={"liveIn"}
+			       name={"liveIn"} required defaultValue={formData.liveIn} onInput={updateFormData}/>
+			
+			<Input type={"number"} className={"col-12 col-md-5 col-lg-4"} label={"Experience (in years)"}
+			       id={"experienceInYears"}
+			       name={"experienceInYears"} required aria-label={"Experience (in years)"} minLength={1} maxLength={3}
+			       min={0.1} step={0.1} defaultValue={formData.experienceInYears} onInput={updateFormData}/>
+		</div>
+		
+		
+		<Input type={"url"} className={"mb-3"} label={"CV Download Link"} id={"cvDownloadLink"} name={"cvDownloadLink"}
+		       defaultValue={formData.cvDownloadLink} onInput={updateFormData} required/>
+		
+		<Input className={"mb-3"} label={"Circle text"} id={"circleText"} name={"circleText"}
+		       defaultValue={formData.circleText} onInput={updateFormData} required/>
+		
+		<div className={"row"}>
+			<div className="col-12 col-md-8">
+				<CircleText text={formData.circleText} size={formData.circleTextSize ?? 5} deg={formData.circleTextDegree ?? 9.5}/>
+			</div>
+			<div className="col-12 col-md-4">
+				<Input type={"number"} className={"mb-3"} label={"Circle size"} id={"circleTextSize"} name={"circleTextSize"}
+				       defaultValue={formData.circleTextSize ?? 5} onInput={updateFormData} required step={0.1}/>
+				<Input type={"number"} className={"mb-3"} label={"Circle text spacing"} id={"circleTextDegree"} name={"circleTextDegree"}
+				       defaultValue={formData.circleTextDegree ?? 9.5} onInput={updateFormData} required step={0.1}/>
+			</div>
+		</div>
+		
+		<div className="row">
+			{linkCategories.map((item, index) => {
+				return (<Input type={"url"} className={`col-12 ${linkCategories.length > 1 ? 'col-md-6' : ''} mb-3`} key={index}
+				               labelPrependIcon={item.icon} label={item.title + " Profile Link"} id={"link-" + index}
+				               name={`links[${item.id}][url]`} defaultValue={getDefaultLink(item.icon)} onInput={(e) => {
+					updateFormLinks(item.icon, e.target.value, index)
+				}}>
+				</Input>)
+			})}
+		</div>
+		
+		
+		<button type={"submit"}
+		        className={"btn bg-olive btn-xs-block text-white pull-right"}>{!profile ? 'Submit' : 'Update'}</button>
+	</form>);
 }
 
 export default ProfileForm;

@@ -1,9 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Cropper from 'cropperjs';
 import "cropper/dist/cropper.min.css"
+import {commonFromSubmitHandler} from "../../helpers/common";
 
 function ProfilePictureCropper({displayPicture, profileId = null, onSuccessAction = null}) {
-	const [picture, setPicture] = useState(displayPicture?.displayPicture ?? null);
+	const [picture, setPicture] = useState(displayPicture?.originalImage ?? null);
 	const [id, setId] = useState(displayPicture?.id ?? null);
 	const cropperImage = useRef(null);
 	const inputStraighten = useRef(null);
@@ -32,10 +33,18 @@ function ProfilePictureCropper({displayPicture, profileId = null, onSuccessActio
 					width: 300,
 					height: 300,
 				},
-				
 				crop(event) {
 					// console.log(event.detail);
+					// console.log(cropper.getCanvasData());
 				},
+				ready(event) {
+					// console.log(event)
+					cropper
+							.rotate(displayPicture?.displayPicturePositions?.rotate)
+							.zoom(displayPicture?.displayPicturePositions?.zoom)
+							.setCanvasData(displayPicture?.displayPicturePositions?.canvasData)
+					inputZoom.current.value = displayPicture?.displayPicturePositions?.zoom ?? getZoomValue()
+				}
 			})
 		}
 	}, [picture])
@@ -60,15 +69,25 @@ function ProfilePictureCropper({displayPicture, profileId = null, onSuccessActio
 		cropper.rotate(90)
 	}
 	const handleZoom = (event) => {
-		cropper.zoomTo(event.target.value)
+		const containerData = cropper.getContainerData();
+		cropper.zoomTo(event.target.value, {
+			x: containerData.width / 2,
+			y: containerData.height / 2,
+		})
+	}
+	
+	const getZoomValue = () => {
+		const canvasData  = cropper.getCanvasData();
+		return canvasData.width / canvasData.naturalWidth;
 	}
 	const handleReset = () => {
 		cropper.reset()
 		inputStraighten.current.value = 0;
-		inputZoom.current.value = 0.5;
+		inputZoom.current.value = getZoomValue();
 	}
 	
-	const getCroppedFile = async () => {
+	const handleCroppedFileSubmit = async (event) => {
+		event.preventDefault()
 		// console.log(cropper)
 		// console.log(cropper.getData()) // save this data to db to set the cropper > data preset
 		// console.log(cropper.getCroppedCanvas().toDataURL("image/jpeg"))
@@ -84,25 +103,24 @@ function ProfilePictureCropper({displayPicture, profileId = null, onSuccessActio
 			id,
 			profileId,
 			displayPicture: cropper.getCroppedCanvas().toDataURL("image/jpeg"),
-			originalImage: picture,
-			positions: cropper.getData(),
+			originalImage: displayPicture?.originalImage ?? picture,
+			hasOriginalImage: !!displayPicture?.originalImage,
+			positions: {...cropper.getData(), zoom: Number(inputZoom.current.value), canvasData: cropper.getCanvasData()},
 		}
 		try {
-			const response = await fetch("/api/admin/upload-profile-picture", {
-				method:"post",
-				body: JSON.stringify(formData),
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-			})
-			const {data} = await response.json()
-			
+			// console.log(formData)
+			const data = await commonFromSubmitHandler(
+					event, formData,
+					"/admin/upload-profile-picture",
+					null,
+					onSuccessAction,
+					{customSuccessMessage: !formData.hasOriginalImage ? "Created successfully" : "Updated Successfully"}
+			)
+
 			if (await data) {
-				if(!id){
+				if (!id) {
 					setId(data.id);
 				}
-				// onSuccessAction ? onSuccessAction(data) : null
 			}
 		} catch (e) {
 			console.log(e)
@@ -115,48 +133,56 @@ function ProfilePictureCropper({displayPicture, profileId = null, onSuccessActio
 					picture ?
 							<>
 								<div style={{height: "350px"}}>
-									<img className={"img-fluid"} src={picture} ref={cropperImage} id="cropper"/>
+									<img className={"img-fluid mx-auto"} src={picture} ref={cropperImage} id="cropper"
+									     style={{maxHeight: '350px'}}/>
 								</div>
-								<div className="container">
-									<div className={"row align-center my-3"}>
-										<div className="col-6">
-											<div className={"d-flex justify-space-between gap-2"}>
-												<label htmlFor="zoom" className={"form-label"}> Zoom</label>
+								<form onSubmit={handleCroppedFileSubmit}>
+									<div className="container">
+										<div className={"row align-center my-3"}>
+											<div className="col-6">
+												<div className={"d-flex justify-space-between gap-2"}>
+													<label htmlFor="zoom" className={"form-label"}> Zoom</label>
+												</div>
+												
+												<input ref={inputZoom} className={"form-control"} type="range" id="zoom" name="zoom"
+												       onChange={handleZoom}
+												       min="0" max="1.5" defaultValue="0" step="0.001"/>
 											</div>
-											
-											<input ref={inputZoom} className={"form-control"} type="range" id="zoom" name="zoom" onChange={handleZoom}
-											       min="0" max="3.5" defaultValue="0.5" step="0.1"/>
+											<div className="col-6">
+												<div className={"d-flex justify-space-between gap-2"}>
+													<label htmlFor="straighten" className={"form-label"}> Straighten</label>
+													<button className={"transparent-btn"} onClick={rotate} title={"Rotate"} type={"button"}>
+														<i className="las la-undo-alt" style={{transform: "rotateY(180deg)"}}/>
+													</button>
+												</div>
+												
+												<input ref={inputStraighten} className={"form-control"} type="range" id="straighten"
+												       name="straighten" onChange={straighten}
+												       min="-45" max="45" defaultValue="0" step="1"/>
+											</div>
 										</div>
-										<div className="col-6">
-											<div className={"d-flex justify-space-between gap-2"}>
-												<label htmlFor="straighten" className={"form-label"}> Straighten</label>
-												<button className={"transparent-btn"} onClick={rotate} title={"Rotate"}>
-													<i className="las la-undo-alt" style={{transform: "rotateY(180deg)"}}/>
+										<div className="row align-center">
+											<div className="col-6">
+												<button type={"button"} className={"btn btn-sm border-1"} onClick={handleReset}>
+													Reset
 												</button>
 											</div>
-											
-											<input ref={inputStraighten} className={"form-control"} type="range" id="straighten" name="straighten" onChange={straighten}
-											       min="-45" max="45" defaultValue="0" step="1"/>
+											<div className="col-6 text-right">
+												<button className={"btn bg-olive text-white border-1"} type={"submit"}>
+													Save photo
+												</button>
+											</div>
 										</div>
 									</div>
-									<div className="row align-center">
-										<div className="col-6">
-											<button className={"btn btn-sm border-1"} onClick={handleReset}>
-												Reset
-											</button>
-										</div>
-										<div className="col-6 text-right">
-											<button className={"btn bg-olive text-white border-1"} onClick={getCroppedFile}>
-												Save photo
-											</button>
-										</div>
-									</div>
-								</div>
+								</form>
+							
 							</>
 							:
 							<div className={"container text-center"}>
 								<input hidden type="file" id="upload-image" accept="image/*" onChange={uploadImage}/>
-								<label htmlFor="upload-image" className={"btn text-center d-inline-flex flex-column align-center justify-center hover-able border-1"} tabIndex={1} style={{minHeight: "8rem"}}>
+								<label htmlFor="upload-image"
+								       className={"btn text-center d-inline-flex flex-column align-center justify-center hover-able border-1"}
+								       tabIndex={1} style={{minHeight: "8rem"}}>
 									
 									<i className="las la-cloud-upload-alt mb-2"/>
 									<span>

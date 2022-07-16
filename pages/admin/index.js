@@ -66,6 +66,11 @@ function Index({profile, projects = []}) {
 		handleModalClose()
 		window.location.reload()
 	}
+	const profilePictureSuccessAction = (data) => {
+		profile.displayPicture = data;
+		setProfilePictureModalOpen(prev => !prev)
+		
+	}
 	
 	return (
 			<div className={"container"}>
@@ -92,7 +97,7 @@ function Index({profile, projects = []}) {
 										                                  onClick={() => toggleProfilePictureModal()}>Edit
 										</button> : null
 									}
-									
+								
 								</div>
 							</div>
 							{
@@ -206,7 +211,11 @@ function Index({profile, projects = []}) {
 								(
 										<Modal title={"Profile Picture"} modalValue={profilePictureModalOpen}
 										       closeModal={toggleProfilePictureModal}>
-											<ProfilePictureCropper profileId={profile?.id} displayPicture={!empty(profile?.displayPicture) && profilePictureModalType !== "upload" ? profile.displayPicture : null}/>
+											<ProfilePictureCropper
+													profileId={profile?.id}
+													displayPicture={!empty(profile?.displayPicture) && profilePictureModalType !== "upload" ? profile.displayPicture : null}
+													onSuccessAction={profilePictureSuccessAction}
+											/>
 										</Modal>
 								) : null
 					}

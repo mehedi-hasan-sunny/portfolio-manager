@@ -10,7 +10,7 @@ function ProfileImageBlob({displayPicture, alt}) {
 	} else {
 		style = {
 			fontSize: '14rem',
-			backgroundColor: '#bababa',
+			backgroundColor: '#b0b0b085',
 		}
 	}
 	

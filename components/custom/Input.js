@@ -5,12 +5,16 @@ function Input({
 	               type = "text",
 	               className = '',
 	               label = null,
+	               labelPrependIcon = null,
+	               labelAppendIcon = null,
 	               inputClassName = '',
 	               labelClassName = '',
 	               name = null,
 	               defaultValue = null,
 	               errorMessage = null,
 	               children = null,
+	               onChange = null,
+	               onInput = null,
 	               ...otherProps
                }) {
 	className = `mb-3 ${className}`.trim();
@@ -24,14 +28,25 @@ function Input({
 	if (defaultValue) {
 		otherProps.defaultValue = defaultValue;
 	}
+	if (onChange) {
+		otherProps.onChange = onChange;
+	}
+	if (onInput) {
+		otherProps.onInput = onInput;
+	}
 	return (
 			<div className={className}>
 				{
-					label ? <label htmlFor={id} className={labelClassName}>{label}</label> : null
+					label ? <label htmlFor={id} className={labelClassName}>
+						{labelPrependIcon ? <i className={"me-1 " + labelPrependIcon}/> : null}
+						{label}
+						{labelAppendIcon ? <i className={"ms-1 " + labelAppendIcon}/> : null}
+					
+					</label> : null
 				}
 				
 				{
-					type !== "textarea"  ?
+					type !== "textarea" ?
 							<input className={inputClassName} {...otherProps}/>
 							:
 							<textarea className={inputClassName} {...otherProps}></textarea>

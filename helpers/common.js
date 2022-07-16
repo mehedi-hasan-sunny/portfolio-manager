@@ -79,6 +79,7 @@ export const commonFromSubmitHandler = async (event, formData, apiUrl, item = nu
 					resetAndEnableFullForm(event.target)
 					onSuccessAction ? onSuccessAction(data) : null
 				}, 500)
+				return data;
 			}
 		} else {
 			throw Error(response.status + " " + response.statusText)

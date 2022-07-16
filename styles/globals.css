@@ -8,6 +8,7 @@
     --olive-color: #4A5149;
     --cream-color: #FFF1C0;
     --nav-bar-height: 64px;
+    --circle-dimension: 100px;
 }
 
 [data-mode="dark"]:root {
@@ -751,4 +752,39 @@ input[type="range"].form-control {
     .tabs {
         gap: 1rem;
     }
+}
+
+.circle-text {
+    padding: 4px;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    font-size: 14px;
+    animation: rotateCircleText 10s linear infinite;
+}
+
+@keyframes rotateCircleText {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+.circle-text:before {
+    content: "";
+    display: block;
+    height: calc(var(--circle-dimension) - 20px);
+    width: calc(var(--circle-dimension) - 20px);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.circle-text > span {
+    position: absolute;
+    left: 50%;
 }

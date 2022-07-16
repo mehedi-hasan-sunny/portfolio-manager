@@ -28,21 +28,33 @@ export default async function handler(req, res) {
 					displayPicturePositions: req.body.positions
 				};
 				
-				let uploadImages = [req.body.originalImage, req.body.displayPicture].map(item => cloudinary.uploader.upload(item))
-				let images = await Promise.all(uploadImages)
-				updates.displayPicture = images[0].url;
-				updates.originalImage = images[1].url;
+				let uploadImagesArr = [req.body.displayPicture];
 				
-				const profileDisplayDocRef = db.collection(`profile/${req.body.profileId}/displayPicture${req.body.id ? ('/' + req.body.id) : ''}`);
-				let collection = await profileDisplayDocRef.get()
-				let result;
-				if(collection.exists){
-					result = await profileDisplayDocRef.update(updates)
-					collection = await result.get()
-					collection = collection.docs[0]
+				if(!req.body?.hasOriginalImage){
+					uploadImagesArr.push(req.body.originalImage)
+				}
+				
+				let uploadImages = uploadImagesArr.map(item => cloudinary.uploader.upload(item))
+				let images = await Promise.all(uploadImages)
+				updates.displayPicture = images[0]?.url ?? null;
+				
+				if(!req.body?.hasOriginalImage){
+					updates.originalImage = images[1]?.url ?? null;
 				}
 				else{
+					delete updates.originalImage;
+				}
+				
+				let result, collection;
+				if(req.body?.id){
+					const profileDisplayDocRef = db.doc(`profile/${req.body.profileId}/displayPicture${req.body.id ? ('/' + req.body.id) : ''}`)
+					result = await profileDisplayDocRef.set(updates, {merge: true})
+					collection = await profileDisplayDocRef.get()
+				}
+				else{
+					const profileDisplayDocRef = db.collection(`profile/${req.body.profileId}/displayPicture`);
 					result = await profileDisplayDocRef.add(updates)
+					collection = await profileDisplayDocRef.get()
 					collection = await result.get()
 				}
 				

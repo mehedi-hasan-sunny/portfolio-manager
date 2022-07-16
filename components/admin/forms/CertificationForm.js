@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {commonFromSubmitHandler} from "../../../helpers/common";
+import Input from "../../custom/Input";
 
 function CertificationForm({certification = null, onSuccessAction}) {
 	
@@ -26,15 +27,19 @@ function CertificationForm({certification = null, onSuccessAction}) {
 	
 	return (
 			<form className={"p-3"} onSubmit={handleSubmit}>
-				<div className="mb-3">
-					<label htmlFor="title" className={"form-label"}>Title</label>
-					<input id={"title"} type="text" className={"form-control"} name={"title"} required
-					       defaultValue={formData.title} onInput={updateFormData}/>
-				</div>
-				<div className="mb-3">
-					<label htmlFor="institution" className={"form-label"}>Institution</label>
-					<input id={"institution"} type="text" className={"form-control"} name={"institution"} required
-					       defaultValue={formData.institution} onInput={updateFormData}/>
+				<Input className={"mb-3"} label={"Title"} id={"title"} name={"title"} required
+				       defaultValue={formData.title} onInput={updateFormData}/>
+				
+				<Input className={"mb-3"} label={"Institution"} id={"institution"} name={"institution"} required
+				       defaultValue={formData.institution} onInput={updateFormData}/>
+				
+				<div className={""}>
+					<Input type="date" className={"col-12 col-md-6"} label={"Issue Date"} id={"issueDate"} name={"issueDate"}
+					       required defaultValue={formData.issueDate} onInput={updateFormData}/>
+					
+					<Input type="date" className={"col-12 col-md-6"} label={"Last Name"} id={"lastName"} name={"lastName"}
+					       required defaultValue={formData.lastName} onInput={updateFormData}/>
+				
 				</div>
 				<div className="row mb-3">
 					<div className={"col"}>
@@ -43,7 +48,8 @@ function CertificationForm({certification = null, onSuccessAction}) {
 						       defaultValue={formData.issueDate} onInput={updateFormData}/>
 					</div>
 					<div className={"col"}>
-						<label htmlFor="expireDate" className={"form-label"}>Expire Date <span className={"text-muted"}>(Optional)</span></label>
+						<label htmlFor="expireDate" className={"form-label"}>Expire Date <span
+								className={"text-muted"}>(Optional)</span></label>
 						<input id={"expireDate"} type="date" className={"form-control"} name={"expireDate"}
 						       defaultValue={formData.expireDate} onInput={updateFormData}/>
 					</div>
@@ -58,7 +64,8 @@ function CertificationForm({certification = null, onSuccessAction}) {
 					<input id={"certificateLink"} type="text" className={"form-control"} name={"certificateLink"} required
 					       defaultValue={formData.certificateLink} onInput={updateFormData}/>
 				</div>
-				<button type={"submit"} className={"btn bg-olive text-white pull-right"}>{!certification ? 'Submit' : 'Update'}</button>
+				<button type={"submit"}
+				        className={"btn bg-olive text-white pull-right"}>{!certification ? 'Submit' : 'Update'}</button>
 			</form>
 	);
 }

@@ -17,6 +17,10 @@ export default async function handler(req, res) {
 		liveIn: req.body.liveIn.trim(),
 		dob: req.body.dob.trim(),
 		experienceInYears: req.body.experienceInYears.trim(),
+		cvDownloadLink: req.body.cvDownloadLink.trim(),
+		circleText: req.body.circleText.trim(),
+		circleTextSize: req.body.circleTextSize.trim(),
+		circleTextDegree: req.body.circleTextDegree.trim(),
 		// displayPicture: req.body.displayPicture.trim()
 	})
 	
@@ -110,6 +114,7 @@ export default async function handler(req, res) {
 				}
 				
 			} catch (err) {
+				console.log(err)
 				errorRes(res, err.message)
 			}
 			break
