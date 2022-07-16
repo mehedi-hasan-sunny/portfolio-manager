@@ -738,22 +738,6 @@ input[type="range"].form-control {
     right: 0;
 }
 
-
-@media screen and (max-width: 575px) {
-    .btn-xs-block {
-        display: block !important;
-        width: 100%;
-    }
-
-    .gap-xs-1 {
-        gap: 1rem;
-    }
-
-    .tabs {
-        gap: 1rem;
-    }
-}
-
 .circle-text {
     padding: 4px;
     border: 1px solid var(--border-color);
@@ -787,4 +771,46 @@ input[type="range"].form-control {
 .circle-text > span {
     position: absolute;
     left: 50%;
+}
+
+
+@media screen and (max-width: 575px) {
+    .btn-xs-block {
+        display: block !important;
+        width: 100%;
+    }
+
+    .gap-xs-1 {
+        gap: 1rem;
+    }
+
+    .tabs {
+        gap: 0.2rem;
+    }
+    .nav-bar {
+        box-shadow: 0 -1px 2px 0 #606060;
+        top: unset;
+        bottom: 0;
+        padding: 0;
+        border: 0;
+        height: 52px;
+    }
+    .nav-bar > button{
+        border: 0;
+        padding: 1rem 0.5rem;
+    }
+    .nav-bar > button.active{
+        background-color: var(--body-color);
+        color: var(--body-bg);
+        border: 0;
+        padding: 1rem 0.5rem;
+        font-weight: 500;
+    }
+    .circle-text {
+        display: none !important;
+    }
+    .nav-bar-spacer {
+        margin-top: 0;
+        margin-bottom: 40px;
+    }
 }

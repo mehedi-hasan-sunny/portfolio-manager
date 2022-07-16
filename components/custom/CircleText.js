@@ -1,5 +1,5 @@
 function CircleText({text, size = 4, deg = 4.2, innerCircleSize = 1.5}) {
-	const textArray = text.split("");
+	const textArray = text ? text.split("") : [];
 	const dimension = Math.floor(textArray.length * size);
 	const dimensionAfter = Math.floor(dimension / innerCircleSize);
 	

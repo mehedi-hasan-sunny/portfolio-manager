@@ -11,9 +11,15 @@ const Profile = ({profile = null}) => {
 							<>
 								<div className={"container"} style={{position: "relative", zIndex: 2}}>
 									
-									<CircleText text={profile?.circleText} size={profile?.circleTextSize} deg={profile.circleTextDegree}/>
+									{
+										!empty(profile?.circleText) ?
+												<CircleText text={profile?.circleText} size={profile?.circleTextSize}
+												            deg={profile.circleTextDegree}/>
+												: null
+									}
 									
-									<ProfileImageBlob displayPicture={profile?.displayPicture?.displayPicture} alt={profile.firstName + " " + profile.lastName}/>
+									<ProfileImageBlob displayPicture={profile?.displayPicture?.displayPicture}
+									                  alt={profile.firstName + " " + profile.lastName}/>
 									
 									<h1 className={"fw-bold mb-3"}>{profile.firstName + " " + profile.lastName}</h1>
 									<h4 className={"fw-bold mb-5"}>{profile.title}</h4>
@@ -21,7 +27,7 @@ const Profile = ({profile = null}) => {
 									<div className={"row justify-space-between align-end py-3 border " + styles.reachMeSection}>
 										<div className="col text-left">
 											<h4 className={"fw-bold"}>Reach Me</h4>
-											<a href={"tel:" + profile.phoneCode+profile.phoneNumber}>
+											<a href={"tel:" + profile.phoneCode + profile.phoneNumber}>
 												<span className={""}>{profile.phoneCode}</span> {profile.phoneNumber}
 											</a>
 											<br/>
