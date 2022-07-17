@@ -40,7 +40,7 @@ export default class CRUD {
 		let collection = await collectionRef.get();
 		
 		if (collection.exists) {
-			await collectionRef.update(formData);
+			await collectionRef.set(formData, {merge: true});
 			collection = {[this.collectionName]: {id: collection.id, ...collection.data()}}
 		} else {
 			collection = new Error(`${this.moduleName} not found`)

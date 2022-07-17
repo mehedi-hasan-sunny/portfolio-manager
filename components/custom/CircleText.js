@@ -12,7 +12,7 @@ function CircleText({text, size = 4, deg = 4.2, innerCircleSize = 1.5}) {
 	return (
 			<>
 				<style>{css}</style>
-				<p className={"relative circle-text"} style={{width: `${dimension}px`, height: `${dimension}px`}}>
+				<p className={"circle-text"} style={{width: `${dimension}px`, height: `${dimension}px`}}>
 					{
 						textArray.map((char, index) => {
 							return <span key={index} style={{

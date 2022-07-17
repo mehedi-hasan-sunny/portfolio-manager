@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {commonFromSubmitHandler} from "../../../helpers/common";
 
 function ExperienceForm({experience = null, onSuccessAction}) {
-	const [isPresent, setIsPresent] = useState(!!(experience && experience?.endDate))
+	const [isPresent, setIsPresent] = useState(!!(experience && !experience?.endDate))
 	const [formData, setFormData] = useState(experience ? experience : {
 		designation: null,
 		company: null,
@@ -55,7 +55,7 @@ function ExperienceForm({experience = null, onSuccessAction}) {
 				<div className="mb-3">
 					<label htmlFor="isPresent" className={"form-label fs-12"}>
 						<input id={"isPresent"} type="checkbox" name={"isPresent"}
-						       defaultValue={isPresent} onChange={toggleIsPresent}/>
+						      checked={isPresent} onChange={toggleIsPresent}/>
 						Currently working here
 					</label>
 				</div>
