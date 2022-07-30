@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import {commonFromSubmitHandler} from "../../../helpers/common";
+import Input from "../../custom/Input";
 
 function SkillForm({skill = null, onSuccessAction}) {
 	
 	const [formData, setFormData] = useState(skill ? skill : {
 		title: null,
-		type: null,
+		type: '',
 		rating: null
 	})
 	const updateFormData = (event, value = null) => {
@@ -23,16 +24,13 @@ function SkillForm({skill = null, onSuccessAction}) {
 	
 	return (
 			<form className={"p-3"} onSubmit={handleSubmit}>
-				<div className="mb-3">
-					<label htmlFor="title" className={"form-label"}>Title</label>
-					<input id={"title"} type="text" className={"form-control"} name={"title"} required
-					       defaultValue={formData.title} onInput={updateFormData}/>
-				</div>
-				<div className="mb-3">
-					<label htmlFor="type" className={"form-label"}>Type</label>
-					<input id={"type"} type="text" className={"form-control"} name={"type"} required
-					       defaultValue={formData.type} onInput={updateFormData}/>
-				</div>
+				
+				<Input label={"Title"} id={"title"} name={"title"} required
+				       defaultValue={formData.title} onInput={updateFormData}/>
+				
+				<Input label={"Type"} id={"type"} name={"type"} labelOptional={true}
+				       defaultValue={formData.type} onInput={updateFormData}/>
+				
 				<div className="mb-3">
 					<label htmlFor="rating" className={"form-label"}>Rating</label>
 					<select defaultValue={formData.rating} className={"form-control"}

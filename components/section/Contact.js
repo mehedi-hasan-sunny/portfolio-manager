@@ -22,10 +22,10 @@ const Contact = ({email = null, phone = null}) => {
 				<section>
 					<div className="row py-4 border-bottom">
 						<div className="col-12 col-md-3">
-							<h2 className={"fw-bold lh-48 fs-24"}>Contact</h2>
+							<h2 className={"fw-bold lh-44 fs-32"}>Contact</h2>
 						</div>
 						<div className="col-12 col-md-9">
-							<p className={"fs-20 lh-48 mt-0"}>
+							<p className={"fs-24 lh-44 mt-0"}>
 								Do you have a project in mind?
 								<br/>
 								Interesting Collaboration!
@@ -46,8 +46,8 @@ const Contact = ({email = null, phone = null}) => {
 							</form>
 						</div>
 						<div className="col-md-5 offset-md-2">
-							<h2 className={"fs-24 mb-4"}>Reach Me</h2>
-							<p className={"fs-18 lh-22 mt-0 mb-5"}>
+							<h2 className={"fs-32 mb-4"}>Reach Me</h2>
+							<p className={"fs-18 lh-28 mt-0 mb-5"}>
 								Village did removed the enjoyed explain
 								<br/>
 								nor ham saw calling talking.

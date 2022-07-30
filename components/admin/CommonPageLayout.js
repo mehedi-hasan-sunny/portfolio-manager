@@ -38,6 +38,8 @@ export default class CommonPageLayout extends Component {
 			["edit" + ucFirst(this.singleItemName)]: this.handleSelectedAction,
 			["delete" + ucFirst(this.singleItemName)]: this.deleteAction
 		}
+		
+		this.title = (!this.state.selectedItem ? "Create " : "Update ") + this.singleItemName.replace( /([A-Z])/g, " $1" ).toLowerCase();
 	}
 	
 	state = {
@@ -108,9 +110,7 @@ export default class CommonPageLayout extends Component {
 			{
 				this.state.modalOpen ?
 						(
-								<Modal title={`${!this.state.selectedItem ? "Create" : "Update"} Service `}
-								       modalValue={this.state.modalOpen}
-								       closeModal={this.closeModal}>
+								<Modal title={this.title} modalValue={this.state.modalOpen} closeModal={this.closeModal}>
 									{
 										createElement(this.SectionFormComponent, this.sectionFromComponentProps)
 									}

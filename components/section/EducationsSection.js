@@ -9,8 +9,8 @@ const EducationsSection = ({educations, isAdmin = false, editEducation = null, d
 						return (
 								<div className={"relative mb-3 " + (index !== (educations.length - 1) ? "border-bottom" : '')}
 								     key={index}>
-									<h3 className={"lh-22"}>{education.department}</h3>
-									<h3 className={"fw-600 lh-22"}>{education.institution}</h3>
+									<h3 className={"lh-28"}>{education.department}</h3>
+									<h3 className={"fw-600 lh-28"}>{education.institution}</h3>
 									<h4 className={"mb-3"}>Passing Year {education.passingYear}</h4>
 									{
 										isAdmin ?

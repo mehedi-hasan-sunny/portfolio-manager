@@ -10,7 +10,7 @@ const TimelineContent = ({designation, company, startDate, endDate = null, descr
 	return (
 			<div className={timeline.timelineWrapper}>
 				<div className={timeline.timelineTitleContainer}>
-					<h2 className={timeline.timelineHeader}>{designation}, <span className={"fw-bold"}>{company}</span>
+					<h2 className={timeline.timelineHeader + " fw-600"}>{designation}, <span className={"fw-400"}>{company}</span>
 					</h2>
 					<h4 className={timeline.timelineDate}>{startDate + ' - ' + (!empty(endDate) ? endDate : 'Present')}</h4>
 					

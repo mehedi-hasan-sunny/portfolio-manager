@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {commonFromSubmitHandler} from "../../../helpers/common";
+import Input from "../../custom/Input";
 
 function EducationForm({education = null, onSuccessAction}) {
 	
@@ -23,21 +24,16 @@ function EducationForm({education = null, onSuccessAction}) {
 	
 	return (
 			<form className={"p-3"} onSubmit={handleSubmit}>
-				<div className="mb-3">
-					<label htmlFor="institution" className={"form-label"}>Institution</label>
-					<input id={"institution"} type="text" className={"form-control"} name={"institution"} required
-					       defaultValue={formData.institution} onInput={updateFormData}/>
-				</div>
-				<div className="mb-3">
-					<label htmlFor="department" className={"form-label"}>Department</label>
-					<input id={"department"} type="text" className={"form-control"} name={"department"} required
-					       defaultValue={formData.department} onInput={updateFormData}/>
-				</div>
-				<div className="mb-3">
-					<label htmlFor="passingYear" className={"form-label"}>Passing Year</label>
-					<input id={"passingYear"} type="number" className={"form-control"} name={"passingYear"} required
-					       defaultValue={formData.passingYear} onInput={updateFormData}/>
-				</div>
+			
+				<Input label={"Institution"} id={"institution"} name={"institution"} required
+				       defaultValue={formData.institution} onInput={updateFormData}/>
+				
+				<Input label={"Department"} id={"department"} name={"department"} required
+				       defaultValue={formData.department} onInput={updateFormData}/>
+				
+				<Input label={"Passing Year"} id={"passingYear"} name={"passingYear"} required steps={1}
+				       type="number" defaultValue={formData.passingYear} onInput={updateFormData}/>
+				
 				<button type={"submit"} className={"btn bg-olive text-white pull-right"}>{!education ? 'Submit' : 'Update'}</button>
 			</form>
 	);

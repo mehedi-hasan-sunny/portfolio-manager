@@ -7,6 +7,7 @@ function Input({
 	               label = null,
 	               labelPrependIcon = null,
 	               labelAppendIcon = null,
+	               labelOptional = false,
 	               inputClassName = '',
 	               labelClassName = '',
 	               name = null,
@@ -39,8 +40,12 @@ function Input({
 				{
 					label ? <label htmlFor={id} className={labelClassName}>
 						{labelPrependIcon ? <i className={"me-1 " + labelPrependIcon}/> : null}
+						
 						{label}
+						
 						{labelAppendIcon ? <i className={"ms-1 " + labelAppendIcon}/> : null}
+						
+						{labelOptional ? <span className={"text-muted fs-14"}> (Optional)</span> : null}
 					
 					</label> : null
 				}

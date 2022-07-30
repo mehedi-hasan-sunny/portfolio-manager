@@ -60,7 +60,7 @@ function ServiceForm({service = null, onSuccessAction}) {
 				<Input label={"Icon"} id={"icon"} name={"icon"} type={"file"}
 				       accept={"image/*"} required={!service?.icon} onChange={handleIconFile}>
 					{
-						icon ? <img loading={"lazy"} className={"img-fluid mt-3"} src={icon}/> : null
+						icon ? <img alt={"icon"} loading={"lazy"} className={"img-fluid mt-3"} src={icon}/> : null
 					}
 				</Input>
 				

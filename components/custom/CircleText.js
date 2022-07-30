@@ -1,4 +1,4 @@
-function CircleText({text, size = 4, deg = 4.2, innerCircleSize = 1.5}) {
+function CircleText({text, size = 4, deg = 8, innerCircleSize = 1.4}) {
 	const textArray = text ? text.split("") : [];
 	const dimension = Math.floor(textArray.length * size);
 	const dimensionAfter = Math.floor(dimension / innerCircleSize);
@@ -16,8 +16,8 @@ function CircleText({text, size = 4, deg = 4.2, innerCircleSize = 1.5}) {
 					{
 						textArray.map((char, index) => {
 							return <span key={index} style={{
-								transform: `rotate(${index * deg}deg)`,
-								transformOrigin: `0 ${dimension / 2 - 4}px`
+								transform: `rotate(${(index * deg)}deg)`,
+								height: dimensionAfter / 1.49+'px'
 							}}>{char}</span>
 						})
 					}

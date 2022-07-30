@@ -16,7 +16,7 @@ const SkillsSection = ({skills, isAdmin = false, editSkill = null, deleteSkill =
 						skills.map((skill, index) => {
 							return (
 									<li key={index} className={"col relative"}>
-										<h4 className={"lh-22 mb-0"}>{skill.title} <span className={"fw-bold"}>{skill.type}</span></h4>
+										<h4 className={"lh-28 mb-0"}>{skill.title} <span className={"fw-bold"}>{skill.type}</span></h4>
 										<h5>
 											{
 												makeStar(skill)

@@ -21,7 +21,7 @@ const TestimonialsSection = ({
 				{
 					!empty(testimonials) ?
 							<div key={currentIndex} className={"relative"}>
-								<h3 className={"lh-22 mb-0 fw-600"}>{testimonials[currentIndex].name}</h3>
+								<h3 className={"lh-28 mb-0 fw-600"}>{testimonials[currentIndex].name}</h3>
 								<h5 className={"mb-0"}>{testimonials[currentIndex].designation}</h5>
 								<p style={{minHeight: "7rem"}}>
 									{testimonials[currentIndex].feedback}

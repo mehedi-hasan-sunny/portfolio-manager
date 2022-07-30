@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {commonFromSubmitHandler} from "../../../helpers/common";
+import Input from "../../custom/Input";
 
 function TestimonialForm({testimonial = null, onSuccessAction}) {
 	
@@ -18,30 +19,22 @@ function TestimonialForm({testimonial = null, onSuccessAction}) {
 		event.preventDefault()
 		const form = new FormData(event.target)
 		const formProps = Object.fromEntries(form);
-		await commonFromSubmitHandler(event, formProps,"/admin/testimonials",testimonial, onSuccessAction)
+		await commonFromSubmitHandler(event, formProps, "/admin/testimonials", testimonial, onSuccessAction)
 	}
 	
 	return (
 			<form className={"p-3"} onSubmit={handleSubmit}>
-				<div className="mb-3">
-					<label htmlFor="name" className={"form-label"}>Name</label>
-					<input id={"name"} type="text" className={"form-control"} name={"name"} required
-					       defaultValue={formData.name} onInput={updateFormData}/>
-				</div>
-				<div className="mb-3">
-					<label htmlFor="designation" className={"form-label"}>Designation</label>
-					<input id={"designation"} type="text" className={"form-control"} name={"designation"} required
-					       defaultValue={formData.designation} onInput={updateFormData}/>
-				</div>
-				<div className={"mb-3"}>
-					<label htmlFor="feedback" className={"form-label"}>Feedback</label>
-					<textarea id={"feedback"} className={"form-control"} name={"feedback"} required
-					          maxLength={550} rows={5}
-					          defaultValue={formData.feedback}
-					          onInput={updateFormData}/>
-				</div>
 				
-				<button type={"submit"} className={"btn bg-olive text-white pull-right"}>{!testimonial ? 'Submit' : 'Update'}</button>
+				<Input label={"Name"} id={"name"} name={"name"} defaultValue={formData.name} onInput={updateFormData}/>
+				
+				<Input label={"Designation"} id={"designation"} name={"designation"} defaultValue={formData.designation}
+				       onInput={updateFormData}/>
+				
+				<Input label={"Feedback"} id={"feedback"} name={"feedback"} defaultValue={formData.designation}
+				       onInput={updateFormData} maxLength={550} rows={5}/>
+				
+				<button type={"submit"}
+				        className={"btn bg-olive text-white pull-right"}>{!testimonial ? 'Submit' : 'Update'}</button>
 			</form>
 	);
 }

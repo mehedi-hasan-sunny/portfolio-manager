@@ -143,6 +143,7 @@ function ProfileForm({profile = null, onSuccessAction}) {
 				       defaultValue={formData.circleTextSize ?? 5} onInput={updateFormData} required step={0.1}/>
 				<Input type={"number"} className={"mb-3"} label={"Circle text spacing"} id={"circleTextDegree"} name={"circleTextDegree"}
 				       defaultValue={formData.circleTextDegree ?? 9.5} onInput={updateFormData} required step={0.1}/>
+				
 			</div>
 		</div>
 		

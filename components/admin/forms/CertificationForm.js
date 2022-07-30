@@ -27,33 +27,20 @@ function CertificationForm({certification = null, onSuccessAction}) {
 	
 	return (
 			<form className={"p-3"} onSubmit={handleSubmit}>
-				<Input className={"mb-3"} label={"Title"} id={"title"} name={"title"} required
+				<Input label={"Title"} id={"title"} name={"title"} required
 				       defaultValue={formData.title} onInput={updateFormData}/>
 				
-				<Input className={"mb-3"} label={"Institution"} id={"institution"} name={"institution"} required
+				<Input label={"Institution"} id={"institution"} name={"institution"} required
 				       defaultValue={formData.institution} onInput={updateFormData}/>
 				
-				<div className={""}>
-					<Input type="date" className={"col-12 col-md-6"} label={"Issue Date"} id={"issueDate"} name={"issueDate"}
+				<div className={"row mb-3"}>
+					<Input type="date" className={"col-12 col-md-6 mb-0"} label={"Issue Date"} id={"issueDate"} name={"issueDate"}
 					       required defaultValue={formData.issueDate} onInput={updateFormData}/>
 					
-					<Input type="date" className={"col-12 col-md-6"} label={"Last Name"} id={"lastName"} name={"lastName"}
-					       required defaultValue={formData.lastName} onInput={updateFormData}/>
+					<Input type="date" className={"col-12 col-md-6 mb-0"} label={"Expire Date"} labelOptional={true} id={"expireDate"}
+					       name={"expireDate"} defaultValue={formData.expireDate} onInput={updateFormData}/>
+				</div>
 				
-				</div>
-				<div className="row mb-3">
-					<div className={"col"}>
-						<label htmlFor="issueDate" className={"form-label"}>Issue Date</label>
-						<input id={"issueDate"} type="date" className={"form-control"} name={"issueDate"} required
-						       defaultValue={formData.issueDate} onInput={updateFormData}/>
-					</div>
-					<div className={"col"}>
-						<label htmlFor="expireDate" className={"form-label"}>Expire Date <span
-								className={"text-muted"}>(Optional)</span></label>
-						<input id={"expireDate"} type="date" className={"form-control"} name={"expireDate"}
-						       defaultValue={formData.expireDate} onInput={updateFormData}/>
-					</div>
-				</div>
 				<div className="mb-3">
 					<label htmlFor="credentialId" className={"form-label"}>Credential ID</label>
 					<input id={"credentialId"} type="text" className={"form-control"} name={"credentialId"} required

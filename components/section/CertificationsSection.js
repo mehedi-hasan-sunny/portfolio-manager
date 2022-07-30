@@ -12,8 +12,8 @@ const CertificationsSection = ({certifications, isAdmin = false, editCertificati
 									<div className={"d-flex gap-1"}>
 										<i className={"la la-2x la-certificate text-gold"}></i>
 										<div>
-											<h3 className={"lh-22"}>{certification.title}</h3>
-											<h3 className={"fw-600 lh-22"}>{certification.institution}</h3>
+											<h3 className={"lh-28"}>{certification.title}</h3>
+											<h3 className={"fw-600 lh-28"}>{certification.institution}</h3>
 											<h4 className={"mb-3"}>Issued: {certification.issueDate} - {certification.expireDate ?? 'No Expiration Date'}</h4>
 											<a className={"btn btn-sm border-1"} rel={"noreferrer"} target={"_blank"} href={certification.certificateLink}>Show Certification</a>
 										</div>
