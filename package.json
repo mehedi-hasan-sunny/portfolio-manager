@@ -1,6 +1,6 @@
 {
-  "name": "shohanurrr-portfolio",
-  "version": "0.1.0",
+  "name": "portfolio-manager",
+  "version": "2.0.7",
   "private": true,
   "scripts": {
     "dev": "next dev",
