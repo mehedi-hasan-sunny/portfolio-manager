@@ -3,9 +3,9 @@ import SectionLayout from "../layout/SectionLayout";
 import TimelineContent from "../custom/TimelineContent";
 import timeline from "../../styles/Timeline.module.css";
 
-const ExperiencesSection = ({experiences, isAdmin = false, editExperience = null, deleteExperience = null, className = null, ...props}) => {
+const ExperiencesSection = ({experiences, isAdmin = false, editExperience = null, deleteExperience = null, className = null, dataAosDelay = null, ...props}) => {
 	return (
-			<SectionLayout className={className} title={"Experiences"}>
+			<SectionLayout className={className} title={"Experiences"} dataAosDelay={dataAosDelay}>
 				{
 					<div className={timeline.timeline}>
 						<div className={timeline.timelineRight}>

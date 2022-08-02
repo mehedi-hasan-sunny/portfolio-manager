@@ -156,9 +156,9 @@ export default function Home({
 														<>
 															<About profile={profile}/>
 															
-															<ExperiencesSection className={"border-bottom mb-3"} experiences={experiences}/>
+															<ExperiencesSection className={"border-bottom mb-3"} experiences={experiences} data-aos-delay={"300"}/>
 															
-															<EducationsSection className={"border-bottom mb-3"} educations={educations}/>
+															<EducationsSection className={"border-bottom mb-3"} educations={educations} data-aos-delay={"400"}/>
 															
 															<CertificationsSection className={"border-bottom mb-3"} certifications={certifications}/>
 															
@@ -167,7 +167,9 @@ export default function Home({
 															<TestimonialsSection className={"border-bottom mb-3"} testimonials={testimonials}/>
 															
 															<SectionLayout>
-																<button className={"btn bg-olive text-white me-0 me-sm-3 mb-3 mb-sm-0 btn-xs-block"}>
+																<button className={"btn bg-olive text-white me-0 me-sm-3 mb-3 mb-sm-0 btn-xs-block"}
+																onClick={() => setCurrentTab("contact")}
+																>
 																	Let's Talk
 																</button>
 																<button className={"btn bg-cream text-dark btn-xs-block"}>

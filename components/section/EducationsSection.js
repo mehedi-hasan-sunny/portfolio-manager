@@ -1,9 +1,17 @@
 import React from 'react';
 import SectionLayout from "../layout/SectionLayout";
 
-const EducationsSection = ({educations, isAdmin = false, editEducation = null, deleteEducation = null, className = null, ...props}) => {
+const EducationsSection = ({
+	                           educations,
+	                           isAdmin = false,
+	                           editEducation = null,
+	                           deleteEducation = null,
+	                           className = null,
+	                           dataAosDelay = null,
+	                           ...props
+                           }) => {
 	return (
-			<SectionLayout className={className} title={"Educations"}>
+			<SectionLayout className={className} title={"Educations"} dataAosDelay={dataAosDelay}>
 				{
 					educations.map((education, index) => {
 						return (

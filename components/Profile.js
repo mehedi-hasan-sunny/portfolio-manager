@@ -14,18 +14,18 @@ const Profile = ({profile = null}) => {
 									{
 										!empty(profile?.circleText) ?
 												<CircleText text={profile?.circleText} size={profile?.circleTextSize}
-												            deg={profile.circleTextDegree}/>
+												            deg={profile.circleTextDegree} dataAos={"zoom-in-left"}/>
 												: null
 									}
 									
 									<ProfileImageBlob displayPicture={profile?.displayPicture?.displayPicture}
 									                  alt={profile.firstName + " " + profile.lastName}/>
 									
-									<h1 className={"fw-bold mb-3"}>{profile.firstName + " " + profile.lastName}</h1>
-									<h4 className={"fw-bold mb-5"}>{profile.title}</h4>
+									<h1 className={"fw-bold mb-3"} data-aos="fade-right">{profile.firstName + " " + profile.lastName}</h1>
+									<h4 className={"fw-bold mb-5"} data-aos="fade-left">{profile.title}</h4>
 									
 									<div className={"row justify-space-between align-end py-3 border " + styles.reachMeSection}>
-										<div className="col text-left">
+										<div className="col text-left" data-aos={"fade-right"}>
 											<h4 className={"fw-bold"}>Reach Me</h4>
 											<a href={"tel:" + profile.phoneCode + profile.phoneNumber}>
 												<span className={""}>{profile.phoneCode}</span> {profile.phoneNumber}
@@ -35,7 +35,7 @@ const Profile = ({profile = null}) => {
 												{profile.email}
 											</a>
 										</div>
-										<div className={"col"}>
+										<div className={"col"} data-aos={"fade-left"}>
 											<div className={"d-flex flex-wrap justify-end mt-3"}>
 												{
 													profile.links.map((item, index) => {

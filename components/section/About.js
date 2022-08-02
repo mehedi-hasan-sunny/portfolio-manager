@@ -10,19 +10,19 @@ const About = ({profile, ...props}) => {
 								<div className={"row justify-space-between align-center"}>
 									<div className="col-xs-12 offset-sm-3 col-sm-9">
 										<div className={"row gap-2 border-bottom pb-4"}>
-											<div className="col ">
+											<div className="col" data-aos="fade-up">
 												<h4 className={"mb-4 fs-14"}>Live in</h4>
 												<span className={"my-3 fs-18 fw-bold lh-22"}>
 														{profile.liveIn}
 													</span>
 											</div>
-											<div className="col">
+											<div className="col" data-aos="fade-up" data-aos-delay="250">
 												<h4 className={"mb-4 fs-14"}>Experience</h4>
 												<span className={"my-3 fs-18 fw-bold lh-22"}>
 														{profile.experienceInYears} years
 													</span>
 											</div>
-											<div className="col">
+											<div className="col" data-aos="fade-up" data-aos-delay="500">
 												<h4 className={"mb-4 fs-14"}>Birth Date</h4>
 												<span className={"my-3 fs-18 fw-bold lh-22"}>
 														{profile.dob}

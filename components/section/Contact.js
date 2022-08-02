@@ -21,10 +21,10 @@ const Contact = ({email = null, phone = null}) => {
 			<>
 				<section>
 					<div className="row py-4 border-bottom">
-						<div className="col-12 col-md-3">
+						<div className="col-12 col-md-3" data-aos="fade-right">
 							<h2 className={"fw-bold lh-44 fs-32"}>Contact</h2>
 						</div>
-						<div className="col-12 col-md-9">
+						<div className="col-12 col-md-9" data-aos="fade-left">
 							<p className={"fs-24 lh-44 mt-0"}>
 								Do you have a project in mind?
 								<br/>
@@ -33,7 +33,7 @@ const Contact = ({email = null, phone = null}) => {
 						</div>
 					</div>
 					<div className="row py-5">
-						<div className="col-12 col-md-5">
+						<div className="col-12 col-md-5 mb-4 mb-md-0" data-aos="fade-right" data-aos-delay={"200"}>
 							<h2 className={"mb-4 fw-bold"}>Message me</h2>
 							<form method={"post"} onSubmit={handleEmailSubmit}>
 								<Input placeholder={"Full name"} name={"name"} id={"name"}/>
@@ -45,7 +45,7 @@ const Contact = ({email = null, phone = null}) => {
 								</button>
 							</form>
 						</div>
-						<div className="col-md-5 offset-md-2">
+						<div className="col-md-5 offset-md-2" data-aos="fade-left" data-aos-delay={"200"}>
 							<h2 className={"fs-32 mb-4"}>Reach Me</h2>
 							<p className={"fs-18 lh-28 mt-0 mb-5"}>
 								Village did removed the enjoyed explain

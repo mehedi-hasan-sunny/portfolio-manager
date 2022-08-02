@@ -1,8 +1,10 @@
 import '../styles/globals.css'
 import Head from "next/head";
-import React from "react";
+import React, {useEffect} from "react";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import 'aos/dist/aos.css';
+import AOS from 'aos';
 
 function MyApp({Component, pageProps, ...rest}) {
 	const toggleDarkMode = (e) => {
@@ -11,6 +13,13 @@ function MyApp({Component, pageProps, ...rest}) {
 		
 		pageProps.isDarkModeOn = e.target.checked
 	}
+	
+	useEffect(() => {
+		AOS.init({
+			duration: 1500
+		});
+		AOS.refresh();
+	}, []);
 	
 	return (
 			<>

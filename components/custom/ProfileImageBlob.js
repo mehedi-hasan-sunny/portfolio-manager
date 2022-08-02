@@ -15,7 +15,7 @@ function ProfileImageBlob({displayPicture, alt}) {
 	}
 	
 	return (
-			<div className={avatar}>
+			<div className={avatar} data-aos="zoom-in-up">
 				<div className={imageBlob + `${!displayPicture ? ' la la-user' : ''}`}
 				     style={style}/>
 			</div>

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@google-cloud/firestore": "^5.0.1",
+    "aos": "^2.3.4",
     "cloudinary": "^1.27.1",
     "cookies-next": "^2.1.1",
     "cropper": "^4.1.0",

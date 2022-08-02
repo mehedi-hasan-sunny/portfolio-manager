@@ -1,4 +1,4 @@
-function CircleText({text, size = 4, deg = 8, innerCircleSize = 1.4}) {
+function CircleText({text, size = 4, deg = 8, innerCircleSize = 1.4, dataAos= null}) {
 	const textArray = text ? text.split("") : [];
 	const dimension = Math.floor(textArray.length * size);
 	const dimensionAfter = Math.floor(dimension / innerCircleSize);
@@ -9,19 +9,22 @@ function CircleText({text, size = 4, deg = 8, innerCircleSize = 1.4}) {
 	    width: ${dimensionAfter}px;
     }
 	`
+	dataAos = dataAos ? {"data-aos": dataAos} : dataAos;
 	return (
 			<>
 				<style>{css}</style>
-				<p className={"circle-text"} style={{width: `${dimension}px`, height: `${dimension}px`}}>
-					{
-						textArray.map((char, index) => {
-							return <span key={index} style={{
-								transform: `rotate(${(index * deg)}deg)`,
-								height: dimensionAfter / 1.49+'px'
-							}}>{char}</span>
-						})
-					}
-				</p>
+				<div {...dataAos}>
+					<p className={"circle-text"} style={{width: `${dimension}px`, height: `${dimension}px`}}>
+						{
+							textArray.map((char, index) => {
+								return <span key={index} style={{
+									transform: `rotate(${(index * deg)}deg)`,
+									height: dimensionAfter / 1.49+'px'
+								}}>{char}</span>
+							})
+						}
+					</p>
+				</div>
 			</>
 	);
 }
