@@ -54,7 +54,7 @@ function ExperienceForm({experience = null, onSuccessAction}) {
 					</label>
 				</div>
 				
-				{/*<DescriptionBox/>*/}
+				<DescriptionBox/>
 				
 				<Input label={"Description"} id={"description"} name={"description"} required type={"textarea"}
 				       defaultValue={formData.description} onInput={updateFormData} rows={4}/>
