@@ -123,7 +123,7 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 			}
 			
 		} catch (err) {
-			resetAndEnableFullForm(event.target, false)
+			resetAndEnableFullForm(e.target, false)
 			notify('error', err?.message ?? err)
 		}
 	}

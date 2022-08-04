@@ -1,4 +1,5 @@
 import db from "../firebaseDb/firebaseAdmin";
+import {firestore} from "firebase-admin";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async function (cloudinary, projectId, imageFiles, isThumbnail = false, previousImages = []) {
@@ -67,6 +68,7 @@ export default async function (cloudinary, projectId, imageFiles, isThumbnail = 
 					imageDoc = imageCollectionRef.doc(item.id)
 				} else {
 					imageDoc = imageCollectionRef.doc()
+					item = {...item, timestamp: firestore.Timestamp.now()}
 				}
 				return imageDoc.set(item, {merge: true})
 			})

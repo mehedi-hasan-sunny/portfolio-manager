@@ -360,6 +360,10 @@ textarea.form-control {
     color: #e8dc00 !important;
 }
 
+.text-underline{
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
 
 .btn {
     display: inline-block;

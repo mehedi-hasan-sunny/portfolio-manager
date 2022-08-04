@@ -70,7 +70,7 @@ export default async function handler(req, res) {
 					req.body = fields
 					req.files = files
 					try {
-						console.log(req.body)
+						// console.log(req.body)
 						const collectionRef = db.collection("projects");
 						
 						let project = await collectionRef.add({
@@ -98,7 +98,7 @@ export default async function handler(req, res) {
 									true,
 							);
 						}
-						
+						console.log(files.images)
 						if (files && files.images) {
 							await imageUploader(cloudinary,
 									project.id, files.images,

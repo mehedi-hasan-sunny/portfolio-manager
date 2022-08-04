@@ -24,8 +24,8 @@ function Project({project, handleSelectedItem, className = '', order = 0}) {
 						<a href={"#"} onClick={(event) => {
 							event.preventDefault()
 							handleSelectedItem(project)
-						}} className={"mt-auto"}>
-							See more
+						}} className={"mt-auto d-inline-flex align-center fs-1 text-underline"}>
+							See more <i className={"las la-arrow-right ml-2"}></i>
 						</a>
 					</div>
 				</div>
