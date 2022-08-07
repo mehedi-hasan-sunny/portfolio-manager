@@ -2,36 +2,40 @@ import React from 'react';
 import Input from "../components/custom/Input";
 import Link from "next/link";
 import {adminLogin} from "../actions/auth";
-import {auth} from "../firebaseDb/firebaseAdmin"
-import {getCookie} from "cookies-next";
+// import {auth} from "../firebaseDb/firebaseAdmin"
+// import {getCookie} from "cookies-next";
 
-export async function getServerSideProps({req, res}) {
-	const token = getCookie("token", {req, res});
-	let user = null;
-	if(token){
-		user = await auth.verifyIdToken(token);
-	}
-	
-	
-	const data = {
-		props: {}
-	};
-	
-	if (user) {
-		data.redirect = {
-			permanent: false,
-			destination: "/admin",
-		};
-	}
-	return data
-}
+// export async function getServerSideProps({req, res}) {
+// 	let user = null;
+// 	try{
+// 		const token = getCookie("token", {req, res});
+// 		if(token){
+// 			user = await auth.verifyIdToken(token);
+// 		}
+// 	}
+// 	catch (e) {
+// 		user = null
+// 	}
+//
+//
+// 	const data = {
+// 		props: {}
+// 	};
+//
+// 	if (user) {
+// 		data.redirect = {
+// 			permanent: false,
+// 			destination: "/admin",
+// 		};
+// 	}
+// 	return data
+// }
 
 function Login(props) {
 	function handleSubmit(e) {
 		e.preventDefault();
 		const formData = new FormData(e.target);
 		const formProps = Object.fromEntries(formData);
-		console.log(formProps)
 		adminLogin(formProps, () => {
 			window.location.href = "/admin"
 		})

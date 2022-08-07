@@ -1,4 +1,4 @@
-import {signInWithEmailAndPassword, onAuthStateChanged} from "firebase/auth";
+import {signInWithEmailAndPassword, onAuthStateChanged, token} from "firebase/auth";
 import {auth} from "../../firebaseDb/firebaseClient";
 import nookies from "nookies";
 class Auth {
@@ -6,25 +6,22 @@ class Auth {
 		this.authValid = false
 	}
 	
-	isAuthValid(token) {
-		onAuthStateChanged(auth, (user) => {
+	async isAuthValid(token) {
+		await onAuthStateChanged(auth, async (user) => {
 			this.authValid = !!user;
-			return this.authValid
 		});
-		
+		return this.authValid
 	}
 	
 	adminLogin({email, password}, callback = null) {
 
 		signInWithEmailAndPassword(auth, email, password).then(async ({user}) => {
 			// Get the user's ID token as it is needed to exchange for a session cookie.
-			console.log(user)
 			if (!user) {
 				nookies.set(undefined, 'token', '', {path: '/'});
 			} else {
 				const token = await user.getIdToken();
 				nookies.set(undefined, 'token', token, {path: '/'});
-				console.log(nookies.get('token'))
 			}
 		}).then(() => {
 			// A page redirect would suffice as the persistence is set to NONE.
@@ -42,5 +39,8 @@ export const adminLogin = ({email, password}, callback = null) => {
 	const auth = new Auth();
 	auth.adminLogin({email, password}, callback)
 }
-
+export const isAuthValid = async (token) => {
+	const auth = new Auth();
+	return await auth.isAuthValid(token)
+}
 export default Auth;

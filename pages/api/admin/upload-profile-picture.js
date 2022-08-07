@@ -1,6 +1,7 @@
 import db from "../../../firebaseDb/firebaseAdmin"
 import {errorRes, successRes} from "!/helpers/jsonResponse";
 import {v2 as cloudinary} from "cloudinary";
+import {ValidateToken} from "../../../helpers/api/AuthCheck";
 
 cloudinary.config({
 	cloud_name: process.env.CLOUDINARY_CLOUDE_NAME,
@@ -18,7 +19,10 @@ export const config = {
 }
 
 export default async function handler(req, res) {
-	
+	const authCheck = await ValidateToken({req, res});
+	if(authCheck !== true){
+		return authCheck
+	}
 	switch (req.method) {
 		case "POST": {
 			try {

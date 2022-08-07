@@ -63,7 +63,7 @@ const mainProps = {
 }
 
 export async function getServerSideProps(context) {
-	return commonGetServerSideProps(mainProps)
+	return commonGetServerSideProps(mainProps, context)
 }
 
 export default class linkCategories extends CommonPageLayout {

@@ -10,7 +10,7 @@ const mainProps = {
 }
 
 export async function getServerSideProps(context) {
-	return commonGetServerSideProps(mainProps)
+	return commonGetServerSideProps(mainProps, context)
 }
 
 export default class certifications extends CommonPageLayout {

@@ -15,8 +15,13 @@ import {errorRes, successRes} from "!/helpers/jsonResponse";
 
 import linksManager from "!/actions/linksManager";
 import imageUploader from "!/actions/imageUploader";
+import {ValidateToken} from "../../../../helpers/api/AuthCheck";
 
 export default async function handler(req, res) {
+	const authCheck = await ValidateToken({req, res});
+	if(authCheck !== true){
+		return authCheck
+	}
 	const {projectId: id} = req.query;
 	
 	switch (req.method) {

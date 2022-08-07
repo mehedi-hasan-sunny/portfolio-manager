@@ -2,9 +2,13 @@ import db from "../../../firebaseDb/firebaseAdmin"
 
 import linksManager from "!/actions/linksManager";
 import {errorRes, successRes} from "!/helpers/jsonResponse";
+import {ValidateToken} from "../../../helpers/api/AuthCheck";
 
 export default async function handler(req, res) {
-	
+	const authCheck = await ValidateToken({req, res});
+	if(authCheck !== true){
+		return authCheck
+	}
 	const reqData = (req) => ({
 		firstName: req.body.firstName.trim(),
 		lastName: req.body.lastName.trim(),

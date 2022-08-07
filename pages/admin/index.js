@@ -11,9 +11,19 @@ import ProfilePictureCropper from "../../components/section/ProfilePictureCroppe
 export async function getServerSideProps(context) {
 	console.log(context.req.cookies)
 	try {
-		const profileRes = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/profile`)
+		const profileRes = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/profile`, {
+			method: "GET",
+			headers: {
+				token: context.req?.cookies?.token ?? ''
+			}
+		})
 		const {data: profileData} = await profileRes.json()
-		const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/projects`)
+		const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/projects`,{
+			method: "GET",
+			headers: {
+				token: context.req?.cookies?.token ?? ''
+			}
+		})
 		const {data: projects} = await res.json()
 		
 		return {

@@ -32,9 +32,15 @@ export const resetAndEnableFullForm = (form, reset = true) => {
 	}
 }
 
-export const commonGetServerSideProps = async (props = {}) => {
+export const commonGetServerSideProps = async (props = {}, context = {}) => {
 	try {
-		const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/${props.adminApiUrl}`)
+		const {req} = context;
+		const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/${props.adminApiUrl}`, {
+			method: "GET",
+			headers: {
+				token: req?.cookies?.token ?? ''
+			}
+		})
 		const {data} = await res.json()
 		return {
 			props: {...props, responseData: data ? data.reverse() : []}

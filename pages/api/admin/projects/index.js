@@ -15,6 +15,7 @@ import {errorRes, successRes} from "!/helpers/jsonResponse";
 import imageUploader from "!/actions/imageUploader";
 import linksManager from "!/actions/linksManager";
 import {getProjects} from "../../../../actions/getProjects";
+import {ValidateToken} from "../../../../helpers/api/AuthCheck";
 
 const formidable = require('formidable-serverless');
 
@@ -26,6 +27,10 @@ export const config = {
 }
 
 export default async function handler(req, res) {
+	const authCheck = await ValidateToken({req, res});
+	if(authCheck !== true){
+		return authCheck
+	}
 	switch (req.method) {
 		
 		case "GET": {

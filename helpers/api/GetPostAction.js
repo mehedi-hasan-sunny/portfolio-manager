@@ -3,9 +3,15 @@ import MethodNotAllowedException from "../CustomError";
 import CRUD from "../CRUD";
 import {empty} from "../common";
 import {v2 as cloudinary} from "cloudinary";
+import {ValidateToken} from "./AuthCheck";
 
 
 const GetPostAction = async (req, res, collectionName, formData, formFileKeys=[]) => {
+	
+	const authCheck = await ValidateToken({req, res});
+	if(authCheck !== true){
+		return authCheck
+	}
 	
 	const checkMethod = () => {
 		if (!['GET', 'POST'].includes(req.method)) {
