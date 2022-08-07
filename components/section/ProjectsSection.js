@@ -19,7 +19,9 @@ function ProjectsSection({projects}) {
 	
 	return (
 			<section>
-				<h2 className={"row fw-bold pb-4 border-bottom-2-dark ps-2 ps-md-0"}>UI UX Case Studies</h2>
+				<h2 className={"row fw-bold pb-4 border-bottom-2-dark ps-2 ps-md-0"}>
+				<span data-aos={"fade-left"}>UI UX Case Studies</span>
+				</h2>
 				
 				{
 					projects.map((project, index) => {

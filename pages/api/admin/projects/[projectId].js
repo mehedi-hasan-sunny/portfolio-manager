@@ -65,15 +65,17 @@ export default async function handler(req, res) {
 									cloudinary,
 									projectSnap.id, files.thumbnail,
 									true,
+									
 							);
 						}
-						
+						console.log(JSON.parse(fields?.deletableImages))
 						let images = []
 						if (files && files.images) {
 							images = await imageUploader(
 									cloudinary,
 									projectSnap.id, files.images,
-									false
+									false,
+									JSON.parse(fields?.deletableImages)
 							);
 						}
 						

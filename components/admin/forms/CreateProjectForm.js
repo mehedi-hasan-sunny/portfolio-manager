@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Card from "../../Card";
 import Input from "../../custom/Input";
 import {disabledFullForm, notify, resetAndEnableFullForm} from "../../../helpers/common";
@@ -6,23 +6,28 @@ import {disabledFullForm, notify, resetAndEnableFullForm} from "../../../helpers
 
 const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 	
+	const defaultThumbnail = project && project?.images.length ? project.images.filter(item => item.isThumbnail === true): null
+	const defaultImages = project && project?.images.length ? project.images.filter(item => item.isThumbnail === false) : []
+	
 	const [formLinks, setFormLinks] = useState([])
 	
-	const [images, setImage] = useState(project && project.images ? project.images : []);
+	const [images, setImages] = useState([...defaultImages]);
 	
-	const [thumbnail, setThumbnail] = useState(project && project.images.length ? project.images.filter(item => item.isThumbnail) : null);
+	const [thumbnail, setThumbnail] = useState( defaultThumbnail);
 	
 	const [thumbnailErrorMessage, setThumbnailErrorMessage] = useState(null);
 	
 	const [linkCategories, setLinkCategories] = useState([]);
 	
-	const [formData, setFormData] = useState(project ? project : {
-		title: null,
-		images: null,
+	const [deletableImages, setDeletableImages] = useState([]);
+	
+	const [formData, setFormData] = useState({
+		title: project?.title ?? null,
+		images: [...defaultImages],
 		thumbnail: null,
-		startDate: null,
-		endDate: null,
-		description: null,
+		startDate: project?.startDate ?? null,
+		endDate: project?.endDate ?? null,
+		description: project?.description ?? null,
 	});
 	
 	const handleThumbnailImage = (event) => {
@@ -36,6 +41,9 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 				
 				image.onload = () => {
 					if (image.width >= 800 && image.width <= 860 && image.height >= 600 && image.height <= 660) {
+						if (project?.images){
+							deletableImages.push(thumbnail[0])
+						}
 						setThumbnail([{url: image.src}]);
 						updateFormData(event, thumbnailFile);
 						if (thumbnailErrorMessage) {
@@ -45,7 +53,14 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 						updateFormData(event, null);
 						event.target.value = null;
 						setThumbnailErrorMessage("Thumbnail width x height must between 800x600 px to 860x660 px")
-						setThumbnail(null)
+						
+						if (defaultThumbnail){
+							setThumbnail(defaultThumbnail)
+						}
+						else{
+							setThumbnail(null)
+						}
+						
 					}
 				}
 				
@@ -72,7 +87,7 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 				imagePreviews.push(URL.createObjectURL(file))
 			});
 			
-			setImage([...images, ...imagePreviews]);
+			setImages([...images, ...imagePreviews]);
 		}
 		
 	}
@@ -84,22 +99,25 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 		}))
 	}
 	
-	const removeImage = (index) => {
+	const removeImage = (index, item) => {
+		if (project?.images){
+			deletableImages.push(item)
+		}
+		
+		images.splice(index, 1);
 		
 		setFormData(prevState => ({
 			...prevState,
-			images: [...prevState.images].splice(index, 1)
+			images: prevState.images.splice(index, 1)
 		}))
-		setImage((prev) => {
-			return prev.splice(index, 1)
-		})
 	}
 	
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		const form = new FormData(e.target);
 		if (project && project.images) {
-			form.append('prevImages', JSON.stringify(project.images))
+			// form.append('prevImages', JSON.stringify(project.images))
+			form.append('deletableImages', JSON.stringify(deletableImages))
 		}
 		// form.append('images', formData.images)
 		form.append('links', JSON.stringify(formLinks))
@@ -191,16 +209,16 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 					       id={"images"} onChange={imageUrls} required={!project}/>
 					<div className={"d-flex flex-wrap"}>
 						{
-							images.filter(item => !item.isThumbnail).map((image, index) => {
+							images.map((image, index) => {
 								return (
 										<div className={"my-2 me-2 w-100"} key={index}>
 											<img alt={index} style={{maxWidth: "100%"}} src={image && image.url ? image.url : image}/>
 											<div className={"d-flex justify-space-between"}
 											     onClick={() => {
-												     removeImage(index)
+												     removeImage(index, image)
 											     }}
 											>
-												<i className="las la-trash-alt ms-auto text-danger"/>
+												<i className="las la-trash-alt ms-auto text-danger hover-able"/>
 											</div>
 										</div>
 								)
@@ -222,28 +240,25 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 					</div>
 					<div className="col-6">
 						<Input label={"End Date"} type="date" id={"endDate"} defaultValue={formData.endDate} name={"endDate"}
-						       onInput={updateFormData}/>
+						       onInput={updateFormData} labelOptional={true}/>
 					</div>
 				</div>
-				{
-					linkCategories.map((item, index) => {
-						return (
-								<div className={"mb-3"} key={index}>
-									<label htmlFor="" className={"form-label"}>
-										<i className={item.icon}/>
-										&nbsp;
-										{item.title} Project Link
-									</label>
-									<input type="text" className={"form-control"} name={`links[${item.id}][url]`}
-									       defaultValue={getDefaultLink(item.icon)}
+				
+				<div className="row">
+					{
+						linkCategories.map((item, index) => {
+							return (
+									<Input label={item.title + " Project Link"} labelPrependIcon={item.icon}
+									       className={`col-12 ${linkCategories.length > 1 ? 'col-md-6' : ''} mb-3`} key={index}
+									       type="url" id={"endDate"} defaultValue={formData.endDate} name={`links[${item.id}][url]`}
 									       onInput={(e) => {
 										       updateFormLinks(item.id, item.icon, e.target.value, index)
-									       }}
-									/>
-								</div>
-						)
-					})
-				}
+									       }} labelOptional={true}/>
+							)
+						})
+					}
+				</div>
+				
 				<button type={"submit"}
 				        className={"btn bg-olive text-white pull-right"}>{!project ? 'Submit' : 'Update'}</button>
 			

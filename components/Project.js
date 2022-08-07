@@ -13,7 +13,7 @@ function Project({project, handleSelectedItem, className = '', order = 0}) {
 	
 	return (
 			<div className={`row py-5 ${className}`.trim()}>
-				<div className="col-sm-12 col-md-5 ps-md-0">
+				<div className="col-sm-12 col-md-5 ps-md-0" data-aos={"fade-right"}>
 					<div className="d-flex h-100 flex-column justify-space-between">
 						<div>
 							<h3>{order < 10 ? "0"+order : order} / {project.title}</h3>
@@ -29,7 +29,7 @@ function Project({project, handleSelectedItem, className = '', order = 0}) {
 						</a>
 					</div>
 				</div>
-				<div className="col-sm-12 col-md-7 pe-md-0">
+				<div className="col-sm-12 col-md-7 pe-md-0" data-aos={"fade-left"}>
 					<img className={"img-fluid ms-0 ms-md-auto mt-5 mt-md-0"} style={{maxHeight: "20rem"}} src={getThumbnail()} loading={"lazy"} alt={project.title}/>
 				</div>
 			</div>

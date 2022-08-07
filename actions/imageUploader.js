@@ -2,30 +2,18 @@ import db from "../firebaseDb/firebaseAdmin";
 import {firestore} from "firebase-admin";
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default async function (cloudinary, projectId, imageFiles, isThumbnail = false, previousImages = []) {
+export default async function (cloudinary, projectId, imageFiles, isThumbnail = false, deletableImages = []) {
 	let images = []
 	
 	//filter for deletable images
-	if (!isThumbnail && previousImages.length) {
+	if (deletableImages.length) {
 		let deleteImages = []
-		
-		images = previousImages.filter((item) => {
-			if (!item.url && item.id) {
-				//collect deletable image ids
-				deleteImages.push(item.id)
-			} else {
-				return item
-			}
-		});
-		
-		if (deleteImages.length) {
-			
-			deleteImages.map(async item => {
-				return await db.doc(`projects/${projectId}/images/${item}`).delete()
-			})
-			await Promise.all(deleteImages)
-			// await Image.destroy({where: {id: deleteImages}})
-		}
+		deleteImages = deletableImages.map(async item => {
+			return await db.doc(`projects/${projectId}/images/${item.id}`).delete()
+		})
+		deleteImages = await Promise.all(deleteImages)
+		console.log(deletableImages, "deletableImages")
+		console.log(deleteImages)
 	}
 	
 	
@@ -40,7 +28,7 @@ export default async function (cloudinary, projectId, imageFiles, isThumbnail = 
 		} else if (imageFiles.size) {
 			multiplePicturePromise = [cloudinary.uploader.upload(imageFiles.path)]
 		}
-		
+	
 		if (multiplePicturePromise) {
 			let imageResponses = await Promise.all(multiplePicturePromise)
 			
@@ -61,6 +49,8 @@ export default async function (cloudinary, projectId, imageFiles, isThumbnail = 
 			}
 			
 			const imageCollectionRef = db.collection(`projects/${projectId}/images`);
+			
+			console.log(firestore.FieldValue.serverTimestamp())
 			
 			images = imageBulk.map(async (item) => {
 				let imageDoc;

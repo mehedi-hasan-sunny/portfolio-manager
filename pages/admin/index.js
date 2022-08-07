@@ -9,6 +9,7 @@ import {empty} from "../../helpers/common";
 import ProfilePictureCropper from "../../components/section/ProfilePictureCropper";
 
 export async function getServerSideProps(context) {
+	console.log(context.req.cookies)
 	try {
 		const profileRes = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/profile`)
 		const {data: profileData} = await profileRes.json()
@@ -69,8 +70,29 @@ function Index({profile, projects = []}) {
 	const profilePictureSuccessAction = (data) => {
 		profile.displayPicture = data;
 		setProfilePictureModalOpen(prev => !prev)
-		
 	}
+	
+	
+	const actionButtons = [{
+		title: "Create project", icon: 'la-plus-circle', primary: true, onClick() {
+			setSelectedProjectProject(null);
+			toggleModal();
+		}
+	}, {
+		title: "Link Categories", icon: 'la-link', link: '/admin/link-categories'
+	}, {
+		title: "Experiences", icon: 'la-trophy', link: '/admin/experiences'
+	}, {
+		title: "Educations", icon: 'la-school', link: '/admin/educations'
+	}, {
+		title: "Certifications", icon: 'la-certificate', link: '/admin/certifications'
+	}, {
+		title: "Skills", icon: 'la-wave-square', link: '/admin/skills'
+	}, {
+		title: "Testimonials", icon: 'la-comment', link: '/admin/testimonials'
+	}, {
+		title: "Services", icon: 'la-briefcase', link: '/admin/services'
+	},]
 	
 	return (
 			<div className={"container"}>
@@ -121,37 +143,11 @@ function Index({profile, projects = []}) {
 				{/*actions*/}
 				
 				<div className={"row gap-xs-1 gap-2 mb-4 px-3"}>
-					
-					{/*					<div className={"d-inline-flex gap-1"} style={{width: '14rem'}}>
-						<button className={"btn "} style={{minWidth: '6.5rem', width: '6.5rem'}}>
-							red
-						</button>
-						<button className={"btn"} style={{minWidth: '6.5rem', width: '6.5rem'}}>
-							red
-						</button>
-					</div>*/}
-					
-					<ActionButton size={"large"} title={"Create project"} icon={"la-plus-circle"} primary={true}
-					              onClick={(e) => {
-						              setSelectedProjectProject(null);
-						              toggleModal();
-					              }}/>
-					
-					<ActionButton size={"large"} icon={"la-link"} title={"Link Categories"} link={"/admin/link-categories"}/>
-					
-					<ActionButton size={"large"} icon={"la-trophy"} title={"Experiences"} link={"/admin/experiences"}/>
-					
-					<ActionButton size={"large"} icon={"la-school"} title={"Educations"} link={"/admin/educations"}/>
-					
-					<ActionButton size={"large"} icon={"la-certificate"} title={"Certifications"} link={"/admin/certifications"}/>
-					
-					<ActionButton size={"large"} icon={"la-wave-square"} title={"Skills"} link={"/admin/skills"}/>
-					
-					<ActionButton size={"large"} icon={"la-comment"} title={"Testimonials"} link={"/admin/testimonials"}/>
-					
-					<ActionButton size={"large"} icon={"la-briefcase"} title={"Services"} link={"/admin/services"}/>
-				
-				
+					{
+						actionButtons.map((actionButton, index) => {
+							return <ActionButton size={"large"} {...actionButton} key={index}/>
+						})
+					}
 				</div>
 				
 				
@@ -159,7 +155,7 @@ function Index({profile, projects = []}) {
 					{
 							projects && projects.map((item, index) => {
 								return (
-										<div className={"col-xs-12 col-md-6 col-lg-4 mb-3"} key={index}>
+										<div className={"col-xs-12  col-sm-6 col-lg-4 mb-3"} key={index}>
 											<Card key={index} imgSrc={
 												item.images ?
 														(() => {
@@ -170,7 +166,12 @@ function Index({profile, projects = []}) {
 																return "https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg";
 															}
 														})() : null}
-											      className={"mb-2"}/>
+											      className={"mb-2"}
+											      onClick={() => {
+												      handleSelectProject(item)
+												      toggleModal();
+											      }}
+											/>
 											<div className={"d-flex justify-space-between"}>
 												<h4 className={"px-2"}>{item.title}</h4>
 												<div>
@@ -187,39 +188,39 @@ function Index({profile, projects = []}) {
 								)
 							})
 					}
-					{
-						modalOpen ?
-								(
-										<Modal title={`${!selectedProject ? "Create" : "Update"} Project`} modalValue={modalOpen}
-										       closeModal={handleModalClose}>
-											<CreateProjectForm project={selectedProject} onSuccessAction={successAction}/>
-										</Modal>
-								) : null
-					}
-					
-					{
-						profileModal ?
-								(
-										<Modal title={"Profile"} modalValue={profileModal} closeModal={toggleProfileModal}>
-											<ProfileForm onSuccessAction={successAction} profile={profile}/>
-										</Modal>
-								) : null
-					}
-					
-					{
-						profilePictureModalOpen ?
-								(
-										<Modal title={"Profile Picture"} modalValue={profilePictureModalOpen}
-										       closeModal={toggleProfilePictureModal}>
-											<ProfilePictureCropper
-													profileId={profile?.id}
-													displayPicture={!empty(profile?.displayPicture) && profilePictureModalType !== "upload" ? profile.displayPicture : null}
-													onSuccessAction={profilePictureSuccessAction}
-											/>
-										</Modal>
-								) : null
-					}
 				</div>
+				{
+					modalOpen ?
+							(
+									<Modal title={`${!selectedProject ? "Create" : "Update"} Project`} modalValue={modalOpen}
+									       closeModal={handleModalClose}>
+										<CreateProjectForm project={selectedProject} onSuccessAction={successAction}/>
+									</Modal>
+							) : null
+				}
+				
+				{
+					profileModal ?
+							(
+									<Modal title={"Profile"} modalValue={profileModal} closeModal={toggleProfileModal}>
+										<ProfileForm onSuccessAction={successAction} profile={profile}/>
+									</Modal>
+							) : null
+				}
+				
+				{
+					profilePictureModalOpen ?
+							(
+									<Modal title={"Profile Picture"} modalValue={profilePictureModalOpen}
+									       closeModal={toggleProfilePictureModal}>
+										<ProfilePictureCropper
+												profileId={profile?.id}
+												displayPicture={!empty(profile?.displayPicture) && profilePictureModalType !== "upload" ? profile.displayPicture : null}
+												onSuccessAction={profilePictureSuccessAction}
+										/>
+									</Modal>
+							) : null
+				}
 			</div>
 	);
 }

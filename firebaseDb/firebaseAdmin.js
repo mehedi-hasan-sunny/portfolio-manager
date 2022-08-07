@@ -10,6 +10,8 @@ if (!firebaseAdmin.apps.length) {
 	});
 }
 
-const db = firebaseAdmin.firestore()
+const db = firebaseAdmin.firestore();
+
+export const auth = firebaseAdmin.auth();
 
 export default db;

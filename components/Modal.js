@@ -34,7 +34,7 @@ const Modal = ({title, modalValue, closeModal, children}) => {
 				<div className={styles.modalWrapper}>
 					<div className={styles.modalContent} data-modal-content={modalValue}>
 						<div className={styles.modalTitle}>
-							<h3 className={"mb-3"}>{title}</h3>
+							<h3 className={"mb-3 fw-500"}>{title}</h3>
 							<button className={styles.modalCloseBtn} onClick={() => handleClose()}>&times;</button>
 						</div>
 						<div className={"d-flex flex-wrap flex-column"}>

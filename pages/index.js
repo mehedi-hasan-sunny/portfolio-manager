@@ -16,6 +16,7 @@ import HomeContext from "../context/HomeContext";
 import ProjectsSection from "../components/section/ProjectsSection";
 import ServicesSection from "../components/section/ServicesSection";
 import {empty} from "../helpers/common";
+import {getProjects} from "../actions/getProjects";
 
 export async function getStaticProps(context) {
 	// const {req, res} = context;
@@ -41,25 +42,8 @@ export async function getStaticProps(context) {
 			profile.links = await Promise.all(links);
 			profile.displayPicture = displayImageRef?.docs[0]?.data() ?? null;
 		}
-		const collectionRef = db.collection("projects");
-		const snapshots = await collectionRef.get();
-		if (!snapshots.empty) {
-			projects = snapshots.docs.map(async project => {
-				const linksRef = await db.collection(`projects/${project.id}/links`).get();
-				const links = linksRef.docs.map(link => {
-					return {id: link.id, ...link.data()}
-				})
-				
-				const imagesRef = await db.collection(`projects/${project.id}/images`).get();
-				const images = imagesRef.docs.map(image => {
-					return {id: image.id, ...image.data()}
-				})
-				
-				return {id: project.id, ...project.data(), links: links, images: images};
-			});
-		}
 		
-		projects = await Promise.all(projects);
+		projects = await getProjects(db, true);
 		
 		
 		const docs = ["experiences", "educations", "certifications", "skills", "testimonials", "services"]

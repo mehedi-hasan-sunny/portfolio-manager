@@ -5,6 +5,8 @@ import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import 'aos/dist/aos.css';
 import AOS from 'aos';
+import {useRouter} from "next/router";
+import {AuthContextProvider} from "../context/AuthContextProvider";
 
 function MyApp({Component, pageProps, ...rest}) {
 	const toggleDarkMode = (e) => {
@@ -13,6 +15,11 @@ function MyApp({Component, pageProps, ...rest}) {
 		
 		pageProps.isDarkModeOn = e.target.checked
 	}
+	
+	
+	// const { asPath, pathname } = useRouter();
+	//
+	// console.log(asPath, pathname)
 	
 	useEffect(() => {
 		AOS.init({
@@ -32,7 +39,9 @@ function MyApp({Component, pageProps, ...rest}) {
 						<span className="slider round"/>
 					</label>
 				</div>
-				<Component {...pageProps} />
+				<AuthContextProvider>
+					<Component {...pageProps} />
+				</AuthContextProvider>
 				<ToastContainer/>
 			</>
 	)

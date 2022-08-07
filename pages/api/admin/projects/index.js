@@ -1,4 +1,5 @@
 import db from "../../../../firebaseDb/firebaseAdmin";
+import {firestore} from "firebase-admin";
 
 const cloudinary = require('cloudinary').v2;
 
@@ -13,6 +14,7 @@ import {errorRes, successRes} from "!/helpers/jsonResponse";
 
 import imageUploader from "!/actions/imageUploader";
 import linksManager from "!/actions/linksManager";
+import {getProjects} from "../../../../actions/getProjects";
 
 const formidable = require('formidable-serverless');
 
@@ -28,29 +30,8 @@ export default async function handler(req, res) {
 		
 		case "GET": {
 			try {
-				const collectionRef = db.collection("projects");
-				const snapshots = await collectionRef.get();
-				if (!snapshots.empty) {
-					const projects = snapshots.docs.map(async project => {
-						const linksRef = await db.collection(`projects/${project.id}/links`).get();
-						const links = linksRef.docs.map(link => {
-							return {id: link.id, ...link.data()}
-						})
-						
-						
-						const imagesRef = await db.collection(`projects/${project.id}/images`).get();
-						const images = imagesRef.docs.map(image => {
-							return {id: image.id, ...image.data()}
-						})
-						
-						return {id: project.id, ...project.data(), links: links, images: images};
-					});
-					
-					successRes(res, await Promise.all(projects))
-				} else {
-					successRes(res, [])
-				}
-				
+				const result = await getProjects(db);
+				successRes(res, result)
 			} catch (err) {
 				errorRes(res, err.message)
 			}
@@ -78,7 +59,7 @@ export default async function handler(req, res) {
 							description: req.body.description,
 							startDate: req.body.startDate ? req.body.startDate : null,
 							endDate: req.body.endDate ? req.body.endDate : null,
-							// createdAt: serverTimestamp()
+							createdAt: firestore.FieldValue.serverTimestamp()
 						});
 						
 						
@@ -90,15 +71,13 @@ export default async function handler(req, res) {
 								linksData
 						)
 						
-						
-						
 						if (files && files.thumbnail) {
 							await imageUploader(cloudinary,
 									project.id, files.thumbnail,
 									true,
 							);
 						}
-						console.log(files.images)
+						
 						if (files && files.images) {
 							await imageUploader(cloudinary,
 									project.id, files.images,
