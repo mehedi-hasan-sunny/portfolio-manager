@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Card from "../../Card";
 import Input from "../../custom/Input";
 import {disabledFullForm, notify, resetAndEnableFullForm} from "../../../helpers/common";
-import {getCookie} from "cookies-next";
+import {GET} from "../../../actions/http";
 
 
 const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
@@ -167,15 +167,10 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 		return item.url
 	}
 	
-	useEffect(() => {
+	useEffect(async () => {
 		
-		fetch(`api/admin/link-categories`, {
-			method: 'GET',
-			headers: {
-				token: getCookie("token") ?? ''
-			}
-		}).then(async (res) => {
-			const {data} = await res.json()
+		const {data} = await GET(`api/admin/link-categories`);
+		if(data){
 			setLinkCategories(data)
 			if (project) {
 				const links = data.map((item) => {
@@ -191,8 +186,7 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 				
 				setFormLinks(links)
 			}
-			
-		})
+		}
 	}, [project])
 	
 	return (

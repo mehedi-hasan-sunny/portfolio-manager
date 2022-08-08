@@ -47,13 +47,6 @@ function Login(props) {
 					        className={"btn bg-olive text-white pull-right btn-block"}>Confirm
 					</button>
 					
-					
-					<Link href={"/admin"} passHref>
-						<button
-								className={"btn bg-olive text-white pull-right btn-block mt-5"}>Admin
-						</button>
-					</Link>
-				
 				</form>
 			</div>
 	
