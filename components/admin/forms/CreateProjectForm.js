@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Card from "../../Card";
 import Input from "../../custom/Input";
 import {disabledFullForm, notify, resetAndEnableFullForm} from "../../../helpers/common";
+import {getCookie} from "cookies-next";
 
 
 const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
@@ -168,7 +169,12 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 	
 	useEffect(() => {
 		
-		fetch(`api/admin/link-categories`).then(async (res) => {
+		fetch(`api/admin/link-categories`, {
+			method: 'GET',
+			headers: {
+				token: getCookie("token") ?? ''
+			}
+		}).then(async (res) => {
 			const {data} = await res.json()
 			setLinkCategories(data)
 			if (project) {

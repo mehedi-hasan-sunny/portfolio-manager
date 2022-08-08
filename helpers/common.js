@@ -1,4 +1,5 @@
 import {toast} from "react-toastify";
+import {getCookie} from "cookies-next";
 
 export const empty = (e) => {
 	switch (e) {
@@ -73,7 +74,8 @@ export const commonFromSubmitHandler = async (event, formData, apiUrl, item = nu
 			body: JSON.stringify(formData),
 			headers: {
 				'Accept': 'application/json',
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				token: getCookie("token") ?? ''
 			},
 		})
 		

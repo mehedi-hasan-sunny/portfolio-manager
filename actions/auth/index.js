@@ -1,4 +1,4 @@
-import {signInWithEmailAndPassword, onAuthStateChanged, token} from "firebase/auth";
+import {signInWithEmailAndPassword, onAuthStateChanged, onIdTokenChanged} from "firebase/auth";
 import {auth} from "../../firebaseDb/firebaseClient";
 import nookies from "nookies";
 class Auth {
@@ -7,32 +7,45 @@ class Auth {
 	}
 	
 	async isAuthValid(token) {
+		
+		// const res = await signInWithCustomToken(auth, `Bearer ${token}`)
+		// console.log(auth.verifyIdToken(token), "kjh")
+		
 		await onAuthStateChanged(auth, async (user) => {
+			console.log(await user, 'user')
+			this.authValid = !!user;
+		});
+		await onIdTokenChanged(auth, async (user) => {
+			console.log(await user, 'user')
 			this.authValid = !!user;
 		});
 		return this.authValid
 	}
 	
 	adminLogin({email, password}, callback = null) {
-
+		
 		signInWithEmailAndPassword(auth, email, password).then(async ({user}) => {
 			// Get the user's ID token as it is needed to exchange for a session cookie.
 			if (!user) {
-				nookies.set(undefined, 'token', '', {path: '/'});
+				nookies.set(undefined, 'token', '', {path: '/', maxAge: 60 * 60});
+				nookies.set(undefined, 'user', '', {path: '/', maxAge: 60 * 60});
+				
 			} else {
 				const token = await user.getIdToken();
-				nookies.set(undefined, 'token', token, {path: '/'});
+				nookies.set(undefined, 'token', token, {path: '/', maxAge: 60 * 60});
+				nookies.set(undefined, 'user', JSON.stringify(user), {path: '/', maxAge: 60 * 60});
 			}
+			console.log(auth.currentUser)
+			console.log(user)
 		}).then(() => {
 			// A page redirect would suffice as the persistence is set to NONE.
-			return auth.signOut();
+			// return auth.signOut();
 		}).then(() => {
 			if (callback) {
 				callback();
 			}
 			this.authValid = true;
 		});
-		
 	}
 }
 export const adminLogin = ({email, password}, callback = null) => {

@@ -1,7 +1,8 @@
 import nookies from 'nookies';
 import {createContext, useEffect, useState} from "react";
-import {onIdTokenChanged, check} from "firebase/auth"
+import {getAuth, onAuthStateChanged} from "firebase/auth"
 import {auth} from "../firebaseDb/firebaseClient";
+import {getCookie} from "cookies-next";
 
 const AuthContext = createContext({
 	user: null,
@@ -10,28 +11,21 @@ const AuthContext = createContext({
 export function AuthContextProvider({ children }) {
 	const [user, setUser] = useState(null);
 	
-	// listen for token changes
-	// call setUser and write new token as a cookie
-	useEffect(() => {
-		// return onIdTokenChanged(auth, async (user) => {
-		// 	console.log(user)
-		// 	if (!user) {
-		// 		setUser(null);
-		// 		nookies.set(undefined, 'token', '', { path: '/' });
-		// 	} else {
-		// 		const token = await user.getIdToken();
-		// 		setUser(user);
-		// 		nookies.set(undefined, 'token', token, { path: '/' });
-		// 	}
-		// });
+	useEffect(async () => {
+		const token = getCookie("token");
+		const response = await fetch("/api/check-token?token="+token)
+		const user = await response.json()
+		console.log(user)
 	}, []);
 	
-	// force refresh the token every 10 minutes
+	// force refresh the token every 55 minutes
 	useEffect(() => {
 		const handle = setInterval(async () => {
-			const user = auth.currentUser;
+			let cookieUser = getCookie('user');
+			console.log(cookieUser)
+			const user = auth.currentUser ?? getCookie('user');
 			if (user) await user.getIdToken(true);
-		}, 10 * 60 * 1000);
+		}, 55 * 60 * 1000);
 		
 		// clean up setInterval
 		return () => clearInterval(handle);

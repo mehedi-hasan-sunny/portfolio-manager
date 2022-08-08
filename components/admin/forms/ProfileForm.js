@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {commonFromSubmitHandler, empty} from "../../../helpers/common";
 import Input from "../../custom/Input";
 import CircleText from "../../custom/CircleText";
+import {getCookie} from "cookies-next";
 
 
 function ProfileForm({profile = null, onSuccessAction}) {
@@ -44,7 +45,12 @@ function ProfileForm({profile = null, onSuccessAction}) {
 	}
 	
 	useEffect(() => {
-		fetch(`/api/admin/link-categories`).then(async (res) => {
+		fetch(`/api/admin/link-categories`, {
+			method: 'GET',
+			headers: {
+				token: getCookie("token") ?? ''
+			}
+		}).then(async (res) => {
 			const {data} = await res.json()
 			
 			setLinkCategories(data ?? [])
@@ -140,9 +146,9 @@ function ProfileForm({profile = null, onSuccessAction}) {
 			</div>
 			<div className="col-12 col-md-4">
 				<Input type={"number"} className={"mb-3"} label={"Circle size"} id={"circleTextSize"} name={"circleTextSize"}
-				       defaultValue={formData.circleTextSize ?? 5} onInput={updateFormData} required step={0.1}/>
+				       defaultValue={formData.circleTextSize ?? 5} onInput={updateFormData} required step={0.05}/>
 				<Input type={"number"} className={"mb-3"} label={"Circle text spacing"} id={"circleTextDegree"} name={"circleTextDegree"}
-				       defaultValue={formData.circleTextDegree ?? 9.5} onInput={updateFormData} required step={0.1}/>
+				       defaultValue={formData.circleTextDegree ?? 9.5} onInput={updateFormData} required step={0.05}/>
 				
 			</div>
 		</div>

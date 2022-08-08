@@ -9,7 +9,6 @@ import {empty} from "../../helpers/common";
 import ProfilePictureCropper from "../../components/section/ProfilePictureCropper";
 
 export async function getServerSideProps(context) {
-	console.log(context.req.cookies)
 	try {
 		const profileRes = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/profile`, {
 			method: "GET",
