@@ -24,9 +24,9 @@ const TestimonialsSection = ({
 							<div key={currentIndex} className={"relative"}>
 								<h3 className={"lh-28 mb-0 fw-600"}>{testimonials[currentIndex].name}</h3>
 								<h5 className={"mb-0"}>{testimonials[currentIndex].designation}</h5>
-								<p style={{minHeight: "7rem"}}>
+								<div style={{minHeight: "7rem"}}>
 									{HtmlParser(testimonials[currentIndex].feedback)}
-								</p>
+								</div>
 								<button className={"me-2 btn btn-sm rounded bg-cream text-dark border-0"} onClick={() => {
 									handleCurrentIndex(currentIndex - 1)
 								}} disabled={currentIndex <= 0}><i className={"la la-angle-left"}></i></button>

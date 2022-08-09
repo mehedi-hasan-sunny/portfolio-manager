@@ -12,8 +12,6 @@ export default async function (cloudinary, projectId, imageFiles, isThumbnail = 
 			return await db.doc(`projects/${projectId}/images/${item.id}`).delete()
 		})
 		deleteImages = await Promise.all(deleteImages)
-		console.log(deletableImages, "deletableImages")
-		console.log(deleteImages)
 	}
 	
 	
@@ -34,7 +32,7 @@ export default async function (cloudinary, projectId, imageFiles, isThumbnail = 
 			
 			let imageBulk = imageResponses.map((item) => {
 				return {
-					url: item.url,
+					url: item.secure_url,
 					isThumbnail: isThumbnail,
 				}
 			})
@@ -49,8 +47,6 @@ export default async function (cloudinary, projectId, imageFiles, isThumbnail = 
 			}
 			
 			const imageCollectionRef = db.collection(`projects/${projectId}/images`);
-			
-			console.log(firestore.FieldValue.serverTimestamp())
 			
 			images = imageBulk.map(async (item) => {
 				let imageDoc;

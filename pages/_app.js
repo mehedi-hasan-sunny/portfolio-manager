@@ -1,25 +1,22 @@
 import '../styles/globals.css'
 import Head from "next/head";
-import React, {useEffect} from "react";
+import {useEffect} from "react";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import 'aos/dist/aos.css';
 import AOS from 'aos';
-import {useRouter} from "next/router";
 import {AuthContextProvider} from "../context/AuthContextProvider";
+import nookies from "nookies";
+import {getCookie} from "cookies-next";
 
-function MyApp({Component, pageProps, ...rest}) {
+function MyApp({Component, pageProps}) {
 	const toggleDarkMode = (e) => {
 		const mode = document.querySelector("[data-mode]");
 		mode.dataset.mode = e.target.checked ? "dark" : 'light';
-		
-		pageProps.isDarkModeOn = e.target.checked
+		nookies.set(undefined, 'darkMode', e.target.checked ? 'on' : 'off')
 	}
-	
-	
-	// const { asPath, pathname } = useRouter();
-	//
-	// console.log(asPath, pathname)
+	const darkMode = getCookie("darkMode");
+	const switchValue = (darkMode && darkMode === 'on')
 	
 	useEffect(() => {
 		AOS.init({
@@ -35,7 +32,7 @@ function MyApp({Component, pageProps, ...rest}) {
 				</Head>
 				<div className={"fixed-right"} style={{zIndex: 9}}>
 					<label className="switch mt-4 me-3">
-						<input type="checkbox" defaultChecked={false} onChange={toggleDarkMode}/>
+						<input type="checkbox" defaultChecked={switchValue} onClick={toggleDarkMode}/>
 						<span className="slider round"/>
 					</label>
 				</div>

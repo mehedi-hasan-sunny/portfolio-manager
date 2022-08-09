@@ -34,9 +34,9 @@ const About = ({profile, ...props}) => {
 								</div>
 								
 								<SectionLayout className={"border-bottom mb-3"} title={"Hello"} header={profile.bioTitle}>
-									<p className={"my-3 fs-16 fw-400 lh-22"}>
+									<div className={"my-3 fs-16 fw-400 lh-22"}>
 										{HtmlParser(profile.bio)}
-									</p>
+									</div>
 								</SectionLayout>
 							
 							</>

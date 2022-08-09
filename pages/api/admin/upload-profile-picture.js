@@ -40,10 +40,10 @@ export default async function handler(req, res) {
 				
 				let uploadImages = uploadImagesArr.map(item => cloudinary.uploader.upload(item))
 				let images = await Promise.all(uploadImages)
-				updates.displayPicture = images[0]?.url ?? null;
+				updates.displayPicture = images[0]?.secure_url ?? null;
 				
 				if(!req.body?.hasOriginalImage){
-					updates.originalImage = images[1]?.url ?? null;
+					updates.originalImage = images[1]?.secure_url ?? null;
 				}
 				else{
 					delete updates.originalImage;

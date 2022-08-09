@@ -20,9 +20,9 @@ const ServicesSection = ({
 										className={"relative border-1 rounded-lg d-flex align-center justify-center flex-column text-center p-3 w-100"}>
 									<img className={"img-fluid mt-1"} src={service.icon} alt="" loading={"lazy"}/>
 									<h4 className={"fw-bold my-3"}>{service.title}</h4>
-									<p className={"fs-14 my-0"}>
+									<div className={"fs-14 my-0"}>
 										{HtmlParser(service.description)}
-									</p>
+									</div>
 									{
 										isAdmin ?
 												<div className={"top-right-0.5"}>

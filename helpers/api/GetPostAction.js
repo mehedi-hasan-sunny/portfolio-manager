@@ -48,9 +48,9 @@ const GetPostAction = async (req, res, collectionName, formData, formFileKeys=[]
 					uploadImages = await Promise.all(uploadImages)
 					uploadImages = uploadImages.reduce((acc, item, index) => {
 						if (Array.isArray(item)) {
-							acc[formFileKeys[index]] = item.map((innerItem) => innerItem.url)
+							acc[formFileKeys[index]] = item.map((innerItem) => innerItem.secure_url)
 						} else {
-							acc[formFileKeys[index]] = item.url
+							acc[formFileKeys[index]] = item.secure_url
 						}
 					}, {})
 				}
