@@ -10,7 +10,7 @@ const CertificationsSection = ({certifications, isAdmin = false, editCertificati
 								<div className={"relative mb-3 " + (index !== (certifications.length - 1) ? "border-bottom" : '')}
 								     key={index}>
 									<div className={"d-flex gap-1"}>
-										<i className={"la la-2x la-certificate text-gold"}></i>
+										<i className={"la la-2x la-school text-gold"}></i>
 										<div>
 											<h3 className={"lh-28"}>{certification.title}</h3>
 											<h3 className={"fw-600 lh-28"}>{certification.institution}</h3>

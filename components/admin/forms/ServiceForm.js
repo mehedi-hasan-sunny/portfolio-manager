@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Input from "../../custom/Input";
 import {commonFromSubmitHandler, empty} from "../../../helpers/common";
+import DescriptionBox from "../../custom/DescriptionBox";
 
 function ServiceForm({service = null, onSuccessAction}) {
 	
@@ -54,8 +55,12 @@ function ServiceForm({service = null, onSuccessAction}) {
 			<form className={"p-3"} onSubmit={handleSubmit}>
 				<Input label={"Title"} id={"title"} name={"title"} defaultValue={formData.title} onInput={updateFormData}/>
 				
-				<Input label={"Description"} type={"textarea"} rows="3" id={"description"} defaultValue={formData.description}
-				       onInput={updateFormData} maxLength={500} name={"description"}/>
+				<DescriptionBox id={"description"} label={"Description"} onInput={(value) => {
+					setFormData(prevState => ({
+						...prevState,
+						description: value
+					}))
+				}} defaultValue={formData.description}/>
 
 				<Input label={"Icon"} id={"icon"} name={"icon"} type={"file"}
 				       accept={"image/*"} required={!service?.icon} onChange={handleIconFile}>

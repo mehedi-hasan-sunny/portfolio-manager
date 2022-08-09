@@ -1,5 +1,6 @@
 import SectionLayout from "../layout/SectionLayout";
 import {empty} from "../../helpers/common";
+import HtmlParser from "html-react-parser";
 
 const About = ({profile, ...props}) => {
 	return (
@@ -34,7 +35,7 @@ const About = ({profile, ...props}) => {
 								
 								<SectionLayout className={"border-bottom mb-3"} title={"Hello"} header={profile.bioTitle}>
 									<p className={"my-3 fs-16 fw-400 lh-22"}>
-										{profile.bio}
+										{HtmlParser(profile.bio)}
 									</p>
 								</SectionLayout>
 							

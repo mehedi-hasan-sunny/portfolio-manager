@@ -156,7 +156,7 @@ export default function Home({
 																>
 																	Let's Talk
 																</button>
-																<button className={"btn bg-cream text-dark btn-xs-block"}>
+																<button className={"btn bg-olive text-white border-2 border-white btn-xs-block"}>
 																	Download my cv
 																</button>
 															</SectionLayout>

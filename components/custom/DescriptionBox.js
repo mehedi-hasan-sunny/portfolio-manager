@@ -78,11 +78,8 @@ class DescriptionBox extends Component {
 						toolbarClassName={"mb-0 w-100 border-top-0 border-left-0 border-right-0 border-bottom rounded-top"}
 						editorClassName={"rounded mt-0 p-2 rounded-bottom"}
 						toolbar={{
-							options: ['inline', 'textAlign', 'emoji'],
-							inline: {
-								options: ['bold', 'italic', 'underline', 'strikethrough']
-							},
-							// textAlign: { inDropdown: true }
+							options: this.props.toolbarOptions,
+							...this.props.toolbarInnerOptions
 						}}
 						// toolbar={{
 						// 	inline: { inDropdown: true },
@@ -105,6 +102,18 @@ DescriptionBox.propTypes = {
 	label: PropTypes.string.isRequired,
 	onInput: PropTypes.func.isRequired,
 	defaultValue: PropTypes.string,
+	toolbarOptions: PropTypes.array,
+	toolbarInnerOptions: PropTypes.object,
+}
+
+DescriptionBox.defaultProps = {
+	toolbarOptions: ['inline', 'textAlign', 'emoji'],
+	toolbarInnerOptions: {
+		inline: {
+			options: ['bold', 'italic', 'underline', 'strikethrough']
+		},
+	},
+	propBool: true,
 }
 
 

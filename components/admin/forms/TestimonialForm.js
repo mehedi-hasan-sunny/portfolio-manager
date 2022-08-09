@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {commonFromSubmitHandler} from "../../../helpers/common";
 import Input from "../../custom/Input";
+import DescriptionBox from "../../custom/DescriptionBox";
 
 function TestimonialForm({testimonial = null, onSuccessAction}) {
 	
@@ -17,7 +18,8 @@ function TestimonialForm({testimonial = null, onSuccessAction}) {
 	}
 	const handleSubmit = async (event) => {
 		event.preventDefault()
-		const form = new FormData(event.target)
+		const form = new FormData(event.target);
+		form.append("feedback", formData.feedback);
 		const formProps = Object.fromEntries(form);
 		await commonFromSubmitHandler(event, formProps, "/admin/testimonials", testimonial, onSuccessAction)
 	}
@@ -30,8 +32,12 @@ function TestimonialForm({testimonial = null, onSuccessAction}) {
 				<Input label={"Designation"} id={"designation"} name={"designation"} defaultValue={formData.designation}
 				       onInput={updateFormData}/>
 				
-				<Input label={"Feedback"} id={"feedback"} name={"feedback"} defaultValue={formData.designation}
-				       onInput={updateFormData} maxLength={550} rows={5}/>
+				<DescriptionBox id={"feedback"} label={"Feedback"} onInput={(value) => {
+					setFormData(prevState => ({
+						...prevState,
+						feedback: value
+					}))
+				}} defaultValue={formData.feedback}/>
 				
 				<button type={"submit"}
 				        className={"btn bg-olive text-white pull-right"}>{!testimonial ? 'Submit' : 'Update'}</button>

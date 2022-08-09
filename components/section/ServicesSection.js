@@ -1,5 +1,6 @@
 import React from 'react';
 import SectionLayout from "../layout/SectionLayout";
+import HtmlParser from "html-react-parser";
 
 const ServicesSection = ({
 	                         services,
@@ -20,7 +21,7 @@ const ServicesSection = ({
 									<img className={"img-fluid mt-1"} src={service.icon} alt="" loading={"lazy"}/>
 									<h4 className={"fw-bold my-3"}>{service.title}</h4>
 									<p className={"fs-14 my-0"}>
-										{service.description}
+										{HtmlParser(service.description)}
 									</p>
 									{
 										isAdmin ?

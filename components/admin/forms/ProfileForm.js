@@ -2,8 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {commonFromSubmitHandler, empty} from "../../../helpers/common";
 import Input from "../../custom/Input";
 import CircleText from "../../custom/CircleText";
-import {getCookie} from "cookies-next";
+import dynamic from "next/dynamic";
+import {GET} from "../../../actions/http";
 
+const DescriptionBox = dynamic(() => import("../../custom/DescriptionBox"), {ssr: false});
 
 function ProfileForm({profile = null, onSuccessAction}) {
 	const [formLinks, setFormLinks] = useState([])
@@ -44,15 +46,9 @@ function ProfileForm({profile = null, onSuccessAction}) {
 		setFormLinks(data)
 	}
 	
-	useEffect(() => {
-		fetch(`/api/admin/link-categories`, {
-			method: 'GET',
-			headers: {
-				token: getCookie("token") ?? ''
-			}
-		}).then(async (res) => {
-			const {data} = await res.json()
-			
+	useEffect(async () => {
+		const {data} = await GET(`api/admin/link-categories`).exec();
+		if (data) {
 			setLinkCategories(data ?? [])
 			if (profile && profile.length) {
 				const links = data.map((item) => {
@@ -67,8 +63,7 @@ function ProfileForm({profile = null, onSuccessAction}) {
 				
 				setFormLinks(links)
 			}
-			
-		})
+		}
 	}, [profile])
 	
 	useEffect(() => {
@@ -120,8 +115,13 @@ function ProfileForm({profile = null, onSuccessAction}) {
 		<Input className={"mb-3"} label={"Bio Title"} id={"bioTitle"} maxLength={220}
 		       name={"bioTitle"} required defaultValue={formData.bioTitle} onInput={updateFormData}/>
 		
-		<Input type={"textarea"} className={"mb-3"} label={"Bio"} id={"bio"}
-		       name={"bio"} required maxLength={550} defaultValue={formData.bio} onInput={updateFormData}/>
+		
+		<DescriptionBox id={"bio"} label={"Bio"} onInput={(value) => {
+			setFormData(prevState => ({
+				...prevState,
+				bio: value
+			}))
+		}} defaultValue={formData.bio} toolbarOptions={['inline','blockType', 'fontSize', 'textAlign', 'emoji',]}/>
 		
 		<div className={"row"}>
 			<Input className={"col-12 col-md-7 col-lg-8"} label={"I live in"} id={"liveIn"}
@@ -142,14 +142,16 @@ function ProfileForm({profile = null, onSuccessAction}) {
 		
 		<div className={"row"}>
 			<div className="col-12 col-md-8">
-				<CircleText text={formData.circleText} size={formData.circleTextSize ?? 5} deg={formData.circleTextDegree ?? 9.5}/>
+				<CircleText text={formData.circleText} size={formData.circleTextSize ?? 5}
+				            deg={formData.circleTextDegree ?? 9.5}/>
 			</div>
 			<div className="col-12 col-md-4">
 				<Input type={"number"} className={"mb-3"} label={"Circle size"} id={"circleTextSize"} name={"circleTextSize"}
 				       defaultValue={formData.circleTextSize ?? 5} onInput={updateFormData} required step={0.05}/>
-				<Input type={"number"} className={"mb-3"} label={"Circle text spacing"} id={"circleTextDegree"} name={"circleTextDegree"}
+				<Input type={"number"} className={"mb-3"} label={"Circle text spacing"} id={"circleTextDegree"}
+				       name={"circleTextDegree"}
 				       defaultValue={formData.circleTextDegree ?? 9.5} onInput={updateFormData} required step={0.05}/>
-				
+			
 			</div>
 		</div>
 		

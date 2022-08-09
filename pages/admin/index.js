@@ -82,9 +82,9 @@ function Index({profile, projects = []}) {
 	}, {
 		title: "Experiences", icon: 'la-trophy', link: '/admin/experiences'
 	}, {
-		title: "Educations", icon: 'la-school', link: '/admin/educations'
+		title: "Educations", icon: 'la-university', link: '/admin/educations'
 	}, {
-		title: "Certifications", icon: 'la-certificate', link: '/admin/certifications'
+		title: "Certifications", icon: 'la-school', link: '/admin/certifications'
 	}, {
 		title: "Skills", icon: 'la-wave-square', link: '/admin/skills'
 	}, {

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import SectionLayout from "../layout/SectionLayout";
 import {empty} from "../../helpers/common";
+import HtmlParser from "html-react-parser";
 
 const TestimonialsSection = ({
 	                             testimonials,
@@ -24,7 +25,7 @@ const TestimonialsSection = ({
 								<h3 className={"lh-28 mb-0 fw-600"}>{testimonials[currentIndex].name}</h3>
 								<h5 className={"mb-0"}>{testimonials[currentIndex].designation}</h5>
 								<p style={{minHeight: "7rem"}}>
-									{testimonials[currentIndex].feedback}
+									{HtmlParser(testimonials[currentIndex].feedback)}
 								</p>
 								<button className={"me-2 btn btn-sm rounded bg-cream text-dark border-0"} onClick={() => {
 									handleCurrentIndex(currentIndex - 1)
