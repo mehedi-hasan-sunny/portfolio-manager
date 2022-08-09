@@ -1,5 +1,5 @@
 import {toast} from "react-toastify";
-import {getCookie} from "cookies-next";
+import {GET, POST, PUT} from "../actions/http";
 
 export const empty = (e) => {
 	switch (e) {
@@ -35,14 +35,7 @@ export const resetAndEnableFullForm = (form, reset = true) => {
 
 export const commonGetServerSideProps = async (props = {}, context = {}) => {
 	try {
-		const {req} = context;
-		const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/${props.adminApiUrl}`, {
-			method: "GET",
-			headers: {
-				token: req?.cookies?.token ?? ''
-			}
-		})
-		const {data} = await res.json()
+		const {data} = await GET(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/${props.adminApiUrl}`).setContext(context).exec();
 		return {
 			props: {...props, responseData: data ? data.reverse() : []}
 		}
@@ -69,18 +62,12 @@ export const commonFromSubmitHandler = async (event, formData, apiUrl, item = nu
 	try {
 		disabledFullForm(event.target);
 		
-		const response = await fetch(`/api/${apiUrl.trim().replace(/^(\/)+/, '')}${!empty(item) && item?.id? `/${item.id}` : ''}`, {
-			method: empty(item) ? "post" : "put",
-			body: JSON.stringify(formData),
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json',
-				token: getCookie("token") ?? ''
-			},
-		})
+		const URL = apiUrl.trim().replace(/^(\/)+/, '') + (!empty(item) && item?.id ? `/${item.id}` : '');
 		
-		if (response.status === 200 || response.status === 202) {
-			const {data} = await response.json()
+		const response = await (item?.id ? PUT : POST)(`${process.env.NEXT_PUBLIC_BASE_URL}/api/${URL}`, formData).exec();
+		
+		if (response.code === 200 || response.code === 202) {
+			const {data} = response
 			if (data) {
 				notify('success', customSuccessMessage ?? `${item ? 'Updated' : 'Created'} successfully.`)
 				setTimeout(() => {
@@ -90,7 +77,7 @@ export const commonFromSubmitHandler = async (event, formData, apiUrl, item = nu
 				return data;
 			}
 		} else {
-			throw Error(response.status + " " + response.statusText)
+			throw Error(`${response.error} \n ErrorCode: ${response.code}`)
 		}
 		
 	} catch (err) {

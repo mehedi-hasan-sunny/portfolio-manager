@@ -7,26 +7,16 @@ import ProfileForm from "../../components/admin/forms/ProfileForm";
 import ActionButton from "../../components/admin/custom/ActionButton";
 import {empty} from "../../helpers/common";
 import ProfilePictureCropper from "../../components/section/ProfilePictureCropper";
+import {GET} from "../../actions/http";
 
 export async function getServerSideProps(context) {
 	try {
-		const profileRes = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/profile`, {
-			method: "GET",
-			headers: {
-				token: context.req?.cookies?.token ?? ''
-			}
-		})
-		const {data: profileData} = await profileRes.json()
-		const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/projects`,{
-			method: "GET",
-			headers: {
-				token: context.req?.cookies?.token ?? ''
-			}
-		})
-		const {data: projects} = await res.json()
+		
+		const {data: profileData} = await GET(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/profile`).setContext(context).exec();
+		const {data: projects} = await GET(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/projects`).setContext(context).exec();
 		
 		return {
-			props: {profile: profileData, projects: projects ? projects : []}, // will be passed to the page component as props
+			props: {profile: profileData ?? null, projects: projects ?? []}, // will be passed to the page component as props
 		}
 	} catch (e) {
 		return {
