@@ -169,7 +169,7 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 	
 	useEffect(async () => {
 		
-		const {data} = await GET(`api/admin/link-categories`);
+		const {data} = await GET(`api/admin/link-categories`).exec();
 		if(data){
 			setLinkCategories(data)
 			if (project) {
