@@ -21,7 +21,7 @@ const Profile = ({profile = null}) => {
 									<ProfileImageBlob displayPicture={profile?.displayPicture?.displayPicture}
 									                  alt={profile.firstName + " " + profile.lastName}/>
 									
-									<h1 className={"fw-bold mb-3"} data-aos="fade-right">{profile.firstName + " " + profile.lastName}</h1>
+									<h1 className={"fw-bold mb-3 lh-32"} data-aos="fade-right">{profile.firstName + " " + profile.lastName}</h1>
 									<h4 className={"fw-bold mb-5"} data-aos="fade-left">{profile.title}</h4>
 									
 									<div className={"row justify-space-between align-end py-3 border " + styles.reachMeSection}>

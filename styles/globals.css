@@ -674,6 +674,10 @@ input[type="range"].form-control {
     line-height: 1.75rem;
 }
 
+.lh-32 {
+    line-height: 2rem;
+}
+
 .lh-44 {
     line-height: 2.75rem;
 }
