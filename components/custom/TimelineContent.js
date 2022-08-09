@@ -1,6 +1,6 @@
 import timeline from "../../styles/Timeline.module.css";
-import React from "react";
 import {empty} from "../../helpers/common";
+import HtmlParser from 'html-react-parser';
 
 const AdminActions = () => null
 
@@ -18,9 +18,9 @@ const TimelineContent = ({designation, company, startDate, endDate = null, descr
 						isAdmin ? adminActions.props.children : null
 					}
 				</div>
-				<p className={timeline.timelineDescription}>
-					{description}
-				</p>
+				<div className={timeline.timelineDescription}>
+					{HtmlParser(description)}
+				</div>
 			</div>
 	)
 };

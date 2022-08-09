@@ -12,7 +12,7 @@ function ExperienceForm({experience = null, onSuccessAction}) {
 		endDate: null,
 		description: null,
 	})
-	const toggleIsPresent = (e) =>{
+	const toggleIsPresent = (e) => {
 		setIsPresent(e.target.checked)
 	}
 	
@@ -24,7 +24,8 @@ function ExperienceForm({experience = null, onSuccessAction}) {
 	}
 	const handleSubmit = async (event) => {
 		event.preventDefault()
-		const form = new FormData(event.target)
+		const form = new FormData(event.target);
+		form.append('description', formData.description)
 		const formProps = Object.fromEntries(form);
 		await commonFromSubmitHandler(event, formProps, "/admin/experiences", experience, onSuccessAction)
 	}
@@ -42,24 +43,31 @@ function ExperienceForm({experience = null, onSuccessAction}) {
 					<Input className={"col-12 col-md-6 mb-0"} label={"Start Date"} id={"startDate"} name={"startDate"} required
 					       type={"date"} defaultValue={formData.startDate} onInput={updateFormData}/>
 					
-					<Input className={"col-12 col-md-6 mb-0"} label={"End Date"} id={"endDate"} name={"endDate"} disabled={isPresent}
+					<Input className={"col-12 col-md-6 mb-0"} label={"End Date"} id={"endDate"} name={"endDate"}
+					       disabled={isPresent}
 					       required={!isPresent} type={"date"} defaultValue={formData.endDate} onInput={updateFormData}/>
 				</div>
 				
 				<div className="mb-3">
 					<label htmlFor="isPresent" className={"form-label fs-12"}>
 						<input id={"isPresent"} type="checkbox" name={"isPresent"}
-						      checked={isPresent} onChange={toggleIsPresent}/>
+						       checked={isPresent} onChange={toggleIsPresent}/>
 						Currently working here
 					</label>
 				</div>
 				
-				<DescriptionBox/>
+				<DescriptionBox id={"description"} label={"Description"} onInput={(value) => {
+					setFormData(prevState => ({
+						...prevState,
+						description: value
+					}))
+				}} defaultValue={formData.description}/>
 				
-				<Input label={"Description"} id={"description"} name={"description"} required type={"textarea"}
-				       defaultValue={formData.description} onInput={updateFormData} rows={4}/>
+				{/*<Input label={"Description"} id={"description"} name={"description"} required type={"textarea"}*/}
+				{/*       defaultValue={formData.description} onInput={updateFormData} rows={4}/>*/}
 				
-				<button type={"submit"} className={"btn bg-olive text-white pull-right"}>{!experience ? 'Submit' : 'Update'}</button>
+				<button type={"submit"}
+				        className={"btn bg-olive text-white pull-right"}>{!experience ? 'Submit' : 'Update'}</button>
 			</form>
 	);
 }
