@@ -1,4 +1,5 @@
 import React from 'react';
+import HtmlParser from "html-react-parser";
 
 function Project({project, handleSelectedItem, className = '', order = 0}) {
 	
@@ -16,10 +17,10 @@ function Project({project, handleSelectedItem, className = '', order = 0}) {
 				<div className="col-sm-12 col-md-5 ps-md-0" data-aos={"fade-right"}>
 					<div className="d-flex h-100 flex-column justify-space-between">
 						<div>
-							<h3>{order < 10 ? "0"+order : order} / {project.title}</h3>
-							<p className={"fs-12 mt-5"}>
-								{project.description}
-							</p>
+							<h3>{order < 10 ? "0" + order : order} / {project.title}</h3>
+							<div className={"fs-12 mt-5"}>
+								{HtmlParser(project.description)}
+							</div>
 						</div>
 						<a href={"#"} onClick={(event) => {
 							event.preventDefault()
@@ -30,7 +31,8 @@ function Project({project, handleSelectedItem, className = '', order = 0}) {
 					</div>
 				</div>
 				<div className="col-sm-12 col-md-7 pe-md-0" data-aos={"fade-left"}>
-					<img className={"img-fluid ms-0 ms-md-auto mt-5 mt-md-0"} style={{maxHeight: "20rem"}} src={getThumbnail()} loading={"lazy"} alt={project.title}/>
+					<img className={"img-fluid ms-0 ms-md-auto mt-5 mt-md-0"} style={{maxHeight: "20rem"}} src={getThumbnail()}
+					     loading={"lazy"} alt={project.title}/>
 				</div>
 			</div>
 	);

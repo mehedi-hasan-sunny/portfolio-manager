@@ -3,7 +3,10 @@ import Card from "../../Card";
 import Input from "../../custom/Input";
 import {disabledFullForm, notify, resetAndEnableFullForm} from "../../../helpers/common";
 import {GET, POST, PUT} from "../../../actions/http";
+import dynamic from "next/dynamic";
 
+
+const DescriptionBox = dynamic(() => import("../../custom/DescriptionBox"), {ssr: false});
 
 const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 	
@@ -122,6 +125,7 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 		}
 		// form.append('images', formData.images)
 		form.append('links', JSON.stringify(formLinks))
+		form.append('description', formLinks.description)
 		disabledFullForm(e.target)
 		try {
 			const response = await (project ? PUT: POST)(`api/admin/projects${project ? ("/" + project.id) : ''}`, form, false).exec();
@@ -223,12 +227,13 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 						}
 					</div>
 				</div>
-				<div className={"mb-3"}>
-					
-					<Input label={"Description"} type="textarea" id={"description"} defaultValue={formData.description}
-					       name={"description"} required rows={3}
-					       onInput={updateFormData}/>
-				</div>
+				
+				<DescriptionBox id={"description"} label={"Description"} onInput={(value) => {
+					setFormData(prevState => ({
+						...prevState,
+						description: value
+					}))
+				}} defaultValue={formData.description} toolbarOptions={['inline','blockType', 'fontSize', 'textAlign', 'emoji',]}/>
 				
 				<div className="row">
 					<div className="col-6">
