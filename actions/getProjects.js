@@ -1,3 +1,5 @@
+import {empty} from "../helpers/common";
+
 const getProjects = async (db, noTimestamp) => {
 	const collectionRef = db.collection("projects");
 	const snapshots = await collectionRef.get();
@@ -5,9 +7,12 @@ const getProjects = async (db, noTimestamp) => {
 		return []
 	}
 	const projects = snapshots.docs.map(async project => {
-		const linksRef = await db.collection(`projects/${project.id}/links`).get();
+		let linksRef = await db.collection(`projects/${project.id}/links`).orderBy("createdAt", "desc").get();
+		if (empty(linksRef.docs)) {
+			linksRef = await db.collection(`projects/${project.id}/links`).get();
+		}
 		const links = linksRef.docs.map(link => {
-			let data =  link.data();
+			let data = link.data();
 			data.id = link.id
 			/*if(noTimestamp){
 				const {createdAt, ...restOfData} = data
@@ -16,20 +21,23 @@ const getProjects = async (db, noTimestamp) => {
 			return data
 		})
 		
-		const imagesRef = await db.collection(`projects/${project.id}/images`).orderBy("timestamp", "desc").get();
+		let imagesRef = await db.collection(`projects/${project.id}/images`).orderBy("timestamp", "desc").get();
+		if (empty(imagesRef.docs)) {
+			imagesRef = await db.collection(`projects/${project.id}/images`).get();
+		}
 		const images = imagesRef.docs.map(image => {
-			let imageData =  image.data();
+			let imageData = image.data();
 			imageData.id = image.id
-			if(noTimestamp){
+			if (noTimestamp) {
 				const {timestamp, ...restOfData} = imageData
 				imageData = restOfData
 			}
 			return imageData
 		})
 		
-		let projectData =  project.data();
+		let projectData = project.data();
 		projectData.id = project.id
-		if(noTimestamp){
+		if (noTimestamp) {
 			const {createdAt, ...restOfData} = projectData
 			projectData = restOfData
 		}
