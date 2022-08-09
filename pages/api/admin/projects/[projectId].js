@@ -32,12 +32,9 @@ export default async function handler(req, res) {
 				
 				const projectSnap = await projectRef.get();
 				
-				
 				if (projectSnap.exists) {
-					
 					const promise = new Promise((resolve, reject) => {
 						const form = new formidable.IncomingForm({multiples: true, keepExtensions: true});
-						
 						form.on('error', reject);
 						form.parse(req, (err, fields, files) =>
 								err ? reject(err) : resolve({fields, files})
@@ -54,7 +51,6 @@ export default async function handler(req, res) {
 							endDate: fields.endDate ? fields.endDate : null,
 						});
 						
-						
 						const linksData = JSON.parse(fields.links);
 						
 						await linksManager(
@@ -63,17 +59,15 @@ export default async function handler(req, res) {
 								linksData
 						)
 						
-						
 						let thumbnail = null
 						if (files && files.thumbnail) {
 							thumbnail = await imageUploader(
 									cloudinary,
 									projectSnap.id, files.thumbnail,
-									true,
-									
+									true
 							);
 						}
-						console.log(JSON.parse(fields?.deletableImages))
+						
 						let images = []
 						if (files && files.images) {
 							images = await imageUploader(
@@ -90,6 +84,7 @@ export default async function handler(req, res) {
 						
 						
 					} catch (err) {
+						console.log(err)
 						errorRes(res, err.message, 500)
 					}
 					

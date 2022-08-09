@@ -5,7 +5,7 @@ const getProjects = async (db, noTimestamp) => {
 		return []
 	}
 	const projects = snapshots.docs.map(async project => {
-		const linksRef = await db.collection(`projects/${project.id}/links`).orderBy("createdAt", "desc").get();
+		const linksRef = await db.collection(`projects/${project.id}/links`).get();
 		const links = linksRef.docs.map(link => {
 			let data =  link.data();
 			data.id = link.id

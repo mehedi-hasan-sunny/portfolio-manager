@@ -60,6 +60,10 @@ class Http {
 			headers: HEADERS
 		}
 		if (this.body) {
+			if(this.body instanceof FormData)
+			{
+				delete HEADERS["Content-Type"]
+			}
 			options.body = this.body;
 		}
 		
@@ -83,16 +87,16 @@ export const GET = (url, query = {}) => {
 	};
 }
 
-export const POST = (url, formData) => {
-	return POSTorPUT({url, formData});
+export const POST = (url, formData, stringify = true) => {
+	return POSTorPUT({url, formData, stringify});
 }
 
-export const PUT = (url, formData) => {
-	return POSTorPUT({method: "put", url, formData});
+export const PUT = (url, formData, stringify = true) => {
+	return POSTorPUT({method: "put", url, formData, stringify});
 }
 
-const POSTorPUT = ({method = "post", url, formData}) => {
-	const http = new Http(url, {body: JSON.stringify(formData)});
+const POSTorPUT = ({method = "post", url, formData, stringify = true}) => {
+	const http = new Http(url, {body: stringify ? JSON.stringify(formData) : formData});
 	return {
 		setContext: function (context) {
 			http.setContext(context)

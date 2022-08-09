@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Card from "../../Card";
 import Input from "../../custom/Input";
 import {disabledFullForm, notify, resetAndEnableFullForm} from "../../../helpers/common";
-import {GET} from "../../../actions/http";
+import {GET, POST, PUT} from "../../../actions/http";
 
 
 const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
@@ -124,12 +124,9 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 		form.append('links', JSON.stringify(formLinks))
 		disabledFullForm(e.target)
 		try {
-			const response = await fetch(`api/admin/projects${project ? ("/" + project.id) : ''}`, {
-				method: !project ? "post" : "put",
-				body: form,
-			})
-			if (response.status === 200) {
-				const {data} = await response.json()
+			const response = await (project ? PUT: POST)(`api/admin/projects${project ? ("/" + project.id) : ''}`, form, false).exec();
+			if (response.code === 200 || response.code === 202) {
+				const {data} = response
 				if (data.project) {
 					notify('success', `Project ${project ? 'updated' : 'created'} successfully.`)
 					setTimeout(() => {
@@ -138,7 +135,7 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 					}, 500)
 				}
 			} else {
-				throw Error(response.status + " " + response.statusText)
+				throw Error(`${response.error} \n ErrorCode: ${response.code}`)
 			}
 			
 		} catch (err) {
@@ -250,7 +247,7 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 							return (
 									<Input label={item.title + " Project Link"} labelPrependIcon={item.icon}
 									       className={`col-12 ${linkCategories.length > 1 ? 'col-md-6' : ''} mb-3`} key={index}
-									       type="url" id={"endDate"} defaultValue={formData.endDate} name={`links[${item.id}][url]`}
+									       type="url" id={"endDate"} defaultValue={getDefaultLink(item.icon)} name={`links[${item.id}][url]`}
 									       onInput={(e) => {
 										       updateFormLinks(item.id, item.icon, e.target.value, index)
 									       }} labelOptional={true}/>
