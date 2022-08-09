@@ -42,10 +42,6 @@ export default async function (cloudinary, projectId, imageFiles, isThumbnail = 
 				imageBulk = images.concat(imageBulk)
 			}
 			
-			if (isThumbnail && previousImages.id) {
-				imageBulk[0].id = previousImages.id
-			}
-			
 			const imageCollectionRef = db.collection(`projects/${projectId}/images`);
 			
 			images = imageBulk.map(async (item) => {

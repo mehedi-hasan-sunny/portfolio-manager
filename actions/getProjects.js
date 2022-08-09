@@ -7,7 +7,7 @@ const getProjects = async (db, noTimestamp) => {
 		return []
 	}
 	const projects = snapshots.docs.map(async project => {
-		let linksRef = await db.collection(`projects/${project.id}/links`).orderBy("createdAt", "desc").get();
+		let linksRef = await db.collection(`projects/${project.id}/links`).orderBy("createdAt", "asc").get();
 		if (empty(linksRef.docs)) {
 			linksRef = await db.collection(`projects/${project.id}/links`).get();
 		}
@@ -21,7 +21,7 @@ const getProjects = async (db, noTimestamp) => {
 			return data
 		})
 		
-		let imagesRef = await db.collection(`projects/${project.id}/images`).orderBy("timestamp", "desc").get();
+		let imagesRef = await db.collection(`projects/${project.id}/images`).orderBy("timestamp", "asc").get();
 		if (empty(imagesRef.docs)) {
 			imagesRef = await db.collection(`projects/${project.id}/images`).get();
 		}

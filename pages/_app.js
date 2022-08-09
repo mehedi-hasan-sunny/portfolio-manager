@@ -13,7 +13,7 @@ function MyApp({Component, pageProps}) {
 	const toggleDarkMode = (e) => {
 		const mode = document.querySelector("[data-mode]");
 		mode.dataset.mode = e.target.checked ? "dark" : 'light';
-		nookies.set(undefined, 'darkMode', e.target.checked ? 'on' : 'off')
+		nookies.set(undefined, 'darkMode', e.target.checked ? 'on' : 'off', {path: '/', maxAge: 365 * 24 * 60 * 60 * 1000})
 	}
 	const darkMode = getCookie("darkMode");
 	const switchValue = (darkMode && darkMode === 'on')

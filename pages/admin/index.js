@@ -7,7 +7,7 @@ import ProfileForm from "../../components/admin/forms/ProfileForm";
 import ActionButton from "../../components/admin/custom/ActionButton";
 import {empty} from "../../helpers/common";
 import ProfilePictureCropper from "../../components/section/ProfilePictureCropper";
-import {GET} from "../../actions/http";
+import {DELETE, GET} from "../../actions/http";
 
 export async function getServerSideProps(context) {
 	try {
@@ -55,8 +55,7 @@ function Index({profile, projects = []}) {
 		
 		let text = "Are you sure?\nYou are about to delete this project!.";
 		if (confirm(text) === true) {
-			const res = await fetch(`/api/admin/projects/${id}`, {method: "delete"})
-			const {data} = await res.json()
+			const {data} = await DELETE(`/api/admin/projects/${id}`).exec();
 			if (data) {
 				window.location.reload()
 			}

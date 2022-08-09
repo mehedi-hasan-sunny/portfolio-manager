@@ -9,7 +9,7 @@ const HEADERS = {
 
 
 class Http {
-	constructor(url, {method = "get", query, body}) {
+	constructor(url, {method = "get", query, body} = {}) {
 		this.url = url;
 		this.method = method;
 		this.query = query;
@@ -34,6 +34,11 @@ class Http {
 	
 	async put() {
 		this.method = "put";
+		return await this.#request()
+	}
+	
+	async delete() {
+		this.method = "delete";
 		return await this.#request()
 	}
 	
@@ -104,6 +109,19 @@ const POSTorPUT = ({method = "post", url, formData, stringify = true}) => {
 		},
 		exec: async function () {
 			return await http[method]();
+		},
+	};
+}
+
+export const DELETE = (url) => {
+	const http = new Http(url);
+	return {
+		setContext: function (context) {
+			http.setContext(context);
+			return this;
+		},
+		exec: async function () {
+			return await http.delete();
 		},
 	};
 }

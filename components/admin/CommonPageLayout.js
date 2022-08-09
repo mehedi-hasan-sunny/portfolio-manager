@@ -3,6 +3,7 @@ import Modal from "../../components/Modal";
 import GoBack from "../../components/custom/GoBack";
 import dynamic from "next/dynamic";
 import {empty, ucFirst} from "../../helpers/common";
+import {DELETE} from "../../actions/http";
 
 
 export default class CommonPageLayout extends Component {
@@ -81,8 +82,7 @@ export default class CommonPageLayout extends Component {
 	deleteAction = async (id) => {
 		let text = `Are you sure?\nYou are about to delete this ${this.singleItemName.toLowerCase()}!`;
 		if (confirm(text) === true) {
-			const res = await fetch(`/api/admin/${this.adminApiUrl}/${id}`, {method: "delete"})
-			const {data} = await res.json()
+			const {data} = await DELETE(`/api/admin/${this.adminApiUrl}/${id}`).exec();
 			if (data) {
 				window.location.reload()
 			}
