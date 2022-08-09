@@ -90,7 +90,9 @@ function Index({profile, projects = []}) {
 		title: "Testimonials", icon: 'la-comment', link: '/admin/testimonials'
 	}, {
 		title: "Services", icon: 'la-briefcase', link: '/admin/services'
-	},]
+	}, {
+		title: "Blogs", icon: 'la-book-reader', link: '/admin/blogs'
+	}]
 	
 	return (
 			<div className={"container"}>

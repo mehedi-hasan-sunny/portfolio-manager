@@ -68,7 +68,7 @@ class DescriptionBox extends Component {
 			}
 			
 			
-			<div className={"bg-white"}>
+			<div className={"bg-white text-dark rounded"}>
 				<Editor
 						editorRef={this.setEditorReference}
 						id={this.props?.id ?? 'description'}

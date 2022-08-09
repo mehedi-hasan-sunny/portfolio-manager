@@ -5,7 +5,7 @@ import DescriptionBox from "../../custom/DescriptionBox";
 
 function ServiceForm({service = null, onSuccessAction}) {
 	
-	const [icon, setIcon] = useState(!empty(service.icon) ? service.icon : null);
+	const [icon, setIcon] = useState(!empty(service?.icon) ? service.icon : null);
 	
 	
 	const handleIconFile = (event) => {
@@ -47,7 +47,7 @@ function ServiceForm({service = null, onSuccessAction}) {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		// const form = new FormData(event.target)
-		const formProps = {...formData, prevIcon: service.icon ?? null};
+		const formProps = {...formData, prevIcon: service?.icon ?? null};
 		await commonFromSubmitHandler(event, formProps, "/admin/services", service, onSuccessAction)
 	}
 	

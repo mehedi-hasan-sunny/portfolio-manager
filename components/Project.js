@@ -25,8 +25,8 @@ function Project({project, handleSelectedItem, className = '', order = 0}) {
 						<a href={"#"} onClick={(event) => {
 							event.preventDefault()
 							handleSelectedItem(project)
-						}} className={"mt-auto d-inline-flex align-center fs-1 text-underline"}>
-							See more <i className={"las la-arrow-right ml-2"}></i>
+						}} className={"mt-auto d-inline-flex align-center text-underline"}>
+							<span>See more  &nbsp;</span><i className={"las la-arrow-right"} style={{paddingTop: '1px'}}></i>
 						</a>
 					</div>
 				</div>
