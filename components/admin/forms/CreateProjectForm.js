@@ -124,8 +124,8 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 			form.append('deletableImages', JSON.stringify(deletableImages))
 		}
 		// form.append('images', formData.images)
-		form.append('links', JSON.stringify(formLinks))
-		form.append('description', formLinks.description)
+		form.append('links', JSON.stringify(formLinks));
+		form.append('description', formData.description);
 		disabledFullForm(e.target)
 		try {
 			const response = await (project ? PUT: POST)(`api/admin/projects${project ? ("/" + project.id) : ''}`, form, false).exec();
