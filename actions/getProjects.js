@@ -1,12 +1,13 @@
 import {empty} from "../helpers/common";
 
 const getProjects = async (db, noTimestamp) => {
-	const collectionRef = db.collection("projects");
-	const snapshots = await collectionRef.get();
-	if (snapshots.empty) {
-		return []
+	let projectSnapshots = await db.collection("projects").orderBy("createdAt", "desc").get();
+	if (projectSnapshots.empty) {
+		projectSnapshots = await db.collection("projects").get();
+		if(projectSnapshots.empty)
+			return []
 	}
-	const projects = snapshots.docs.map(async project => {
+	const projects = projectSnapshots.docs.map(async project => {
 		let linksRef = await db.collection(`projects/${project.id}/links`).orderBy("createdAt", "asc").get();
 		if (empty(linksRef.docs)) {
 			linksRef = await db.collection(`projects/${project.id}/links`).get();

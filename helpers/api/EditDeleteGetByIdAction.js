@@ -30,35 +30,48 @@ const EditDeleteGetByIdAction = async (req, res, collectionName, formData, formF
 				
 				let uploadImages = {}
 				
-				if (!empty(formFileKeys) && formData?.icon) {
-					if(empty(formData?.icon)){
-						uploadImages.icon = formData.prevIcon;
-						delete formData.prevIcon;
-					}
-					else{
-						cloudinary.config({
-							cloud_name: process.env.CLOUDINARY_CLOUDE_NAME,
-							api_key: process.env.CLOUDINARY_API_KEY,
-							api_secret: process.env.CLOUDINARY_API_SECRET,
-							secure: true
-						});
-						uploadImages = formFileKeys.map((key) => {
-							if (Array.isArray(req.body[key])) {
-								return req.body[key].map((item) => cloudinary.uploader.upload(item))
+				if (!empty(formFileKeys)) {
+					
+					cloudinary.config({
+						cloud_name: process.env.CLOUDINARY_CLOUDE_NAME,
+						api_key: process.env.CLOUDINARY_API_KEY,
+						api_secret: process.env.CLOUDINARY_API_SECRET,
+						secure: true
+					});
+					
+					formFileKeys.forEach((key) => {
+						if (empty(formData[`prev${ucFirst(key)}`])) {
+							if (Array.isArray(formData[key])) {
+								uploadImages[key] = formData[key].map((item) => cloudinary.uploader.upload(item))
 							}
-							return cloudinary.uploader.upload(req.body[key])
-						})
-						uploadImages = await Promise.all(uploadImages)
-						
-						uploadImages = uploadImages.reduce((acc, item, index) => {
-							if (Array.isArray(item)) {
-								acc[formFileKeys[index]] = item.map((innerItem) => innerItem.secure_url)
-							} else {
-								acc[formFileKeys[index]] = item.secure_url
+							else{
+								uploadImages[key] = cloudinary.uploader.upload(formData[key])
 							}
-						}, {})
-					}
-					delete formData.prevIcon;
+						}
+						else{
+							uploadImages[key] = formData[`prev${ucFirst(key)}`]
+						}
+						delete formData[`prev${ucFirst(key)}`];
+					});
+					
+					uploadImages = Object.keys(uploadImages).reduce(async (accumulator, uploadImageKey) =>{
+						if(uploadImages[uploadImageKey] instanceof Promise)
+						{
+							accumulator[uploadImageKey] = await Promise.all(uploadImages[uploadImageKey]);
+							accumulator[uploadImageKey] = accumulator[uploadImageKey].reduce((acc, item, index) => {
+								if (Array.isArray(item)) {
+									acc[formFileKeys[index]] = item.map((innerItem) => innerItem.secure_url)
+								} else {
+									acc[formFileKeys[index]] = item.secure_url
+								}
+							}, {});
+						}
+						else{
+							accumulator[uploadImageKey] = uploadImages[uploadImageKey];
+						}
+						return accumulator;
+					}, {})
+					
 				}
 				
 				collection = await collectionCRUD.update(id, {...formData, ...uploadImages})

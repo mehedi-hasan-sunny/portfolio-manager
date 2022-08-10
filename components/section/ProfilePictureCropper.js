@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import Cropper from 'cropperjs';
 import "cropper/dist/cropper.min.css"
 import {commonFromSubmitHandler} from "../../helpers/common";

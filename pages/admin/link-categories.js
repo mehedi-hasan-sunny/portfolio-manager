@@ -1,7 +1,6 @@
 import CommonPageLayout from "../../components/admin/CommonPageLayout";
 import {commonGetServerSideProps} from "../../helpers/common";
 import SectionLayout from "../../components/layout/SectionLayout";
-import React from "react";
 
 
 const LinkCategorySection = ({linkCategories, editLinkCategory, deleteLinkCategory}) =>{

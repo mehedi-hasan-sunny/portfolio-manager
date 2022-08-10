@@ -1,4 +1,3 @@
-import React from 'react';
 import HtmlParser from "html-react-parser";
 
 function Project({project, handleSelectedItem, className = '', order = 0}) {

@@ -1,5 +1,4 @@
 import Input from "../custom/Input";
-import React from "react";
 import {commonFromSubmitHandler} from "../../helpers/common";
 
 const Contact = ({email = null, phone = null}) => {

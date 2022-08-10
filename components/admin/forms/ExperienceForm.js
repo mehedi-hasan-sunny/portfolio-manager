@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {commonFromSubmitHandler} from "../../../helpers/common";
 import Input from "../../custom/Input";
 import DescriptionBox from "../../custom/DescriptionBox";

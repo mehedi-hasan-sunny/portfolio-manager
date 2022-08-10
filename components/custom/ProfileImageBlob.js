@@ -1,4 +1,3 @@
-import React from 'react';
 import {avatar, imageBlob} from "../../styles/Profile.module.css";
 
 function ProfileImageBlob({displayPicture, alt}) {

@@ -1,5 +1,4 @@
-import Document, {Html, Head, Main, NextScript} from 'next/document'
-import React from "react";
+import Document, {Html, Head, Main, NextScript} from 'next/document';
 import {getCookie} from "cookies-next";
 
 export default class CustomDocument extends Document {

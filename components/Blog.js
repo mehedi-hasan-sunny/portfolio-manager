@@ -49,8 +49,8 @@ function Blog({
 					<div className="d-flex h-100 flex-column justify-space-between">
 						<div className={"d-flex flex-wrap gap-0.5 mb-3"}>
 							{
-								blog?.tags?.split(',').map((tag) =>{
-									return <span className={"text-muted fs-12"}>{`#${tag}`}</span>
+								blog?.tags?.split(',').map((tag, key) =>{
+									return <span className={"text-muted fs-12"} key={key}>{`#${tag}`}</span>
 								})
 							}
 						</div>

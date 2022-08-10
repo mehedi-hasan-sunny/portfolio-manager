@@ -1,4 +1,3 @@
-import React from 'react';
 import adminStyles from "../../../styles/admin/Admin.module.css"
 
 const insideElements = ({icon = null, title = null}) => (

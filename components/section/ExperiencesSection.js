@@ -1,4 +1,3 @@
-import React from 'react';
 import SectionLayout from "../layout/SectionLayout";
 import TimelineContent from "../custom/TimelineContent";
 import timeline from "../../styles/Timeline.module.css";

@@ -1,4 +1,3 @@
-import React from 'react';
 import SectionLayout from "../layout/SectionLayout";
 import HtmlParser from "html-react-parser";
 

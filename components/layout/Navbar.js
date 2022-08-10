@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import {useContext, useState} from 'react';
 import HomeContext from "../../context/HomeContext";
 import {ucFirst} from "../../helpers/common";
 

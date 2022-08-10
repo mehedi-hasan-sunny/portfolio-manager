@@ -1,5 +1,3 @@
-import React from 'react';
-
 function SectionLayout({title = null, header = null, className = null,dataAosDelay = null, ...props}) {
 	dataAosDelay = dataAosDelay ? {"data-aos-delay": dataAosDelay} : dataAosDelay;
 	return (

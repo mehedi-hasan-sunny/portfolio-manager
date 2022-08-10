@@ -1,6 +1,5 @@
-import React from 'react';
 import Input from "../components/custom/Input";
-import Link from "next/link";
+// import Link from "next/link";
 import {adminLogin} from "../actions/auth";
 import {getCookie} from "cookies-next";
 

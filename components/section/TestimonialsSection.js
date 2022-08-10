@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import SectionLayout from "../layout/SectionLayout";
 import {empty} from "../../helpers/common";
 import HtmlParser from "html-react-parser";

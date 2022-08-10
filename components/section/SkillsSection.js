@@ -1,4 +1,3 @@
-import React from 'react';
 import SectionLayout from "../layout/SectionLayout";
 
 const SkillsSection = ({skills, isAdmin = false, editSkill = null, deleteSkill = null, className = null, ...props}) => {
