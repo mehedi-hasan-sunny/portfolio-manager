@@ -74,7 +74,7 @@ function BlogForm({blog = null, onSuccessAction}) {
 						content: value
 					}))
 				}} defaultValue={formData.content}
-				                toolbarOptions={['inline', 'image', 'emoji', 'blockType', 'fontSize', 'textAlign']}/>
+				                toolbarOptions={['inline', 'image', 'emoji', 'blockType', 'fontSize', 'textAlign', 'remove']}/>
 				
 				<Input label={"Summary"} id={"summary"} name={"summary"} defaultValue={formData.summary} required
 				       onInput={updateFormData} type={"textarea"} rows={4} maxLength={550}/>

@@ -1,4 +1,4 @@
-import db from "../../firebaseDb/firebaseAdmin";
+import db from "../../config/firebaseAdmin";
 import HtmlParser from "html-react-parser";
 
 export async function getStaticProps(context) {

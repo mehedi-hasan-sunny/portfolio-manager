@@ -1,5 +1,5 @@
 import {signInWithEmailAndPassword} from "firebase/auth";
-import {auth} from "../../firebaseDb/firebaseClient";
+import {auth} from "../../config/firebaseClient";
 import nookies from "nookies";
 class Auth {
 

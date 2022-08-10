@@ -1,14 +1,7 @@
-import db from "../../../firebaseDb/firebaseAdmin"
+import db from "../../../config/firebaseAdmin"
 import {errorRes, successRes} from "!/helpers/jsonResponse";
-import {v2 as cloudinary} from "cloudinary";
 import {ValidateToken} from "../../../helpers/api/AuthCheck";
-
-cloudinary.config({
-	cloud_name: process.env.CLOUDINARY_CLOUDE_NAME,
-	api_key: process.env.CLOUDINARY_API_KEY,
-	api_secret: process.env.CLOUDINARY_API_SECRET,
-	secure: true
-});
+import cloudinary from "../../../config/cloudinary";
 
 export const config = {
 	api: {

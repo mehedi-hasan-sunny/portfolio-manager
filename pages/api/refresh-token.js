@@ -1,5 +1,5 @@
 import {errorRes, successRes} from "../../helpers/jsonResponse";
-import {auth} from "../../firebaseDb/firebaseAdmin";
+import {auth} from "../../config/firebaseAdmin";
 
 export default async function handler(req, res) {
 	

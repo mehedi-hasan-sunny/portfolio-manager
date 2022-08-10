@@ -1,4 +1,4 @@
-import db from "../firebaseDb/firebaseAdmin";
+import db from "../config/firebaseAdmin";
 import {firestore} from "firebase-admin";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -11,7 +11,7 @@ export default async function (cloudinary, projectId, imageFiles, isThumbnail = 
 		deleteImages = deletableImages.map(async item => {
 			return await db.doc(`projects/${projectId}/images/${item.id}`).delete()
 		})
-		deleteImages = await Promise.all(deleteImages)
+		await Promise.all(deleteImages)
 	}
 	
 	

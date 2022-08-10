@@ -1,4 +1,4 @@
-import db from "../../firebaseDb/firebaseAdmin";
+import db from "../../config/firebaseAdmin";
 
 import {errorRes, successRes} from "!/helpers/jsonResponse";
 

@@ -1,14 +1,5 @@
-import db from "../../../../firebaseDb/firebaseAdmin";
-const cloudinary = require('cloudinary').v2;
-
-cloudinary.config({
-	cloud_name: process.env.CLOUDINARY_CLOUDE_NAME,
-	api_key: process.env.CLOUDINARY_API_KEY,
-	api_secret: process.env.CLOUDINARY_API_SECRET,
-	secure: true
-});
-
-
+import db from "../../../../config/firebaseAdmin";
+import cloudinary from "../../../../config/cloudinary";
 import formidable from "formidable-serverless";
 
 import {errorRes, successRes} from "!/helpers/jsonResponse";

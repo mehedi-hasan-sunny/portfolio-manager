@@ -2,7 +2,7 @@ import Head from 'next/head'
 import {container, main} from '../styles/Home.module.css'
 import Profile from "../components/Profile";
 import {useState} from "react";
-import db from "../firebaseDb/firebaseAdmin";
+import db from "../config/firebaseAdmin";
 import About from "../components/section/About";
 import Contact from "../components/section/Contact";
 import EducationsSection from "../components/section/EducationsSection";

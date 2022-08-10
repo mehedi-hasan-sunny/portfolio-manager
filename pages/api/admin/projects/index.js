@@ -1,14 +1,6 @@
-import db from "../../../../firebaseDb/firebaseAdmin";
+import db from "../../../../config/firebaseAdmin";
 import {firestore} from "firebase-admin";
-
-const cloudinary = require('cloudinary').v2;
-
-cloudinary.config({
-	cloud_name: process.env.CLOUDINARY_CLOUDE_NAME,
-	api_key: process.env.CLOUDINARY_API_KEY,
-	api_secret: process.env.CLOUDINARY_API_SECRET,
-	secure: true
-});
+import cloudinary from "../../../../config/cloudinary";
 
 import {errorRes, successRes} from "!/helpers/jsonResponse";
 

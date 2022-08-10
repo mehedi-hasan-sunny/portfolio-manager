@@ -1,4 +1,4 @@
-import db from "../firebaseDb/firebaseAdmin";
+import db from "../config/firebaseAdmin";
 
 
 export default async function (linkableType, linkableId, links) {

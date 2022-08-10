@@ -1,4 +1,4 @@
-import {auth} from "../../firebaseDb/firebaseAdmin";
+import {auth} from "../../config/firebaseAdmin";
 import {empty} from "../common";
 import {errorRes} from "../jsonResponse";
 
