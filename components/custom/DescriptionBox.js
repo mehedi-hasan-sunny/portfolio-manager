@@ -7,11 +7,18 @@ import {empty} from "../../helpers/common";
 import PropTypes from "prop-types";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 
+
+const TOOLBAR_ALL_OPTIONS  = ['emoji', 'image', 'colorPicker', 'link', 'embedded', 'fontSize', 'fontFamily', 'blockType', 'inline', 'list', 'textAlign', 'remove', 'history'];
+
 class DescriptionBox extends Component {
+	constructor() {
+		super();
+	}
 	state = {
 		editorState: EditorState.createEmpty(),
 		content: '',
-		ref: ''
+		ref: '',
+		toolbarOptions: {}
 	}
 	
 	onEditorStateChange = (editorState) => {
@@ -36,6 +43,22 @@ class DescriptionBox extends Component {
 	}
 	
 	componentDidMount() {
+		
+		const toolbarInnerOptions = this.props.toolbarInnerOptions
+		if(this.props.toolbarAllOptions){
+			toolbarInnerOptions.inset.options =  [...toolbarInnerOptions.inset.options, ...['superscript', 'subscript', 'monospace']]
+		}
+		
+		this.setState((prev) => {
+			return {
+				...prev,
+				toolbarOptions: {
+					options: this.props.toolbarAllOptions ? TOOLBAR_ALL_OPTIONS : this.props.toolbarOptions,
+					...toolbarInnerOptions
+				}
+			}
+		});
+		
 		if (!empty(this.props.defaultValue)) {
 			
 			const {contentBlocks} = HtmlToDraft(this.props.defaultValue);
@@ -58,6 +81,7 @@ class DescriptionBox extends Component {
 	
 	render() {
 		const {editorState} = this.state;
+		console.log(this.state.toolbarOptions)
 		return <div className={"mb-3"}>
 			
 			{
@@ -77,10 +101,11 @@ class DescriptionBox extends Component {
 						wrapperClassName={"rounded  border-1"}
 						toolbarClassName={"mb-0 w-100 border-top-0 border-left-0 border-right-0 border-bottom rounded-top"}
 						editorClassName={"rounded mt-0 p-2 rounded-bottom"}
-						toolbar={{
-							options: this.props.toolbarOptions,
-							...this.props.toolbarInnerOptions
-						}}
+						toolbar={this.state.toolbarOptions}
+						// toolbar={{
+						// 	options: this.props.toolbarOptions,
+						// 	...this.props.toolbarInnerOptions
+						// }}
 						// toolbar={{
 						// 	inline: { inDropdown: true },
 						// 	list: { inDropdown: true },
@@ -104,6 +129,7 @@ DescriptionBox.propTypes = {
 	defaultValue: PropTypes.string,
 	toolbarOptions: PropTypes.array,
 	toolbarInnerOptions: PropTypes.object,
+	toolbarAllOptions: PropTypes.bool,
 }
 
 DescriptionBox.defaultProps = {
@@ -112,8 +138,12 @@ DescriptionBox.defaultProps = {
 		inline: {
 			options: ['bold', 'italic', 'underline', 'strikethrough']
 		},
+		fontFamily: {
+			options: ['Manrope', 'monospace']
+		}
 	},
 	propBool: true,
+	toolbarAllOptions: false
 }
 
 

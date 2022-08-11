@@ -2,14 +2,14 @@ import Document, {Html, Head, Main, NextScript} from 'next/document';
 import {getCookie} from "cookies-next";
 
 export default class CustomDocument extends Document {
-	static async getInitialProps(ctx) {
-		const initialProps = await Document.getInitialProps(ctx)
-		const mode = getCookie("darkMode", ctx);
-		return { ...initialProps , mode: mode && mode === 'on' ? 'dark' : 'light'}
-	}
+	// static async getInitialProps(ctx) {
+	// 	const initialProps = await Document.getInitialProps(ctx)
+	// 	const mode = getCookie("darkMode");
+	// 	return { ...initialProps , mode: mode && mode === 'on' ? 'dark' : 'light'}
+	// }
 	render() {
 		return (
-				<Html data-mode={this.props.mode}>
+				<Html data-mode={"light"}>
 					<Head>
 						<link rel="preconnect" href="https://fonts.googleapis.com"/>
 						<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"/>

@@ -17,8 +17,10 @@ function MyApp({Component, pageProps}) {
 	}
 	const darkMode = getCookie("darkMode");
 	const switchValue = (darkMode && darkMode === 'on')
-	
 	useEffect(() => {
+		const mode = getCookie("darkMode");
+		const ele = document.querySelector("[data-mode]");
+		ele.dataset.mode = (mode && mode === 'on' ? "dark" : 'light');
 		AOS.init({
 			duration: 1500
 		});
