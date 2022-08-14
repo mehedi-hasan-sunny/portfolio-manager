@@ -46,6 +46,7 @@
 *, *:before, *:after {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
+    /*line-height: 1.35;*/
 }
 
 html,
@@ -53,7 +54,7 @@ body {
     padding: 0;
     margin: 0;
     font-size: 16px;
-    line-height: 1.25rem;
+    line-height: 1.35;
     font-family: "Manrope", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
@@ -84,15 +85,14 @@ a, button {
     transition: all 0.25s ease-in-out;
 }
 
-a i, button i {
-    color: var(--body-color);
-}
+/*a i, button i {*/
+/*    color: var(--body-color);*/
+/*}*/
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
     margin-top: 0;
     margin-bottom: 0.5rem;
-    line-height: 1;
 }
 
 .text-left {
@@ -363,7 +363,7 @@ textarea.form-control {
     color: var(--olive-color) !important;
 }
 
-.hover\:bg-olive:hover{
+.hover\:bg-olive:hover {
     background-color: var(--olive-color) !important;
     color: white !important;
 }
@@ -396,9 +396,9 @@ textarea.form-control {
     line-height: 0.85rem;
 }
 
-.btn i {
-    color: currentColor;
-}
+/*.btn i {*/
+/*    color: currentColor;*/
+/*}*/
 
 .btn:hover {
     color: currentColor;
@@ -439,7 +439,7 @@ textarea.form-control {
     font-size: 1.25rem;
 }
 
-.btn-pill{
+.btn-pill {
     border-radius: 2rem;
 }
 
@@ -717,9 +717,13 @@ input[type="range"].form-control {
     border-right: 0 !important;
 }
 
+.border-top {
+    border-top: 1px solid var(--border-color);
+}
 .border-bottom {
     border-bottom: 1px solid var(--border-color);
 }
+
 .border-bottom-2 {
     border-bottom: 2px solid var(--border-color);
 }
@@ -820,7 +824,7 @@ input[type="range"].form-control {
     top: -3rem;
     left: 1rem;
     transform-origin: center center;
-
+    user-select: none;
 }
 
 @keyframes rotateCircleText {
@@ -959,7 +963,9 @@ h6:empty {
     position: absolute;
     top: 30%;
     left: 10%;
+    opacity: 0;
     animation: bounce 4s infinite linear;
+    animation-delay: 1.25s;
     border-radius: 6px;
 }
 
@@ -972,6 +978,7 @@ h6:empty {
     position: absolute;
     bottom: 0;
     border-radius: 6px;
+    left: 1px;
 }
 
 .reach-me-ticker:after {
@@ -988,6 +995,7 @@ h6:empty {
 
 @keyframes bounce {
     0% {
+        opacity: 1;
         top: 30%;
     }
     50% {
@@ -995,5 +1003,43 @@ h6:empty {
     }
     100% {
         top: 30%;
+        opacity: 1;
     }
+}
+
+blockquote {
+    border-left: 5px solid #cccccc !important;
+    padding-left: 5px;
+}
+
+.image-container > span:first-child {
+    border-radius: 8px;
+    margin: auto !important;
+    display: block !important;
+}
+
+.blog-container {
+    min-width: 24rem;
+}
+
+@media screen and (min-width: 768px) {
+    .blog-container {
+        max-width: 65vw;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .blog-container {
+        max-width: 50vw;
+    }
+}
+@media screen and (min-width: 1200px) {
+    .blog-container {
+        max-width: 42.5vw;
+    }
+}
+
+.mx-n3{
+    margin-right: -1rem !important;
+    margin-left: -1rem !important;
 }

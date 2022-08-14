@@ -1,9 +1,8 @@
 import db from "../../config/firebaseAdmin";
-import HtmlParser from "html-react-parser";
 import Head from "next/head";
+import BlogDetails from "../../components/BlogDetails";
 
 export async function getStaticProps(context) {
-	console.log(context.req)
 	try {
 		let blog = null;
 		
@@ -48,18 +47,18 @@ function blog({blog = null}) {
 							:
 							<>
 								<Head>
-									<title></title>
+									<title>{blog.title}</title>
 									
 									<meta name="description" content={blog.summary}/>
 									<meta name="keywords" content={blog.tags}/>
 									<meta property="og:type" content="article"/>
-									<meta property="og:url" content="https://dev.to/sourishkrout/run-readmemd-in-your-terminal-19i"/>
-									<meta property="og:title" content="Run README.md in your terminal"/>
+									<meta property="og:url" content={`${blog.title}/blogs/${blog.id}`}/>
+									<meta property="og:title" content={blog.title}/>
 									<meta property="og:description" content={blog.summary}/>
 									<meta property="og:site_name" content="DEV Community"/>
-									<meta name="twitter:site" content="@thepracticaldev"/>
-									<meta name="twitter:creator" content="@sourishkrout"/>
-									<meta name="twitter:title" content="Run README.md in your terminal"/>
+									{/*<meta name="twitter:site" content="@thepracticaldev"/>*/}
+									{/*<meta name="twitter:creator" content="@sourishkrout"/>*/}
+									<meta name="twitter:title" content={blog.title}/>
 									<meta name="twitter:description" content={blog.summary}/>
 									<meta name="twitter:card" content="summary_large_image"/>
 									<meta name="twitter:widgets:new-embed-design" content="on"/>
@@ -68,12 +67,9 @@ function blog({blog = null}) {
 									<meta name="twitter:image:src" content={blog.coverImage}/>
 									
 								</Head>
-								<div className={"container mx-auto"} style={{maxWidth: '45vw', minWidth: '24rem'}}>
-									<h1 className={"lh-44 fw-bold text-center"}>{blog?.title}</h1>
-									<div>
-										{HtmlParser(blog.content)}
-									</div>
-								</div>
+								
+								<BlogDetails blog={blog}/>
+								
 							</>
 					
 				}
