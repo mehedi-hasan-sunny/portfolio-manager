@@ -17,7 +17,7 @@ const BlogsSection = ({
 				</h2>
 				{
 					blogs.map((blog, index) => {
-						return <Blog order={index+1} className={"border-bottom-2-dark"} blog={blog} key={index} {...passProps}/>
+						return <Blog order={index+1} blog={blog} key={index} {...passProps}/>
 					})
 				}
 			</section>

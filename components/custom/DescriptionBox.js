@@ -8,17 +8,25 @@ import PropTypes from "prop-types";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 
 
-const TOOLBAR_ALL_OPTIONS  = ['emoji', 'image', 'colorPicker', 'link', 'embedded', 'fontSize', 'fontFamily', 'blockType', 'inline', 'list', 'textAlign', 'remove', 'history'];
+const TOOLBAR_ALL_OPTIONS = ['emoji', 'image', 'colorPicker', 'link', 'embedded', 'fontSize', 'fontFamily', 'blockType', 'inline', 'list', 'textAlign', 'remove', 'history'];
 
 class DescriptionBox extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
+		const toolbarInnerOptions = props.toolbarInnerOptions
+		if (props.toolbarAllOptions) {
+			toolbarInnerOptions.inline.options = [...new Set([...toolbarInnerOptions.inline.options, ...['superscript', 'subscript', 'monospace']])]
+		}
+		this.toolbarOptions = {
+			options: props.toolbarAllOptions ? TOOLBAR_ALL_OPTIONS : props.toolbarOptions,
+			...toolbarInnerOptions
+		}
 	}
+	
 	state = {
 		editorState: EditorState.createEmpty(),
 		content: '',
-		ref: '',
-		toolbarOptions: {}
+		ref: ''
 	}
 	
 	onEditorStateChange = (editorState) => {
@@ -42,23 +50,8 @@ class DescriptionBox extends Component {
 		});
 	}
 	
+	
 	componentDidMount() {
-		
-		const toolbarInnerOptions = this.props.toolbarInnerOptions
-		if(this.props.toolbarAllOptions){
-			toolbarInnerOptions.inset.options =  [...toolbarInnerOptions.inset.options, ...['superscript', 'subscript', 'monospace']]
-		}
-		
-		this.setState((prev) => {
-			return {
-				...prev,
-				toolbarOptions: {
-					options: this.props.toolbarAllOptions ? TOOLBAR_ALL_OPTIONS : this.props.toolbarOptions,
-					...toolbarInnerOptions
-				}
-			}
-		});
-		
 		if (!empty(this.props.defaultValue)) {
 			
 			const {contentBlocks} = HtmlToDraft(this.props.defaultValue);
@@ -81,9 +74,8 @@ class DescriptionBox extends Component {
 	
 	render() {
 		const {editorState} = this.state;
-		console.log(this.state.toolbarOptions)
+		
 		return <div className={"mb-3"}>
-			
 			{
 				this.props.label ? <label htmlFor={this.props?.id ?? 'description'} className={"form-label"} onClick={() => {
 					this.state.ref.focus();
@@ -101,7 +93,7 @@ class DescriptionBox extends Component {
 						wrapperClassName={"rounded  border-1"}
 						toolbarClassName={"mb-0 w-100 border-top-0 border-left-0 border-right-0 border-bottom rounded-top"}
 						editorClassName={"rounded mt-0 p-2 rounded-bottom"}
-						toolbar={this.state.toolbarOptions}
+						toolbar={this.toolbarOptions}
 						// toolbar={{
 						// 	options: this.props.toolbarOptions,
 						// 	...this.props.toolbarInnerOptions
@@ -133,7 +125,7 @@ DescriptionBox.propTypes = {
 }
 
 DescriptionBox.defaultProps = {
-	toolbarOptions: ['inline', 'textAlign', 'emoji'],
+	toolbarOptions: ['inline', 'emoji', 'textAlign'],
 	toolbarInnerOptions: {
 		inline: {
 			options: ['bold', 'italic', 'underline', 'strikethrough']

@@ -22,15 +22,15 @@ const TestimonialsSection = ({
 				{
 					!empty(testimonials) ?
 							<div key={currentIndex} className={"relative"}>
-								<h3 className={"lh-28 mb-0 fw-600"}>{testimonials[currentIndex].name}</h3>
+								<h3 className={"lh-28 mb-1 fw-600"}>{testimonials[currentIndex].name}</h3>
 								<h5 className={"mb-0"}>{testimonials[currentIndex].designation}</h5>
-								<div style={{minHeight: "7rem"}}>
+								<div className={"my-3"} style={{minHeight: "7rem"}}>
 									{HtmlParser(testimonials[currentIndex].feedback)}
 								</div>
-								<button className={"me-2 btn btn-sm rounded bg-cream text-dark border-0"} onClick={() => {
+								<button className={"me-2 btn btn-sm rounded-circle transparent-btn p-2 border-1 text-dark"} onClick={() => {
 									handleCurrentIndex(currentIndex - 1)
 								}} disabled={currentIndex <= 0}><i className={"la la-angle-left"}></i></button>
-								<button className={"btn btn-sm rounded bg-cream text-dark border-0"} onClick={() => {
+								<button className={"btn btn-sm rounded-circle transparent-btn p-2 border-1 text-dark"} onClick={() => {
 									handleCurrentIndex(currentIndex + 1)
 								}} disabled={currentIndex >= testimonials.length - 1}>
 									<i className={"la la-angle-right"}></i>

@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import Head from "next/head";
-import {useEffect} from "react";
+import {useEffect, useLayoutEffect} from "react";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import 'aos/dist/aos.css';
@@ -9,7 +9,8 @@ import {AuthContextProvider} from "../context/AuthContextProvider";
 import nookies from "nookies";
 import {getCookie} from "cookies-next";
 
-function MyApp({Component, pageProps}) {
+function MyApp({Component, pageProps, ...rest}) {
+	
 	const toggleDarkMode = (e) => {
 		const mode = document.querySelector("[data-mode]");
 		mode.dataset.mode = e.target.checked ? "dark" : 'light';
@@ -17,10 +18,17 @@ function MyApp({Component, pageProps}) {
 	}
 	const darkMode = getCookie("darkMode");
 	const switchValue = (darkMode && darkMode === 'on')
+	
+	if (typeof window !== "undefined") {
+		useLayoutEffect(() => {
+			const mode = getCookie("darkMode");
+			const ele = document.querySelector("[data-mode]");
+			ele.dataset.mode = (mode && mode === 'on' ? "dark" : 'light');
+		}, []);
+	}
+	
+	
 	useEffect(() => {
-		const mode = getCookie("darkMode");
-		const ele = document.querySelector("[data-mode]");
-		ele.dataset.mode = (mode && mode === 'on' ? "dark" : 'light');
 		AOS.init({
 			duration: 1500
 		});
@@ -31,6 +39,11 @@ function MyApp({Component, pageProps}) {
 			<>
 				<Head>
 					<title>{process.env.NEXT_PUBLIC_TITLE}</title>
+					<meta name="apple-mobile-web-app-title" content="dev.to"/>
+					<meta name="application-name" content={process.env.NEXT_PUBLIC_TITLE}/>
+					<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"/>
+					<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)"/>
+				
 				</Head>
 				<div className={"fixed-right"} style={{zIndex: 9}}>
 					<label className="switch mt-4 me-3">

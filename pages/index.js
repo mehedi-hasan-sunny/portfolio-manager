@@ -151,12 +151,12 @@ export default function Home({
 															<TestimonialsSection className={"border-bottom mb-3"} testimonials={testimonials}/>
 															
 															<SectionLayout>
-																<button className={"btn bg-olive text-white me-0 me-sm-3 mb-3 mb-sm-0 btn-xs-block"}
+																<button className={"btn bg-olive text-white me-0 me-sm-3 mb-3 mb-sm-0 btn-xs-block btn-pill"}
 																onClick={() => setCurrentTab("contact")}
 																>
 																	Let's Talk
 																</button>
-																<button className={"btn bg-olive text-white border-2 border-white btn-xs-block"}>
+																<button className={"btn border-1 border-white btn-xs-block btn-pill border-olive text-olive hover:bg-olive"}>
 																	Download my cv
 																</button>
 															</SectionLayout>

@@ -19,13 +19,13 @@ function ProjectsSection({projects}) {
 	
 	return (
 			<section>
-				<h2 className={"row fw-bold pb-4 border-bottom-2-dark ps-2 ps-md-0"}>
+				<h2 className={"row fw-bold pb-4 border-bottom-2 ps-2 ps-md-0"}>
 				<span data-aos={"fade-left"}>UI UX Case Studies</span>
 				</h2>
 				
 				{
 					projects.map((project, index) => {
-						return <Project order={index+1} className={"border-bottom-2-dark"} project={project} key={index} handleSelectedItem={handleSelectedItem}/>
+						return <Project order={index+1} className={"border-bottom-2"} project={project} key={index} handleSelectedItem={handleSelectedItem}/>
 					})
 				}
 				

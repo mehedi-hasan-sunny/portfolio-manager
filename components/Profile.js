@@ -9,11 +9,11 @@ const Profile = ({profile = null}) => {
 				{
 					!empty(profile) ?
 							<>
-								<div className={"container"} style={{position: "relative", zIndex: 2}}>
+								<div className={"container relative"} style={{zIndex: 2}}>
 									
 									{
 										!empty(profile?.circleText) ?
-												<CircleText text={profile?.circleText} size={profile?.circleTextSize}
+												<CircleText text={profile?.circleText} size={profile?.circleTextSize} fontSize={profile?.circleFontSize}
 												            deg={profile.circleTextDegree} dataAos={"zoom-in-left"}/>
 												: null
 									}
@@ -24,6 +24,7 @@ const Profile = ({profile = null}) => {
 									<h1 className={"fw-bold mb-3 lh-32"} data-aos="fade-right">{profile.firstName + " " + profile.lastName}</h1>
 									<h4 className={"fw-bold mb-5"} data-aos="fade-left">{profile.title}</h4>
 									
+									<div className={"reach-me-ticker"}></div>
 									<div className={"row justify-space-between align-end py-3 border " + styles.reachMeSection}>
 										<div className="col text-left" data-aos={"fade-right"}>
 											<h4 className={"fw-bold"}>Reach Me</h4>

@@ -21,14 +21,14 @@ const Contact = ({email = null, phone = null}) => {
 				<section>
 					<div className="row py-4 border-bottom">
 						<div className="col-12 col-md-3" data-aos="fade-right">
-							<h2 className={"fw-bold lh-44 fs-32"}>Contact</h2>
+							<h2 className={"fw-bold"}>Contact</h2>
 						</div>
 						<div className="col-12 col-md-9" data-aos="fade-left">
-							<p className={"fs-24 lh-44 mt-0"}>
+							<h1 className={"fs-32 lh-44 mt-0"}>
 								Do you have a project in mind?
 								<br/>
 								Interesting Collaboration!
-							</p>
+							</h1>
 						</div>
 					</div>
 					<div className="row py-5">
@@ -45,8 +45,8 @@ const Contact = ({email = null, phone = null}) => {
 							</form>
 						</div>
 						<div className="col-md-5 offset-md-2" data-aos="fade-left" data-aos-delay={"200"}>
-							<h2 className={"fs-32 mb-4"}>Reach Me</h2>
-							<p className={"fs-18 lh-28 mt-0 mb-5"}>
+							<h2 className={"mb-4"}>Reach Me</h2>
+							<p className={"fs-16 lh-28 mt-0 mb-5"}>
 								Village did removed the enjoyed explain
 								<br/>
 								nor ham saw calling talking.

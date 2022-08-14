@@ -25,6 +25,7 @@ export default async function handler(req, res) {
 		circleText: req.body.circleText.trim(),
 		circleTextSize: req.body.circleTextSize.trim(),
 		circleTextDegree: req.body.circleTextDegree.trim(),
+		circleFontSize: req.body.circleFontSize.trim(),
 		// displayPicture: req.body.displayPicture.trim()
 	})
 	

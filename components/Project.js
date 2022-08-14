@@ -25,13 +25,16 @@ function Project({project, handleSelectedItem, className = '', order = 0}) {
 							event.preventDefault()
 							handleSelectedItem(project)
 						}} className={"mt-auto d-inline-flex align-center text-underline"}>
-							<span>See more  &nbsp;</span><i className={"las la-arrow-right"} style={{paddingTop: '1px'}}></i>
+							<span>See more  &nbsp;</span><i className={"las la-arrow-right"}></i>
 						</a>
 					</div>
 				</div>
 				<div className="col-sm-12 col-md-7 pe-md-0" data-aos={"fade-left"}>
-					<img className={"img-fluid ms-0 ms-md-auto mt-5 mt-md-0"} style={{maxHeight: "20rem"}} src={getThumbnail()}
-					     loading={"lazy"} alt={project.title}/>
+					<div className={"d-flex justify-content-end ms-0 ms-md-auto mt-5 mt-md-0"}>
+						<Image className={"img-fluid"} style={{maxHeight: "20rem"}} src={getThumbnail()} sizes="(min-width: 75em) 33vw,(min-width: 48em) 50vw,100vw, 32vw"
+						       loading={"lazy"} alt={project.title} layout={"fill"}/>
+					</div>
+				
 				</div>
 			</div>
 	);

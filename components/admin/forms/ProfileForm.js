@@ -25,6 +25,7 @@ function ProfileForm({profile = null, onSuccessAction}) {
 		circleText: "",
 		circleTextSize: "",
 		circleTextDegree: "",
+		circleFontSize: "",
 		links: formLinks
 	})
 	
@@ -121,7 +122,7 @@ function ProfileForm({profile = null, onSuccessAction}) {
 				...prevState,
 				bio: value
 			}))
-		}} defaultValue={formData.bio} toolbarOptions={['inline','blockType', 'fontSize', 'textAlign', 'emoji',]}/>
+		}} defaultValue={formData.bio} toolbarOptions={['inline','blockType', 'fontSize', 'emoji', 'textAlign']}/>
 		
 		<div className={"row"}>
 			<Input className={"col-12 col-md-7 col-lg-8"} label={"I live in"} id={"liveIn"}
@@ -143,7 +144,7 @@ function ProfileForm({profile = null, onSuccessAction}) {
 		<div className={"row"}>
 			<div className="col-12 col-md-8">
 				<CircleText text={formData.circleText} size={formData.circleTextSize ?? 5}
-				            deg={formData.circleTextDegree ?? 9.5}/>
+				            deg={formData.circleTextDegree ?? 9.5} fontSize={formData.circleFontSize}/>
 			</div>
 			<div className="col-12 col-md-4">
 				<Input type={"number"} className={"mb-3"} label={"Circle size"} id={"circleTextSize"} name={"circleTextSize"}
@@ -151,6 +152,9 @@ function ProfileForm({profile = null, onSuccessAction}) {
 				<Input type={"number"} className={"mb-3"} label={"Circle text spacing"} id={"circleTextDegree"}
 				       name={"circleTextDegree"}
 				       defaultValue={formData.circleTextDegree ?? 9.5} onInput={updateFormData} required step={0.05}/>
+				
+				<Input type={"number"} className={"mb-3"} label={"Circle font size"} id={"circleFontSize"} name={"circleFontSize"}
+				       defaultValue={formData.circleFontSize ?? 14} onInput={updateFormData} required step={1} min={10} max={16}/>
 			
 			</div>
 		</div>
