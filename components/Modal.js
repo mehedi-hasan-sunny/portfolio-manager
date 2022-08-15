@@ -1,7 +1,7 @@
 import styles from '../styles/Modal.module.css'
 import {useEffect} from "react";
 
-const Modal = ({title, modalValue, closeModal, children}) => {
+const Modal = ({title = null, modalValue, closeModal, children, fullScreen = false}) => {
 	let body = document.querySelector('body');
 	const handleClose = () => {
 		closeModal(false);
@@ -10,9 +10,9 @@ const Modal = ({title, modalValue, closeModal, children}) => {
 	useEffect(() => {
 		if (modalValue) {
 			body.style.overflow = "hidden";
-			if(document.body.scrollHeight > window.innerHeight)
+			if (document.body.scrollHeight > window.innerHeight)
 				body.style.paddingRight = "1rem";
-		
+			
 			let modal = document.querySelector(".modal");
 			if (modal) {
 				// modal.addEventListener("click", (event) => {
@@ -30,13 +30,22 @@ const Modal = ({title, modalValue, closeModal, children}) => {
 		}
 	}, [modalValue]);
 	return (
-			<div className={['modal', styles.modal, modalValue ? styles.open : null].join(' ')} data-modal={true}>
+			<div
+					className={['modal', styles.modal, modalValue ? styles.open : null, fullScreen ? styles.fullScreen : ''].join(' ')}
+					data-modal={true}>
 				<div className={styles.modalWrapper}>
 					<div className={styles.modalContent} data-modal-content={modalValue}>
-						<div className={styles.modalTitle}>
-							<h3 className={"mb-3 fw-500"}>{title}</h3>
-							<button className={styles.modalCloseBtn} onClick={() => handleClose()}>&times;</button>
-						</div>
+						
+						{
+							title ?
+									<div className={styles.modalTitle}>
+										<h3 className={"mb-3 fw-500"}>{title}</h3>
+									</div>
+									: null
+						}
+						<button className={styles.modalCloseBtn} onClick={() => handleClose()}>&times;</button>
+						
+						
 						<div className={"d-flex flex-wrap flex-column"}>
 							{children}
 						</div>

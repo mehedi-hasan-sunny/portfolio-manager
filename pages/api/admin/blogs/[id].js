@@ -16,7 +16,6 @@ export default async function handler(req, res) {
 		formData = {
 			title: req.body.title.trim(),
 			subtitle: req.body.subtitle.trim(),
-			publishedAt: firestore.FieldValue.serverTimestamp(),
 			coverImage: req.body.coverImage,
 			content: req.body.content,
 			summary: req.body.summary,

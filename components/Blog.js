@@ -26,8 +26,10 @@ function Blog({
 				<div className={`row py-5 ${className}`.trim()}>
 					<div className={`col-sm-12 col-md-6 col-lg-5 p${mod === 1 ? 's' : 'e'}-md-0 order-${mod === 1 ? '1' : '2'}`}
 					     data-aos={`fade-${mod === 1 ? 'right' : 'left'}`}>
-						<Image src={getCoverImage()} className={"img-fluid me-0 me-md-auto mt-5 mt-md-0"} loading={"lazy"}
-						       alt={blog.title} layout={"fill"}/>
+						<div className={"image-container"}>
+							<Image src={getCoverImage()} className={"img-fluid me-0 me-md-auto mt-5 mt-md-0"} loading={"lazy"}
+							       alt={blog.title} width={460} height={270}/>
+						</div>
 					</div>
 					<div className={`col-sm-12 col-md-6 col-lg-7 p${mod !== 1 ? 's' : 'e'}-md-0 order-${mod !== 1 ? '1' : '2'}`}
 					     data-aos={`fade-${mod !== 1 ? 'right' : 'left'}`}>
@@ -64,8 +66,8 @@ function Blog({
 								{HtmlParser(blog?.summary ?? '')}
 							</div>
 							<a href={`/blogs/${blog.id}`} target={"_blank"}
-							   className={`mt-auto d-inline-flex align-center text-underline m${mod === 1 ? 's' : 'e'}-auto`}>
-								<span>See more  &nbsp;</span><i className={"las la-arrow-right"}></i>
+							   className={`d-inline-block text-underline m${mod === 1 ? 's' : 'e'}-auto`}>
+								<span>See more  &nbsp;</span><i className={"las la-arrow-right  text-underline"}></i>
 							</a>
 						</div>
 					</div>

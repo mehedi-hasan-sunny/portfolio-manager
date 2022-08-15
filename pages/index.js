@@ -17,13 +17,10 @@ import ProjectsSection from "../components/section/ProjectsSection";
 import ServicesSection from "../components/section/ServicesSection";
 import {empty} from "../helpers/common";
 import {getProjects} from "../actions/getProjects";
+import BlogsSection from "../components/section/BlogsSection";
+import {firestore} from "firebase-admin";
 
 export async function getStaticProps(context) {
-	// const {req, res} = context;
-	// console.log("kjhgffghjkljhfghj")
-	// setCookie('test', 'value', {req, res, maxAge: 60 * 6 * 24});
-	// console.log(getCookie('test'))
-	//
 	try {
 		let projects = [], profile = {}
 		
@@ -46,13 +43,23 @@ export async function getStaticProps(context) {
 		projects = await getProjects(db, true);
 		
 		
-		const docs = ["experiences", "educations", "certifications", "skills", "testimonials", "services"]
+		const docs = ["experiences", "educations", "certifications", "skills", "testimonials", "services", "blogs"]
 		const docRes = async (doc) => {
 			const docRef = db.collection(doc);
 			const docSnap = await docRef.get();
 			if (!docSnap.empty) {
 				return docSnap.docs.reverse().map(collection => {
-					return {id: collection.id, ...collection.data()};
+					
+					const data = collection.data()
+					
+					Object.keys(data).forEach((item) => {
+						if (data[item] instanceof firestore.Timestamp) {
+							const date = data[item].toDate()
+							data[item] = date.toLocaleDateString() + " " + date.toLocaleTimeString()
+						}
+					});
+					
+					return {id: collection.id, ...data};
 				})
 			}
 			return []
@@ -64,18 +71,36 @@ export async function getStaticProps(context) {
 		const docResults = docs.reduce((acc, doc, index) => ({
 			...acc, [doc]: docMappedRes[index][doc]
 		}), {});
-		const {experiences, educations, certifications, skills, testimonials, services} = docResults
-		
+		const {experiences, educations, certifications, skills, testimonials, services, blogs} = docResults
 		
 		return {
-			props: {projects, profile, experiences, educations, certifications, docResults, skills, testimonials, services},
+			props: {
+				projects,
+				profile,
+				experiences,
+				educations,
+				certifications,
+				skills,
+				testimonials,
+				services,
+				blogs
+			},
 			revalidate: 60
 		}
 		
 	} catch (e) {
 		console.log(e)
 		return {
-			props: {projects: [], profile: null, experiences: [], educations: [], certifications: [], skills: []}, // will be passed to the page component as props
+			props: {
+				projects: [],
+				profile: null,
+				experiences: [],
+				educations: [],
+				certifications: [],
+				skills: [],
+				services: [],
+				blogs: []
+			}, // will be passed to the page component as props
 		}
 	}
 }
@@ -88,7 +113,8 @@ export default function Home({
 	                             certifications,
 	                             skills,
 	                             testimonials,
-	                             services
+	                             services,
+	                             blogs
                              }) {
 	
 	const [currentTab, setCurrentTab] = useState('about');
@@ -122,16 +148,13 @@ export default function Home({
 											case "blogs":
 												return (
 														<>
-															<div className={"d-flex align-center justify-center"}
-															     style={{minHeight: "10rem"}}>
-																<h4>Coming Soon</h4>
-															</div>
+															<BlogsSection blogs={blogs}></BlogsSection>
 														</>
 												)
 											case "contact":
 												return (
 														<>
-															<Contact email={profile?.email} phone={profile?.phoneCode+profile?.phoneNumber}/>
+															<Contact email={profile?.email} phone={profile?.phoneCode + profile?.phoneNumber}/>
 														</>
 												)
 											case "about":
@@ -140,9 +163,11 @@ export default function Home({
 														<>
 															<About profile={profile}/>
 															
-															<ExperiencesSection className={"border-bottom mb-3"} experiences={experiences} data-aos-delay={"300"}/>
+															<ExperiencesSection className={"border-bottom mb-3"} experiences={experiences}
+															                    data-aos-delay={"300"}/>
 															
-															<EducationsSection className={"border-bottom mb-3"} educations={educations} data-aos-delay={"400"}/>
+															<EducationsSection className={"border-bottom mb-3"} educations={educations}
+															                   data-aos-delay={"400"}/>
 															
 															<CertificationsSection className={"border-bottom mb-3"} certifications={certifications}/>
 															
@@ -151,12 +176,14 @@ export default function Home({
 															<TestimonialsSection className={"border-bottom mb-3"} testimonials={testimonials}/>
 															
 															<SectionLayout>
-																<button className={"btn bg-olive text-white me-0 me-sm-3 mb-3 mb-sm-0 btn-xs-block btn-pill"}
-																onClick={() => setCurrentTab("contact")}
+																<button
+																		className={"btn bg-olive text-white me-0 me-sm-3 mb-3 mb-sm-0 btn-xs-block btn-pill"}
+																		onClick={() => setCurrentTab("contact")}
 																>
 																	Let's Talk
 																</button>
-																<button className={"btn border-1 border-white btn-xs-block btn-pill border-olive text-olive hover:bg-olive"}>
+																<button
+																		className={"btn border-1 border-white btn-xs-block btn-pill border-olive text-olive hover:bg-olive"}>
 																	Download my cv
 																</button>
 															</SectionLayout>

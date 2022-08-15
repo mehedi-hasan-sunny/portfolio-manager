@@ -61,13 +61,14 @@ function BlogForm({blog = null, onSuccessAction}) {
 		await commonFromSubmitHandler(event, formProps, "/admin/blogs", blog, onSuccessAction)
 	}
 	
-	const blogData = () =>{
+	const blogData = () => {
+		const date = formData?.publishedAt ? new Date((formData.publishedAt._seconds * 1000)) : new Date()
 		return {
 			title: formData.title,
 			subtitle: formData.subtitle,
 			content: formData.content,
-			coverImage: formData.coverImage,
-			publishedAt: formData?.publishedAt?.toDate()?.toDateString() ?? (new Date()).toDateString(),
+			coverImage: coverImage,
+			publishedAt: date.toLocaleDateString() + " " + date.toLocaleTimeString()
 		}
 	}
 	
@@ -98,20 +99,31 @@ function BlogForm({blog = null, onSuccessAction}) {
 					<Input label={"Summary"} id={"summary"} name={"summary"} defaultValue={formData.summary} required
 					       onInput={updateFormData} type={"textarea"} rows={4} maxLength={550}/>
 					
-					<Input label={"tags"} id={"tags"} name={"tags"} defaultValue={formData.tags} placeholder={"UI,UX,Design"}
+					<Input label={"Tags"} labelOptional={true} id={"tags"} name={"tags"} defaultValue={formData.tags}
+					       placeholder={"UI,UX,Design, etc..."}
 					       onInput={updateFormData}/>
 					
 					<div className={"d-flex justify-content-between"}>
 						<button type={"button"} onClick={toggleModal}
-						        className={"btn border-1 border-olive text-olive hover:bg-olive text-white"}>Preview</button>
+						        className={"btn border-1 border-olive text-olive hover:bg-olive text-white"}>Preview
+						</button>
 						<button type={"submit"}
 						        className={"btn bg-olive text-white"}>{!blog ? 'Submit' : 'Update'}</button>
 					</div>
 				</form>
-				<Modal modalValue={modalOpen}
-				       closeModal={handleModalClose}>
-					<BlogDetails blog={blogData()}/>
-				</Modal>
+				{
+					modalOpen ?
+							<Modal modalValue={modalOpen} closeModal={handleModalClose} fullScreen={true}>
+								<BlogDetails blog={blogData()}/>
+								<div className={"container blog-container px-md-0"}>
+									<button type={"button"} className={"btn bg-olive text-white btn-block"} onClick={toggleModal}>Close
+										preview
+									</button>
+								</div>
+							</Modal>
+							:
+							null
+				}
 			</>
 	);
 }
