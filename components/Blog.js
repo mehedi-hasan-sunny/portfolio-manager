@@ -65,7 +65,7 @@ function Blog({
 							<div className={"mt-4"}>
 								{HtmlParser(blog?.summary ?? '')}
 							</div>
-							<a href={`/blogs/${blog.id}`} target={"_blank"}
+							<a href={`/blogs/${blog.id}`} target={"_blank"} rel={"noreferrer"}
 							   className={`d-inline-block text-underline m${mod === 1 ? 's' : 'e'}-auto`}>
 								<span>See more  &nbsp;</span><i className={"las la-arrow-right  text-underline"}></i>
 							</a>
