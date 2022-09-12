@@ -501,12 +501,12 @@ textarea.form-control {
 }
 
 .switch:before {
-    content: "\f185";
+    /*content: "\f185";*/
     left: 3px;
 }
 
 .switch:after {
-    content: "\f186";
+    /*content: "\f186";*/
     right: 3px;
 }
 
@@ -543,6 +543,8 @@ textarea.form-control {
 
 [data-mode="dark"] .slider:before {
     content: "\f186";
+    background-color: #212121;
+    color: #fefefe;
 }
 
 [data-mode="light"] .slider:before {

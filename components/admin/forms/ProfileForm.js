@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {commonFromSubmitHandler, empty} from "../../../helpers/common";
 import Input from "../../custom/Input";
 import CircleText from "../../custom/CircleText";
@@ -32,10 +32,8 @@ function ProfileForm({profile = null, onSuccessAction}) {
 	
 	const [linkCategories, setLinkCategories] = useState([]);
 	
-	const updateFormData = (event, value = null) => {
-		setFormData(prevState => ({
-			...prevState, [event.target.name]: value ? value : event.target.value
-		}))
+	const updateFormData = (event, value = undefined) => {
+		setFormData({...formData, [event.target.name]: value ?? event.target.value})
 	}
 	const updateFormLinks = (icon, value, index) => {
 		let data = formLinks
@@ -176,4 +174,4 @@ function ProfileForm({profile = null, onSuccessAction}) {
 	</form>);
 }
 
-export default ProfileForm;
+export default React.memo(ProfileForm);

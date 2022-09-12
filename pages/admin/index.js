@@ -1,6 +1,5 @@
-import {useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import profileStyles from "../../styles/Profile.module.css";
-import Card from "../../components/Card";
 import Modal from "../../components/Modal";
 import CreateProjectForm from "../../components/admin/forms/CreateProjectForm";
 import ProfileForm from "../../components/admin/forms/ProfileForm";
@@ -8,6 +7,8 @@ import ActionButton from "../../components/admin/custom/ActionButton";
 import {empty} from "../../helpers/common";
 import ProfilePictureCropper from "../../components/section/ProfilePictureCropper";
 import {DELETE, GET} from "../../actions/http";
+import ActionButtons from "../../components/admin/ActionButtons";
+import Projects from "../../components/admin/Projects";
 
 export async function getServerSideProps(context) {
 	try {
@@ -28,30 +29,31 @@ export async function getServerSideProps(context) {
 function Index({profile, projects = []}) {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [profilePictureModalOpen, setProfilePictureModalOpen] = useState(false);
-	const [profilePictureModalType, setProfilePictureModalType] = useState(null);
+	const [profilePictureModalType, setProfilePictureModalType] = useState("edit");
 	const [profileModal, setProfileModalOpen] = useState(false);
 	const [selectedProject, setSelectedProjectProject] = useState(null);
-	const handleModalClose = () => {
+	const handleModalClose = useCallback(() => {
 		setModalOpen(false)
-	}
-	const toggleModal = () => {
+	});
+	const toggleModal = useCallback(() => {
 		setModalOpen(prev => !prev)
-	}
+	});
 	
-	const toggleProfilePictureModal = (type = "edit") => {
+	const toggleProfilePictureModal = useCallback((type = "edit") => {
 		setProfilePictureModalType(type);
 		setProfilePictureModalOpen(prev => !prev)
-	}
-	const toggleProfileModal = () => {
+	});
+	
+	const toggleProfileModal = useCallback(() => {
 		selectedProject ? setSelectedProjectProject(null) : null
 		setProfileModalOpen(prev => !prev)
-	}
+	})
 	
 	
-	const handleSelectProject = (value) => {
+	const handleSelectProject = useCallback((value) => {
 		setSelectedProjectProject(value)
-	}
-	const deleteProject = async (id) => {
+	})
+	const deleteProject = useCallback(async (id) => {
 		
 		let text = "Are you sure?\nYou are about to delete this project!.";
 		if (confirm(text) === true) {
@@ -60,18 +62,18 @@ function Index({profile, projects = []}) {
 				window.location.reload()
 			}
 		}
-	}
-	const successAction = (data) => {
+	})
+	const successAction = useCallback((data) => {
 		handleModalClose()
 		window.location.reload()
-	}
-	const profilePictureSuccessAction = (data) => {
+	})
+	const profilePictureSuccessAction = useCallback((data) => {
 		profile.displayPicture = data;
 		setProfilePictureModalOpen(prev => !prev)
-	}
+	})
 	
 	
-	const actionButtons = [{
+	const memoActionButtons = useMemo(() => [{
 		title: "Create project", icon: 'la-plus-circle', primary: true, onClick() {
 			setSelectedProjectProject(null);
 			toggleModal();
@@ -92,7 +94,17 @@ function Index({profile, projects = []}) {
 		title: "Services", icon: 'la-briefcase', link: '/admin/services'
 	}, {
 		title: "Blogs", icon: 'la-book-reader', link: '/admin/blogs'
-	}]
+	}, {
+		title: "Settings", icon: 'la-cog', link: '/admin/settings'
+	}], []);
+	
+	const projectProps = useMemo(() => {
+		return {projects, handleSelectProject, toggleModal, deleteProject}
+	}, []);
+	
+	const proFileModalProps = useMemo(() => {
+		return {profile, successAction}
+	}, []);
 	
 	return (
 			<div className={"container"}>
@@ -141,54 +153,11 @@ function Index({profile, projects = []}) {
 				
 				
 				{/*actions*/}
+				<ActionButtons actionButtons={memoActionButtons}/>
 				
-				<div className={"row gap-xs-1 gap-2 mb-4 px-3"}>
-					{
-						actionButtons.map((actionButton, index) => {
-							return <ActionButton size={"large"} {...actionButton} key={index}/>
-						})
-					}
-				</div>
+				<Projects {...projectProps}/>
 				
 				
-				<div className={"row"}>
-					{
-							projects && projects.map((item, index) => {
-								return (
-										<div className={"col-xs-12  col-sm-6 col-lg-4 mb-3"} key={index}>
-											<Card key={index} imgSrc={
-												item.images ?
-														(() => {
-															if (item.images.length) {
-																const thumbnail = item.images.find(item => item.isThumbnail);
-																return thumbnail ? thumbnail.url : item.images[0].url;
-															} else {
-																return "https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg";
-															}
-														})() : null}
-											      className={"mb-2"}
-											      onClick={() => {
-												      handleSelectProject(item)
-												      toggleModal();
-											      }}
-											/>
-											<div className={"d-flex justify-space-between"}>
-												<h4 className={"px-2"}>{item.title}</h4>
-												<div>
-													<i className={"las la-edit hover-able"} onClick={() => {
-														handleSelectProject(item)
-														toggleModal();
-													}}/>
-													&nbsp;
-													<i className="las la-trash-alt ms-auto text-danger" onClick={() => deleteProject(item.id)}/>
-												</div>
-											
-											</div>
-										</div>
-								)
-							})
-					}
-				</div>
 				{
 					modalOpen ?
 							(
@@ -200,12 +169,9 @@ function Index({profile, projects = []}) {
 				}
 				
 				{
-					profileModal ?
-							(
-									<Modal title={"Profile"} modalValue={profileModal} closeModal={toggleProfileModal}>
-										<ProfileForm onSuccessAction={successAction} profile={profile}/>
-									</Modal>
-							) : null
+					profileModal ? <Modal title={"Profile"} modalValue={profileModal} closeModal={toggleProfileModal}>
+						<ProfileForm {...proFileModalProps}/>
+					</Modal> : <></>
 				}
 				
 				{
@@ -225,4 +191,4 @@ function Index({profile, projects = []}) {
 	);
 }
 
-export default Index;
+export default React.memo(Index);

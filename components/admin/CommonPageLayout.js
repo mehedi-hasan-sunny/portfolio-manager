@@ -104,7 +104,8 @@ export default class CommonPageLayout extends Component {
 			</div>
 			
 			{
-				createElement(this.SectionComponent, this.sectionComponentProps)
+				<this.SectionComponent {...this.sectionComponentProps} />
+				// createElement(this.SectionComponent, this.sectionComponentProps)
 			}
 			
 			{

@@ -1,13 +1,16 @@
 import styles from '../styles/Modal.module.css'
-import {useEffect} from "react";
+import React, {useEffect} from "react";
+import Portal from "./Portal";
 
 const Modal = ({title = null, modalValue, closeModal, children, fullScreen = false}) => {
-	let body = document.querySelector('body');
+	
 	const handleClose = () => {
 		closeModal(false);
+		let body = document.querySelector('body');
 		body.removeAttribute("style");
 	}
 	useEffect(() => {
+		let body = document.querySelector('body');
 		if (modalValue) {
 			body.style.overflow = "hidden";
 			if (document.body.scrollHeight > window.innerHeight)
@@ -56,4 +59,4 @@ const Modal = ({title = null, modalValue, closeModal, children, fullScreen = fal
 	);
 };
 
-export default Modal;
+export default Portal(Modal);

@@ -1,14 +1,15 @@
 import Blog from "../Blog";
+import React from "react";
 
 const BlogsSection = ({
-	                         blogs,
-	                         isAdmin = false,
-	                         editBlog = null,
-	                         deleteBlog = null,
-	                         className = null,
-	                         ...props
-                         }) => {
-	const passProps = {isAdmin,editBlog, deleteBlog};
+	                      blogs,
+	                      isAdmin = false,
+	                      editBlog = null,
+	                      deleteBlog = null,
+	                      className = null,
+	                      ...props
+                      }) => {
+	const passProps = {isAdmin, editBlog, deleteBlog};
 	
 	return (
 			<section>
@@ -17,11 +18,11 @@ const BlogsSection = ({
 				</h2>
 				{
 					blogs.map((blog, index) => {
-						return <Blog order={index+1} blog={blog} key={index} {...passProps}/>
+						return <Blog order={index + 1} blog={blog} key={index} {...passProps}/>
 					})
 				}
 			</section>
 	)
 };
 
-export default BlogsSection;
+export default React.memo(BlogsSection);

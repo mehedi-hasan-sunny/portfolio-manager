@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import Card from "../../Card";
 import Input from "../../custom/Input";
 import {disabledFullForm, notify, resetAndEnableFullForm} from "../../../helpers/common";
@@ -10,14 +10,14 @@ const DescriptionBox = dynamic(() => import("../../custom/DescriptionBox"), {ssr
 
 const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 	
-	const defaultThumbnail = project && project?.images.length ? project.images.filter(item => item.isThumbnail === true): null
+	const defaultThumbnail = project && project?.images.length ? project.images.filter(item => item.isThumbnail === true) : null
 	const defaultImages = project && project?.images.length ? project.images.filter(item => item.isThumbnail === false) : []
 	
 	const [formLinks, setFormLinks] = useState([])
 	
 	const [images, setImages] = useState([...defaultImages]);
 	
-	const [thumbnail, setThumbnail] = useState( defaultThumbnail);
+	const [thumbnail, setThumbnail] = useState(defaultThumbnail);
 	
 	const [thumbnailErrorMessage, setThumbnailErrorMessage] = useState(null);
 	
@@ -45,7 +45,7 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 				
 				image.onload = () => {
 					if (image.width >= 800 && image.width <= 860 && image.height >= 600 && image.height <= 660) {
-						if (project?.images){
+						if (project?.images) {
 							deletableImages.push(thumbnail[0])
 						}
 						setThumbnail([{url: image.src}]);
@@ -58,10 +58,9 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 						event.target.value = null;
 						setThumbnailErrorMessage("Thumbnail width x height must between 800x600 px to 860x660 px")
 						
-						if (defaultThumbnail){
+						if (defaultThumbnail) {
 							setThumbnail(defaultThumbnail)
-						}
-						else{
+						} else {
 							setThumbnail(null)
 						}
 						
@@ -96,15 +95,15 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 		
 	}
 	
-	const updateFormData = (event, value = null) => {
+	const updateFormData = useCallback((event, value = null) => {
 		setFormData(prevState => ({
 			...prevState,
 			[event.target.name]: value ? value : event.target.value
 		}))
-	}
+	}, []);
 	
 	const removeImage = (index, item) => {
-		if (project?.images){
+		if (project?.images) {
 			deletableImages.push(item)
 		}
 		
@@ -128,7 +127,7 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 		form.append('description', formData.description);
 		disabledFullForm(e.target)
 		try {
-			const response = await (project ? PUT: POST)(`api/admin/projects${project ? ("/" + project.id) : ''}`, form, false).exec();
+			const response = await (project ? PUT : POST)(`api/admin/projects${project ? ("/" + project.id) : ''}`, form, false).exec();
 			if (response.code === 200 || response.code === 202) {
 				const {data} = response
 				if (data.project) {
@@ -171,7 +170,7 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 	useEffect(async () => {
 		
 		const {data} = await GET(`api/admin/link-categories`).exec();
-		if(data){
+		if (data) {
 			setLinkCategories(data)
 			if (project) {
 				const links = data.map((item) => {
@@ -233,7 +232,8 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 						...prevState,
 						description: value
 					}))
-				}} defaultValue={formData.description} toolbarOptions={['inline','blockType', 'fontSize', 'textAlign', 'emoji',]}/>
+				}} defaultValue={formData.description}
+				                toolbarOptions={['inline', 'blockType', 'fontSize', 'textAlign', 'emoji',]}/>
 				
 				<div className="row">
 					<div className="col-6">
@@ -252,7 +252,8 @@ const CreateProjectForm = ({project = null, onSuccessAction = null}) => {
 							return (
 									<Input label={item.title + " Project Link"} labelPrependIcon={item.icon}
 									       className={`col-12 ${linkCategories.length > 1 ? 'col-md-6' : ''} mb-3`} key={index}
-									       type="url" id={"endDate"} defaultValue={getDefaultLink(item.icon)} name={`links[${item.id}][url]`}
+									       type="url" id={"endDate"} defaultValue={getDefaultLink(item.icon)}
+									       name={`links[${item.id}][url]`}
 									       onInput={(e) => {
 										       updateFormLinks(item.id, item.icon, e.target.value, index)
 									       }} labelOptional={true}/>
