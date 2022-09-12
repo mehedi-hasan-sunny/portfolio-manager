@@ -20,12 +20,12 @@ export default async function handler(req, res) {
 		title: req.body.title.trim(),
 		liveIn: req.body.liveIn.trim(),
 		dob: req.body.dob.trim(),
-		experienceInYears: req.body.experienceInYears.trim(),
+		experienceInYears: req.body.experienceInYears,
 		cvDownloadLink: req.body.cvDownloadLink.trim(),
 		circleText: req.body.circleText.trim(),
-		circleTextSize: req.body.circleTextSize.trim(),
-		circleTextDegree: req.body.circleTextDegree.trim(),
-		circleFontSize: req.body.circleFontSize.trim(),
+		circleTextSize: req.body.circleTextSize,
+		circleTextDegree: req.body.circleTextDegree,
+		circleFontSize: req.body.circleFontSize,
 		// displayPicture: req.body.displayPicture.trim()
 	})
 	
