@@ -13,7 +13,8 @@ export default class CommonPageLayout extends Component {
 		            adminApiUrl,
 		            sectionComponentName,
 		            sectionFormName,
-		            responseData = []
+		            responseData = [],
+								addButtonHidden = false
 	            }) {
 		super();
 		this.sectionDataName = sectionDataName;
@@ -41,6 +42,7 @@ export default class CommonPageLayout extends Component {
 		}
 		
 		this.title = (!this.state.selectedItem ? "Create " : "Update ") + this.singleItemName.replace( /([A-Z])/g, " $1" ).toLowerCase();
+		this.addButtonHidden = addButtonHidden;
 	}
 	
 	state = {
@@ -95,12 +97,17 @@ export default class CommonPageLayout extends Component {
 		return <div className={"container"}>
 			<div className={"d-flex align-center justify-space-between mb-3"}>
 				<GoBack/>
-				<a href={"#"} className={"btn btn-sm bg-olive text-white border-1"} onClick={(e) => {
-					e.preventDefault();
-					this.toggleModal();
-				}}>
-					<i className={"las la-plus-circle me-1"}/> Add
-				</a>
+				
+				{
+					!this.addButtonHidden ?
+							(<a href={"#"} className={"btn btn-sm bg-olive text-white border-1"} onClick={(e) => {
+								e.preventDefault();
+								this.toggleModal();
+							}}>
+								<i className={"las la-plus-circle me-1"}/> Add
+							</a>) : null
+				}
+				
 			</div>
 			
 			{

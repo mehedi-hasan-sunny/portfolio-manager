@@ -6,7 +6,8 @@ const mainProps = {
 	singleItemName: "setting",
 	adminApiUrl: "settings",
 	sectionComponentName: "SettingsSection",
-	sectionFormName: "SettingForm"
+	sectionFormName: "SettingForm",
+	addButtonHidden: true
 }
 
 export async function getServerSideProps(context) {
