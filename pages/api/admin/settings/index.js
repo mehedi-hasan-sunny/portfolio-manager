@@ -4,14 +4,21 @@ import {errorRes, successRes} from "../../../../helpers/jsonResponse";
 import * as path from "path";
 const fs = require('fs');
 const SETTINGS_PATH = path.join(process.cwd(),["config","settings.json"].join(path.sep));
-const settings = require("../../../../config/settings.json");
+let settingsData = {};
+
+try {
+	settingsData = require("../../../../config/settings.json");
+} catch (e) {
+}
+const settingsDefault = require("../../../../config/settingsDefault.json");
+settingsData = {...settingsDefault, ...settingsData};
 
 
 export default async function handler(req, res) {
-	// const authCheck = await ValidateToken({req, res});
-	// if(authCheck !== true){
-	// 	return authCheck
-	// }
+	const authCheck = await ValidateToken({req, res});
+	if(authCheck !== true){
+		return authCheck
+	}
 	
 	const checkMethod = () => {
 		if (!['GET', 'POST'].includes(req.method)) {
@@ -23,26 +30,31 @@ export default async function handler(req, res) {
 		
 		switch (req.method) {
 			case "GET": {
-				successRes(res, settings)
+				successRes(res, settingsData)
 				break
 			}
 			case "POST": {
+				let data;
+				if (fs.existsSync(SETTINGS_PATH)) {
+					data = fs.readFileSync(SETTINGS_PATH, 'utf8');
+				} else {
+					data = settingsData;
+				}
 				
-				const data = fs.readFileSync(SETTINGS_PATH, 'utf8');
-				const settings = (data.length) ? JSON.parse(data): [];
+				const settings = (data.length) ? JSON.parse(data) : [];
 				let formData = {};
-				if (settings instanceof Object){
-					Object.keys(req.body).forEach((key) =>{
+				if (settings instanceof Object) {
+					Object.keys(req.body).forEach((key) => {
 						const keyArr = key.split('.');
 						formData = setNestedProp(formData, keyArr, req.body[key]);
 					});
 				}
-				fs.writeFileSync(SETTINGS_PATH, JSON.stringify({...settings, ...formData}));
+				data = {...settings, ...formData};
+				fs.writeFileSync(SETTINGS_PATH, JSON.stringify(data));
 				
-				successRes(res, req.body)
-				break
+				successRes(res, data);
+				break;
 			}
-			
 		}
 		
 		// if (!(collection instanceof Error)) {
@@ -58,7 +70,6 @@ export default async function handler(req, res) {
 		} else {
 			errorRes(res, err.message)
 		}
-		
 	}
 }
 

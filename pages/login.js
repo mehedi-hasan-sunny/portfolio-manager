@@ -29,7 +29,9 @@ function Login(props) {
 		const formData = new FormData(e.target);
 		const formProps = Object.fromEntries(formData);
 		adminLogin(formProps, () => {
-			window.location.href = "/admin"
+			const urlParams = new URLSearchParams(window.location.search);
+			const redirect = urlParams.get('redirect');
+			window.location.href = redirect || "/admin"
 		})
 		
 	}
