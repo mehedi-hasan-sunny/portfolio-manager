@@ -157,7 +157,6 @@ function Index({profile, projects = []}) {
 				
 				<Projects {...projectProps}/>
 				
-				
 				{
 					modalOpen ?
 							(

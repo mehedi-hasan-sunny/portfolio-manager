@@ -36,7 +36,6 @@ export const resetAndEnableFullForm = (form, reset = true) => {
 export const commonGetServerSideProps = async (props = {}, context = {}) => {
 	try {
 		const {data} = await GET(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/${props.adminApiUrl}`).setContext(context).exec();
-		console.log(data)
 		return {
 			props: {...props, responseData: data ? (Array.isArray(data) ? data.reverse() : data) : []}
 		}

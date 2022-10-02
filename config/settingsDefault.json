@@ -1,16 +1,16 @@
 {
   "sections": {
-    "project": {
+    "projects": {
       "headline": "UI UX Case Studies"
     },
-    "service": {
+    "services": {
       "headline": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, amet aut consectetur culpa cupiditate eveniet facilis fugiat harum illo ipsa itaque labore libero placeat praesentium, quas rem rerum ut voluptate. "
     }
   },
   "projects": {
-    "tabs": "Projects",
+    "default_tab": "Projects",
     "apis": {
-      "dribbble": {
+      "dribbble_shots": {
         "api_url": "",
         "access_token": ""
       }

@@ -3,7 +3,7 @@ import Project from "../Project";
 import Modal from "../Modal";
 import modalStyles from "../../styles/Modal.module.css";
 
-function ProjectsSection({projects}) {
+function ProjectsSection({projects, settings = null}) {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [selectedItem, setSelectedItem] = useState(null);
 	
@@ -20,7 +20,7 @@ function ProjectsSection({projects}) {
 	return (
 			<section>
 				<h2 className={"row fw-bold pb-4 border-bottom-2 ps-2 ps-md-0"}>
-				<span data-aos={"fade-left"}>UI UX Case Studies</span>
+				<span data-aos={"fade-left"}>{settings?.default_tab ?? 'UI UX Case Studies'}</span>
 				</h2>
 				
 				{

@@ -20,6 +20,15 @@ import {getProjects} from "../actions/getProjects";
 import BlogsSection from "../components/section/BlogsSection";
 import {firestore} from "firebase-admin";
 
+let settingsData = {};
+
+try {
+	settingsData = require("../config/settings.json");
+} catch (e) {
+}
+const settingsDefault = require("../config/settingsDefault.json");
+settingsData = {...settingsDefault, ...settingsData};
+
 export async function getStaticProps(context) {
 	try {
 		let projects = [], profile = {}
@@ -136,7 +145,7 @@ export default function Home({
 											case "projects":
 												return (
 														<>
-															<ProjectsSection projects={projects}/>
+															<ProjectsSection projects={projects} settings={settingsData?.projects}/>
 														</>
 												)
 											case "services":
