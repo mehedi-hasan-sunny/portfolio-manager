@@ -22,6 +22,8 @@ try {
 		settingsData = require("/tmp/settings.json");
 	}
 } catch (e) {
+	console.log(process.cwd())
+	console.log(e)
 }
 const settingsDefault = require("../../../../config/settingsDefault.json");
 settingsData = deepmerge(settingsDefault, settingsData);
