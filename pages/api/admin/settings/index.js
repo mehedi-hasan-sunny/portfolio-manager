@@ -13,22 +13,23 @@ if (process && process.env.NODE_ENV === 'development') {
 	SETTINGS_PATH = "/tmp/settings.json";
 }
 
-let settingsData = {};
-
-try {
-	if (process && process.env.NODE_ENV === 'development') {
-		settingsData = require("../../../../config/settings.json");
-	} else {
-		if(fs.existsSync(SETTINGS_PATH)){
-			settingsData = fs.readFileSync("/tmp/settings.json");
-			settingsData = JSON.parse(settingsData);
+function getSettingsData(){
+	let settingsData = {};
+	try {
+		if (process && process.env.NODE_ENV === 'development') {
+			settingsData = require("../../../../config/settings.json");
+		} else {
+			if(fs.existsSync(SETTINGS_PATH)){
+				settingsData = fs.readFileSync(SETTINGS_PATH);
+				settingsData = JSON.parse(settingsData);
+			}
 		}
+	} catch (e) {
 	}
-} catch (e) {
+	const settingsDefault = require("../../../../config/settingsDefault.json");
+	settingsData = deepmerge(settingsDefault, settingsData);
+	return settingsData;
 }
-const settingsDefault = require("../../../../config/settingsDefault.json");
-settingsData = deepmerge(settingsDefault, settingsData);
-
 
 export default async function handler(req, res) {
 	const authCheck = await ValidateToken({req, res});
@@ -46,18 +47,13 @@ export default async function handler(req, res) {
 		
 		switch (req.method) {
 			case "GET": {
+				let settingsData = getSettingsData();
 				successRes(res, settingsData)
 				break
 			}
 			case "POST": {
-				let data;
-				if (fs.existsSync(SETTINGS_PATH)) {
-					data = fs.readFileSync(SETTINGS_PATH, 'utf8');
-				} else {
-					data = settingsData;
-				}
-				
-				const settings = (data.length) ? JSON.parse(data) : [];
+			
+				const settings = getSettingsData();
 				let formData = {};
 				if (settings instanceof Object) {
 					Object.keys(req.body).forEach((key) => {
@@ -65,7 +61,7 @@ export default async function handler(req, res) {
 						formData = setNestedProp(formData, keyArr, req.body[key]);
 					});
 				}
-				data = {...settings, ...formData};
+				const data = {...settings, ...formData};
 				fs.writeFileSync(SETTINGS_PATH, JSON.stringify(data));
 				
 				successRes(res, data);
