@@ -6,29 +6,23 @@ import deepmerge from "deepmerge";
 
 const fs = require('fs');
 
-let SETTINGS_PATH = '';
+let SETTINGS_PATH = "/tmp/settings.json";
 if (process && process.env.NODE_ENV === 'development') {
 	SETTINGS_PATH = path.join(process.cwd(), ["config", "settings.json"].join(path.sep));
-} else {
-	SETTINGS_PATH = "/tmp/settings.json";
 }
 
 function getSettingsData(){
-	let settingsData = {};
+	let settings = {};
 	try {
-		if (process && process.env.NODE_ENV === 'development') {
-			settingsData = require("../../../../config/settings.json");
-		} else {
-			if(fs.existsSync(SETTINGS_PATH)){
-				settingsData = fs.readFileSync(SETTINGS_PATH);
-				settingsData = JSON.parse(settingsData);
-			}
+		if(fs.existsSync(SETTINGS_PATH)){
+			settings = fs.readFileSync(SETTINGS_PATH);
+			settings = JSON.parse(settings);
 		}
 	} catch (e) {
 	}
 	const settingsDefault = require("../../../../config/settingsDefault.json");
-	settingsData = deepmerge(settingsDefault, settingsData);
-	return settingsData;
+	settings = deepmerge(settingsDefault, settings);
+	return settings;
 }
 
 export default async function handler(req, res) {

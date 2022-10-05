@@ -19,20 +19,35 @@ import {empty} from "../helpers/common";
 import {getProjects} from "../actions/getProjects";
 import BlogsSection from "../components/section/BlogsSection";
 import {firestore} from "firebase-admin";
-
-let settingsData = {};
-
-try {
-	settingsData = require("../config/settings.json");
-} catch (e) {
-}
-const settingsDefault = require("../config/settingsDefault.json");
-settingsData = {...settingsDefault, ...settingsData};
-const {sections: settingSections, projects: settingProjects} = settingsData;
+import deepmerge from "deepmerge";
+import path from "path";
 
 
 export async function getStaticProps(context) {
 	try {
+		function getSettingsData(){
+			let settings = {};
+			const fs = require('fs');
+			let SETTINGS_PATH = "/tmp/settings.json";
+			if (process && process.env.NODE_ENV === 'development') {
+				SETTINGS_PATH = path.join(process.cwd(), ["config", "settings.json"].join(path.sep));
+			}
+			
+			try {
+				if(fs.existsSync(SETTINGS_PATH)){
+					settings = fs.readFileSync(SETTINGS_PATH);
+					settings = JSON.parse(settings);
+				}
+			} catch (e) {
+			}
+			const settingsDefault = require("../config/settingsDefault.json");
+			settings = deepmerge(settingsDefault, settings);
+			return settings;
+		}
+		let settingsData = getSettingsData();
+		
+		const {sections: settingSections, projects: settingProjects} = settingsData;
+		
 		let projects = [], profile = {}
 		
 		const profileCollectionRef = db.collection("profile").limit(1);
@@ -102,7 +117,9 @@ export async function getStaticProps(context) {
 				testimonials,
 				services,
 				blogs,
-				dribbbleShotsData
+				dribbbleShotsData,
+				settingSections,
+				settingProjects
 			},
 			revalidate: 60
 		}
@@ -134,7 +151,9 @@ export default function Home({
 	                             testimonials,
 	                             services,
 	                             blogs,
-	                             dribbbleShotsData = []
+	                             dribbbleShotsData = [],
+	                             settingSections = {},
+	                             settingProjects = {}
                              }) {
 	
 	const [currentTab, setCurrentTab] = useState('about');
