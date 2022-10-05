@@ -3,9 +3,9 @@ function CircleText({text, size = 4, deg = 8, innerCircleSize = 1.4, dataAos= nu
 	const dimension = Math.floor(textArray.length * size);
 	let dimensionAfter = dimension - (fontSize *  (fontSize <= 11 ? 6 : 5));
 	
-	if((dimension - dimensionAfter) < 70){
-		// dimensionAfter = 70;
-	}
+	// if((dimension - dimensionAfter) < 70){
+	// 	// dimensionAfter = 70;
+	// }
 	
 	
 	const css = `

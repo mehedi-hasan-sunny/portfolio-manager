@@ -28,6 +28,8 @@ try {
 }
 const settingsDefault = require("../config/settingsDefault.json");
 settingsData = {...settingsDefault, ...settingsData};
+const {sections: settingSections, projects: settingProjects} = settingsData;
+
 
 export async function getStaticProps(context) {
 	try {
@@ -80,7 +82,14 @@ export async function getStaticProps(context) {
 		const docResults = docs.reduce((acc, doc, index) => ({
 			...acc, [doc]: docMappedRes[index][doc]
 		}), {});
-		const {experiences, educations, certifications, skills, testimonials, services, blogs} = docResults
+		const {experiences, educations, certifications, skills, testimonials, services, blogs} = docResults;
+		
+		const dribbbleShots = settingProjects?.apis?.dribbble_shots;
+		let dribbbleShotsData = []
+		if(!empty(dribbbleShots?.api_url)){
+			const result = await fetch(`${dribbbleShots.api_url}?access_token=${dribbbleShots?.access_token}`);
+			dribbbleShotsData = await result.json();
+		}
 		
 		return {
 			props: {
@@ -92,7 +101,8 @@ export async function getStaticProps(context) {
 				skills,
 				testimonials,
 				services,
-				blogs
+				blogs,
+				dribbbleShotsData
 			},
 			revalidate: 60
 		}
@@ -123,7 +133,8 @@ export default function Home({
 	                             skills,
 	                             testimonials,
 	                             services,
-	                             blogs
+	                             blogs,
+	                             dribbbleShotsData = []
                              }) {
 	
 	const [currentTab, setCurrentTab] = useState('about');
@@ -144,9 +155,7 @@ export default function Home({
 										switch (currentTab) {
 											case "projects":
 												return (
-														<>
-															<ProjectsSection projects={projects} settings={settingsData?.projects}/>
-														</>
+														<ProjectsSection sectionTitle={settingSections?.projects?.title} projects={projects} settings={settingProjects} dribbbleShots={dribbbleShotsData}/>
 												)
 											case "services":
 												return (

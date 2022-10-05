@@ -1,12 +1,28 @@
 import styles from '../styles/Card.module.css'
 import Image from "next/image";
 import NoImage from "../public/no-image.jpg"
+import {useCallback} from "react";
 
-const Card = ({imgSrc, alt, className = null, maxWidth = null, maxHeight = null, children, style, onClick = null}) => {
+const Card = ({
+	              imgSrc,
+	              alt,
+	              className = null,
+	              maxWidth = null,
+	              maxHeight = null,
+	              children,
+	              style,
+	              onClick = null,
+	              href = "#"
+              }) => {
 	
+	const handleClick = useCallback((event) => {
+		event.preventDefault();
+		if (onClick) {
+			onClick();
+		}
+	}, [onClick])
 	return (
-			<div className={styles.card + " " + (className ? className : '')} onClick={() => onClick ? onClick() : null}>
-				
+			<a href={href} className={styles.card + " " + (className ? className : '')} onClick={handleClick}>
 				{imgSrc ?
 						<div className="image-container">
 							<Image className={"img-fluid"} src={imgSrc} placeholder={NoImage}
@@ -14,7 +30,7 @@ const Card = ({imgSrc, alt, className = null, maxWidth = null, maxHeight = null,
 						</div>
 						: null}
 				{children}
-			</div>
+			</a>
 	);
 };
 

@@ -24,7 +24,9 @@ const Profile = ({profile = null}) => {
 									<h1 className={"fw-bold mb-3 lh-32"} data-aos="fade-right">{profile.firstName + " " + profile.lastName}</h1>
 									<h4 className={"fw-bold mb-5"} data-aos="fade-left">{profile.title}</h4>
 									
-									<div className={"reach-me-ticker"}></div>
+									<div className={"reach-me-ticker d-none d-md-block"} style={{left: Math.floor(profile?.circleText?.length * profile?.circleTextSize / 1.5)}}>
+										<span></span>
+									</div>
 									<div className={"row justify-space-between align-end py-3 border " + styles.reachMeSection}>
 										<div className="col text-left" data-aos={"fade-right"}>
 											<h4 className={"fw-bold"}>Reach Me</h4>

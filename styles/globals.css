@@ -966,14 +966,22 @@ h6:empty {
 }
 
 .reach-me-ticker {
-    height: 7rem;
-    border-left: 2px solid var(--border-color2);
+    width: 14px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     top: 30%;
-    left: 10%;
+    left: 5rem;
     opacity: 0;
     animation: bounce 4s infinite linear;
     animation-delay: 1.25s;
+    border-radius: 6px;
+}
+.reach-me-ticker > span {
+    border-left: 2px solid var(--border-color2);
+    display: block;
+    height: 7rem;
     border-radius: 6px;
 }
 
@@ -982,11 +990,11 @@ h6:empty {
     display: inline-block;
     height: 7px;
     border-left: 2px solid var(--border-color2);
-    transform: rotate(40deg);
+    transform: rotate(320deg);
     position: absolute;
-    bottom: 0;
+    bottom: -1px;
     border-radius: 6px;
-    left: 1px;
+    left: 4px;
 }
 
 .reach-me-ticker:after {
@@ -994,10 +1002,10 @@ h6:empty {
     display: inline-block;
     height: 7px;
     border-left: 2px solid var(--border-color2);
-    transform: rotate(320deg);
+    transform: rotate(40deg);
     position: absolute;
-    bottom: 0;
-    left: -4px;
+    bottom: -1px;
+    left: 8px;
     border-radius: 6px;
 }
 

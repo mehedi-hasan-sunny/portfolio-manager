@@ -2,8 +2,10 @@ import {useState} from 'react';
 import Project from "../Project";
 import Modal from "../Modal";
 import modalStyles from "../../styles/Modal.module.css";
+import {empty, ucFirst} from "../../helpers/common";
+import DribbbleShot from "../DribbbleShot";
 
-function ProjectsSection({projects, settings = null}) {
+function ProjectsSection({projects, sectionTitle='Projects', settings = null, dribbbleShots = []}) {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [selectedItem, setSelectedItem] = useState(null);
 	
@@ -17,17 +19,67 @@ function ProjectsSection({projects, settings = null}) {
 		setSelectedItem(null)
 	}
 	
+	const [currentTab, setCurrentTab] = useState(!empty(settings?.default_tab) ? 'default' : (!empty(settings?.apis?.dribbble_shots?.api_url) ? 'dribbble_shots' : ''));
+	const handleTabSelection = (value) => {
+		setCurrentTab(value)
+	}
+	const checkActiveTab = (value) => {
+		return currentTab === value ? 'active' : ''
+	}
+	
+	const settingsDribbbleShots = settings?.apis?.dribbble_shots;
+	
 	return (
 			<section>
 				<h2 className={"row fw-bold pb-4 border-bottom-2 ps-2 ps-md-0"}>
-				<span data-aos={"fade-left"}>{settings?.default_tab ?? 'UI UX Case Studies'}</span>
+					<span data-aos={"fade-left"}>{sectionTitle ?? 'Projects'}</span>
 				</h2>
 				
+				
+				<div className={"tabs mb-4 pt-0"}>
+					{
+						!empty(settings?.default_tab) ?
+								<button type={"button"} role={"tab"} className={`tab-item ${checkActiveTab('default')}`}
+								        key={'tab-' + 0}
+								        onClick={() => handleTabSelection('default')}> {ucFirst(settings?.default_tab ?? 'Projects')}
+								</button> : null
+					}
+					{
+						!empty(settingsDribbbleShots?.api_url) ?
+								<button type={"button"} role={"tab"} className={`tab-item ${checkActiveTab('dribbble_shots')}`}
+								        key={'tab-' + 1} onClick={() => handleTabSelection('dribbble_shots')}> Dribbble Shots
+								</button> : null
+					}
+				</div>
+				
+				
 				{
-					projects.map((project, index) => {
-						return <Project order={index+1} className={"border-bottom-2"} project={project} key={index} handleSelectedItem={handleSelectedItem}/>
-					})
+					currentTab === 'default' ?
+							<div className={`tab-content ${currentTab === 'default' ? 'active' : ''}`} data-tab={'default'}>
+								{
+									projects.map((project, index) => {
+										return <Project order={index + 1} className={"border-bottom-2"} project={project} key={index}
+										                handleSelectedItem={handleSelectedItem}/>
+									})
+								}
+							</div>
+							: null
 				}
+				{
+					currentTab === 'dribbble_shots' ?
+							<div className={`row tab-content ${currentTab === 'dribbble_shots' ? 'd-flex' : ''}`}
+							     data-tab={'dribbble_shots'}>
+								{
+									dribbbleShots.map((dribbbleShot, index) => {
+										return <div className={"col-12 col-sm-6 col-lg-4 mb-2 mb-md-3"} key={index} data-aos={"fade-up"}>
+											<DribbbleShot shot={dribbbleShot}/>
+										</div>
+									})
+								}
+							</div>
+							: null
+				}
+				
 				
 				{
 					selectedItem ?

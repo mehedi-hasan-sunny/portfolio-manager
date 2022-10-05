@@ -1,5 +1,4 @@
 import EditDeleteGetByIdAction from "!/helpers/api/EditDeleteGetByIdAction";
-import {firestore} from "firebase-admin";
 
 
 export const config = {

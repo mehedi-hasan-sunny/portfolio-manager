@@ -28,6 +28,7 @@ export default async function handler(req, res) {
 		case "GET": {
 			try {
 				const result = await getProjects(db);
+				console.log(result)
 				successRes(res, result)
 			} catch (err) {
 				errorRes(res, err.message)
