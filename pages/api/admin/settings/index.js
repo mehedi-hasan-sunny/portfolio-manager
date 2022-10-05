@@ -19,11 +19,12 @@ try {
 	if (process && process.env.NODE_ENV === 'development') {
 		settingsData = require("../../../../config/settings.json");
 	} else {
-		settingsData = require("/tmp/settings.json");
+		if(fs.existsSync(SETTINGS_PATH)){
+			settingsData = fs.readFileSync("/tmp/settings.json");
+			settingsData = JSON.parse(settingsData);
+		}
 	}
 } catch (e) {
-	console.log(process.cwd())
-	console.log(e)
 }
 const settingsDefault = require("../../../../config/settingsDefault.json");
 settingsData = deepmerge(settingsDefault, settingsData);
