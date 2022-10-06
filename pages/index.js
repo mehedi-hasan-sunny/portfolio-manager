@@ -20,31 +20,25 @@ import {getProjects} from "../actions/getProjects";
 import BlogsSection from "../components/section/BlogsSection";
 import {firestore} from "firebase-admin";
 import deepmerge from "deepmerge";
-import path from "path";
+import CRUD from "../helpers/CRUD";
+import settingsDefault from "../config/settingsDefault.json";
 
 
 export async function getStaticProps(context) {
 	try {
-		function getSettingsData(){
-			let settings = {};
-			const fs = require('fs');
-			let SETTINGS_PATH = "/tmp/settings.json";
-			if (process && process.env.NODE_ENV === 'development') {
-				SETTINGS_PATH = path.join(process.cwd(), ["config", "settings.json"].join(path.sep));
-			}
-			
-			try {
-				if(fs.existsSync(SETTINGS_PATH)){
-					settings = fs.readFileSync(SETTINGS_PATH);
-					settings = JSON.parse(settings);
-				}
-			} catch (e) {
-			}
-			const settingsDefault = require("../config/settingsDefault.json");
-			settings = deepmerge(settingsDefault, settings);
-			return settings;
+		const collectionCRUD = new CRUD('settings', 'settings');
+		const settingsDefault = require("../config/settingsDefault.json");
+		let settingsCollection = await collectionCRUD.read();
+		
+		if (settingsCollection instanceof Error) {
+			settingsCollection = {}
+		} else {
+			settingsCollection = settingsCollection[0]
+			delete settingsCollection.id
 		}
-		let settingsData = getSettingsData();
+		
+		
+		let settingsData = deepmerge(settingsDefault, settingsCollection);
 		
 		const {sections: settingSections, projects: settingProjects} = settingsData;
 		

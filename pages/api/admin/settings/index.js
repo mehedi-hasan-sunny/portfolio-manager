@@ -1,29 +1,9 @@
 import {ValidateToken} from "../../../../helpers/api/AuthCheck";
 import MethodNotAllowedException from "../../../../helpers/CustomError";
 import {errorRes, successRes} from "../../../../helpers/jsonResponse";
-import * as path from "path";
 import deepmerge from "deepmerge";
+import CRUD from "../../../../helpers/CRUD";
 
-const fs = require('fs');
-
-let SETTINGS_PATH = "/tmp/settings.json";
-if (process && process.env.NODE_ENV === 'development') {
-	SETTINGS_PATH = path.join(process.cwd(), ["config", "settings.json"].join(path.sep));
-}
-
-function getSettingsData(){
-	let settings = {};
-	try {
-		if(fs.existsSync(SETTINGS_PATH)){
-			settings = fs.readFileSync(SETTINGS_PATH);
-			settings = JSON.parse(settings);
-		}
-	} catch (e) {
-	}
-	const settingsDefault = require("../../../../config/settingsDefault.json");
-	settings = deepmerge(settingsDefault, settings);
-	return settings;
-}
 
 export default async function handler(req, res) {
 	const authCheck = await ValidateToken({req, res});
@@ -38,27 +18,42 @@ export default async function handler(req, res) {
 	}
 	try {
 		checkMethod();
+		const collectionCRUD = new CRUD('settings', 'settings');
+		let collection = null;
+		let formData = {};
 		
 		switch (req.method) {
 			case "GET": {
-				let settingsData = getSettingsData();
-				successRes(res, settingsData)
+				const settingsDefault = require("../../../../config/settingsDefault.json");
+				collection = await collectionCRUD.read();
+				
+				if (collection instanceof Error) {
+					collection = {}
+				} else {
+					collection = collection[0]
+					delete collection.id
+				}
+				
+				successRes(res, deepmerge(settingsDefault, collection))
 				break
 			}
 			case "POST": {
-			
-				const settings = getSettingsData();
-				let formData = {};
-				if (settings instanceof Object) {
-					Object.keys(req.body).forEach((key) => {
-						const keyArr = key.split('.');
-						formData = setNestedProp(formData, keyArr, req.body[key]);
-					});
-				}
-				const data = {...settings, ...formData};
-				fs.writeFileSync(SETTINGS_PATH, JSON.stringify(data));
 				
-				successRes(res, data);
+				Object.keys(req.body).forEach((key) => {
+					const keyArr = key.split('.');
+					formData = setNestedProp(formData, keyArr, req.body[key]);
+				});
+				
+				collection = await collectionCRUD.read();
+				if (collection instanceof Error) {
+					collection = await collectionCRUD.create(formData)
+				} else {
+					collection = collection[0]
+					collection = await collectionCRUD.update(collection.id, formData)
+					delete collection.id
+				}
+				
+				successRes(res, collection);
 				break;
 			}
 		}
