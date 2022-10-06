@@ -5,7 +5,7 @@ import modalStyles from "../../styles/Modal.module.css";
 import {empty, ucFirst} from "../../helpers/common";
 import DribbbleShot from "../DribbbleShot";
 
-function ProjectsSection({projects, sectionTitle='Projects', settings = null, dribbbleShots = []}) {
+function ProjectsSection({projects, sectionTitle = null, settings = null, dribbbleShots = []}) {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [selectedItem, setSelectedItem] = useState(null);
 	
@@ -31,12 +31,15 @@ function ProjectsSection({projects, sectionTitle='Projects', settings = null, dr
 	
 	return (
 			<section>
-				<h2 className={"row fw-bold pb-4 border-bottom-2 ps-2 ps-md-0"}>
-					<span data-aos={"fade-left"}>{sectionTitle ?? 'Projects'}</span>
-				</h2>
+				{
+					sectionTitle ? (
+							<h2 className={"row fw-bold pb-4 border-bottom-2 ps-2 ps-md-0"}>
+								<span data-aos={"fade-left"}>{sectionTitle ?? 'Projects'}</span>
+							</h2>
+					) : null
+				}
 				
-				
-				<div className={"tabs mb-4 pt-0"}>
+				<div className={"tabs mb-4 pt-0 border-0"}>
 					{
 						!empty(settings?.default_tab) ?
 								<button type={"button"} role={"tab"} className={`tab-item ${checkActiveTab('default')}`}
