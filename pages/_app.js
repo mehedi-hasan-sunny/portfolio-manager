@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import Head from "next/head";
-import {useEffect, useLayoutEffect, useState} from "react";
+import {useCallback, useEffect, useLayoutEffect, useState} from "react";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import 'aos/dist/aos.css';
@@ -10,16 +10,19 @@ import nookies from "nookies";
 import {getCookie} from "cookies-next";
 
 function MyApp({Component, pageProps, ...rest}) {
+	const [switchValue, setSwitchValue] = useState();
 	
-	const darkMode = getCookie("darkMode");
-	const [switchValue, setSwitchValue] = useState((darkMode && darkMode === 'on'));
-	
-	const toggleDarkMode = (e) => {
+	const toggleDarkMode = useCallback((e) => {
 		const mode = document.querySelector("[data-mode]");
-		mode.dataset.mode = !switchValue ? "dark" : 'light';
-		nookies.set(undefined, 'darkMode', e.target.checked ? 'on' : 'off', {path: '/', maxAge: 365 * 24 * 60 * 60 * 1000});
-		setSwitchValue((prev) => !prev)
-	}
+		mode.dataset.mode = (mode.dataset.mode === 'light') ? "dark" : 'light';
+		nookies.set(undefined, 'darkMode', !(mode.dataset.mode === 'light') ? 'on' : 'off', {
+			path: '/',
+			maxAge: 365 * 24 * 60 * 60 * 1000
+		});
+		setSwitchValue((prev) => {
+			return (mode.dataset.mode === 'light')
+		})
+	})
 	
 	const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect
 	
@@ -28,6 +31,7 @@ function MyApp({Component, pageProps, ...rest}) {
 			const mode = getCookie("darkMode");
 			const ele = document.querySelector("[data-mode]");
 			ele.dataset.mode = (mode && mode === 'on' ? "dark" : 'light');
+			setSwitchValue(!(mode && mode === 'on'))
 		}
 	}, []);
 	
@@ -52,7 +56,7 @@ function MyApp({Component, pageProps, ...rest}) {
 					
 					<button className={"transparent-btn mt-4 me-4"} onClick={toggleDarkMode}>
 						{
-							switchValue ? <i className={"la fs-24 la-sun-o text-gold"}/> : <i className={"la fs-24 la-moon"}/>
+							!switchValue ? <i className={"la fs-24 la-sun-o text-gold"}></i> : <i className={"la fs-24 la-moon"}> </i>
 						}
 					</button>
 					
