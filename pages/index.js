@@ -212,7 +212,7 @@ export default function Home({
 																>
 																	Let's Talk
 																</button>
-																<a href={profile.cvDownloadLink} download target={"_blank"}
+																<a href={profile.cvDownloadLink} download target={"_blank"} rel="noreferrer"
 																		className={"btn border-1 border-white btn-xs-block btn-pill border-olive text-olive hover:bg-olive"}>
 																	Download my cv
 																</a>
