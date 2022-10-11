@@ -63,7 +63,7 @@ const GetPostAction = async (req, res, collectionName, formData, formFileKeys=[]
 		}
 		
 	} catch (err) {
-		console.log(err)
+		console.error(err)
 		if (err instanceof MethodNotAllowedException) {
 			errorRes(res, err.message, 405)
 		} else {

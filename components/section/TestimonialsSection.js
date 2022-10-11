@@ -27,12 +27,16 @@ const TestimonialsSection = ({
 								<div className={"my-3"} style={{minHeight: "7rem"}}>
 									{HtmlParser(testimonials[currentIndex].feedback)}
 								</div>
-								<button className={"me-2 btn btn-sm rounded-circle transparent-btn p-2 border-1 text-dark"} onClick={() => {
+								<button className={"me-2 btn btn-sm rounded-circle transparent-btn p-2 "
+									+ (currentIndex <= 0 ? 'border-1' : 'border-dark')}
+					        onClick={() => {
 									handleCurrentIndex(currentIndex - 1)
 								}} disabled={currentIndex <= 0}><i className={"la la-angle-left"}></i></button>
-								<button className={"btn btn-sm rounded-circle transparent-btn p-2 border-1 text-dark"} onClick={() => {
-									handleCurrentIndex(currentIndex + 1)
-								}} disabled={currentIndex >= testimonials.length - 1}>
+								<button
+										className={"btn btn-sm rounded-circle transparent-btn p-2 "
+										+ (currentIndex >= testimonials.length - 1 ? 'border-1' : 'border-dark')}
+										onClick={() => { handleCurrentIndex(currentIndex + 1)}}
+										disabled={currentIndex >= testimonials.length - 1}>
 									<i className={"la la-angle-right"}></i>
 								</button>
 								{

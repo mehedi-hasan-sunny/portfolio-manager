@@ -37,20 +37,17 @@ function CertificationForm({certification = null, onSuccessAction}) {
 					<Input type="date" className={"col-12 col-md-6 mb-0"} label={"Issue Date"} id={"issueDate"} name={"issueDate"}
 					       required defaultValue={formData.issueDate} onInput={updateFormData}/>
 					
-					<Input type="date" className={"col-12 col-md-6 mb-0"} label={"Expire Date"} labelOptional={true} id={"expireDate"}
+					<Input type="date" className={"col-12 col-md-6 mb-0"} label={"Expire Date"} labelOptional={true}
+					       id={"expireDate"}
 					       name={"expireDate"} defaultValue={formData.expireDate} onInput={updateFormData}/>
 				</div>
 				
-				<div className="mb-3">
-					<label htmlFor="credentialId" className={"form-label"}>Credential ID</label>
-					<input id={"credentialId"} type="text" className={"form-control"} name={"credentialId"} required
-					       defaultValue={formData.credentialId} onInput={updateFormData}/>
-				</div>
-				<div className="mb-3">
-					<label htmlFor="certificateLink" className={"form-label"}>Certification Link</label>
-					<input id={"certificateLink"} type="text" className={"form-control"} name={"certificateLink"} required
-					       defaultValue={formData.certificateLink} onInput={updateFormData}/>
-				</div>
+				<Input label={"Credential ID"} id={"credentialId"} name={"credentialId"} required
+				       defaultValue={formData.credentialId} onInput={updateFormData}/>
+				
+				<Input type="url" label={"Certification Link"} id={"certificateLink"} name={"certificateLink"} required
+				       defaultValue={formData.certificateLink} onInput={updateFormData}/>
+				
 				<button type={"submit"}
 				        className={"btn bg-olive text-white pull-right"}>{!certification ? 'Submit' : 'Update'}</button>
 			</form>

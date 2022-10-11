@@ -75,7 +75,7 @@ export default async function handler(req, res) {
 						
 						
 					} catch (err) {
-						console.log(err)
+						console.error(err)
 						errorRes(res, err.message, 500)
 					}
 					
@@ -85,7 +85,7 @@ export default async function handler(req, res) {
 				
 				
 			} catch (err) {
-				console.log(err)
+				console.error(err)
 				errorRes(res, err.message)
 			}
 			break

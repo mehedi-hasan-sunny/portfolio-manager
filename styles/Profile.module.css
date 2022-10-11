@@ -262,6 +262,7 @@ img.avatarAdmin {
     overflow: hidden;
     width: 12rem;
     background-color: var(--body-bg);
+    z-index: 10;
 }
 .profileImgDropdown > button:hover{
     background-color: #bcb9b9;

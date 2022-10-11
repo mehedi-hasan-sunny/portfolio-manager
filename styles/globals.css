@@ -57,6 +57,7 @@ body {
     line-height: 1.35;
     font-family: "Manrope", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    overflow-x: hidden;
 }
 
 html {
@@ -739,6 +740,9 @@ input[type="range"].form-control {
 .border-bottom-2-dark {
     border-bottom: 2px solid var(--body-color);
 }
+.border-dark {
+    border: 1px solid var(--body-color) !important;
+}
 
 .relative {
     position: relative;
@@ -982,6 +986,7 @@ h6:empty {
     display: block;
     height: 7rem;
     border-radius: 6px;
+    margin-left: 1px;
 }
 
 .reach-me-ticker:before {
@@ -989,7 +994,7 @@ h6:empty {
     display: inline-block;
     height: 7px;
     border-left: 2px solid var(--border-color2);
-    transform: rotate(320deg);
+    transform: rotate(310deg);
     position: absolute;
     bottom: -1px;
     border-radius: 6px;
@@ -1001,7 +1006,7 @@ h6:empty {
     display: inline-block;
     height: 7px;
     border-left: 2px solid var(--border-color2);
-    transform: rotate(40deg);
+    transform: rotate(230deg);
     position: absolute;
     bottom: -1px;
     left: 8px;
@@ -1057,4 +1062,19 @@ blockquote {
 .mx-n3{
     margin-right: -1rem !important;
     margin-left: -1rem !important;
+}
+
+.la-moon {
+    position: relative;
+}
+.la-moon::after{
+    content: '';
+    display: block;
+    height: 6px;
+    width: 6px;
+    background-color: var(--body-bg);
+    position: absolute;
+    top: 2px;
+    left: 1px;
+    transition: 0.5s ease-in;
 }

@@ -83,7 +83,7 @@ const EditDeleteGetByIdAction = async (req, res, collectionName, formData, formF
 		}
 		
 	} catch (err) {
-		console.log(err)
+		console.error(err)
 		if (err instanceof MethodNotAllowedException) {
 			errorRes(res, err.message, 405)
 		} else {

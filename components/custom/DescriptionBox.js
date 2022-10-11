@@ -1,5 +1,5 @@
-import {Component} from 'react';
-import {convertToRaw, ContentState, EditorState} from "draft-js";
+import {Component, memo} from 'react';
+import {ContentState, convertToRaw, EditorState} from "draft-js";
 import {Editor} from "react-draft-wysiwyg"
 import HtmlToDraft from "html-to-draftjs";
 import DraftToHtml from "draftjs-to-html"
@@ -48,6 +48,7 @@ class DescriptionBox extends Component {
 				ref
 			}
 		});
+		this.props.getRef ? this.props.getRef(ref) : null;
 	}
 	
 	
@@ -107,6 +108,7 @@ class DescriptionBox extends Component {
 						// 	// image: { uploadCallback: uploadImageCallBack, alt: { present: true, mandatory: true } },
 						// }}
 				/>
+			
 			</div>
 		
 		</div>
@@ -122,6 +124,8 @@ DescriptionBox.propTypes = {
 	toolbarOptions: PropTypes.array,
 	toolbarInnerOptions: PropTypes.object,
 	toolbarAllOptions: PropTypes.bool,
+	required: PropTypes.bool,
+	getRef: PropTypes.func
 }
 
 DescriptionBox.defaultProps = {
@@ -139,4 +143,4 @@ DescriptionBox.defaultProps = {
 }
 
 
-export default DescriptionBox;
+export default memo(DescriptionBox);

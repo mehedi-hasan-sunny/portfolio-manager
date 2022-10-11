@@ -123,7 +123,7 @@ function ProfilePictureCropper({displayPicture, profileId = null, onSuccessActio
 				}
 			}
 		} catch (e) {
-			console.log(e)
+			console.error(e)
 		}
 	}
 	

@@ -21,7 +21,6 @@ import BlogsSection from "../components/section/BlogsSection";
 import {firestore} from "firebase-admin";
 import deepmerge from "deepmerge";
 import CRUD from "../helpers/CRUD";
-import settingsDefault from "../config/settingsDefault.json";
 
 
 export async function getStaticProps(context) {
@@ -119,7 +118,7 @@ export async function getStaticProps(context) {
 		}
 		
 	} catch (e) {
-		console.log(e)
+		console.error(e)
 		return {
 			props: {
 				projects: [],
@@ -213,10 +212,10 @@ export default function Home({
 																>
 																	Let's Talk
 																</button>
-																<button
+																<a href={profile.cvDownloadLink} download target={"_blank"}
 																		className={"btn border-1 border-white btn-xs-block btn-pill border-olive text-olive hover:bg-olive"}>
 																	Download my cv
-																</button>
+																</a>
 															</SectionLayout>
 														</>
 												)

@@ -1,10 +1,11 @@
 import {useState} from 'react';
-import {commonFromSubmitHandler} from "../../../helpers/common";
+import {commonFromSubmitHandler, empty} from "../../../helpers/common";
 import Input from "../../custom/Input";
 import DescriptionBox from "../../custom/DescriptionBox";
 
 function ExperienceForm({experience = null, onSuccessAction}) {
-	const [isPresent, setIsPresent] = useState(!!(experience && !experience?.endDate))
+	const [descriptionRef, setDescriptionRef] = useState();
+	const [isPresent, setIsPresent] = useState(!!(experience && !experience?.endDate));
 	const [formData, setFormData] = useState(experience ? experience : {
 		designation: null,
 		company: null,
@@ -23,7 +24,11 @@ function ExperienceForm({experience = null, onSuccessAction}) {
 		}))
 	}
 	const handleSubmit = async (event) => {
-		event.preventDefault()
+		event.preventDefault();
+		if(empty(formData.description) || formData.description.trim() === "<p></p>"){
+			descriptionRef.focus();
+			return;
+		}
 		const form = new FormData(event.target);
 		form.append('description', formData.description)
 		const formProps = Object.fromEntries(form);
@@ -61,7 +66,7 @@ function ExperienceForm({experience = null, onSuccessAction}) {
 						...prevState,
 						description: value
 					}))
-				}} defaultValue={formData.description}/>
+				}} defaultValue={formData.description} getRef={(ref) => setDescriptionRef(ref)} required/>
 				
 				{/*<Input label={"Description"} id={"description"} name={"description"} required type={"textarea"}*/}
 				{/*       defaultValue={formData.description} onInput={updateFormData} rows={4}/>*/}

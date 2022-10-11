@@ -58,7 +58,7 @@ export default async function handler(req, res) {
 				successRes(res, {id: collection.id, ...collection.data()}, 202)
 				
 			} catch (err) {
-				console.log(err)
+				console.error(err)
 				errorRes(res, err.message)
 			}
 			break
