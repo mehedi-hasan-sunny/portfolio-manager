@@ -13,8 +13,8 @@ import Projects from "../../components/admin/Projects";
 export async function getServerSideProps(context) {
 	try {
 		
-		const {data: profileData} = await GET(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/profile`).setContext(context).exec();
-		const {data: projects} = await GET(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/projects`).setContext(context).exec();
+		const {data: profileData} = await GET(`${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/api/admin/profile`).setContext(context).exec();
+		const {data: projects} = await GET(`${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/api/admin/projects`).setContext(context).exec();
 		
 		return {
 			props: {profile: profileData ?? null, projects: projects ?? []}, // will be passed to the page component as props

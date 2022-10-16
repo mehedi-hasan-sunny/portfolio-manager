@@ -35,7 +35,7 @@ export const resetAndEnableFullForm = (form, reset = true) => {
 
 export const commonGetServerSideProps = async (props = {}, context = {}) => {
 	try {
-		const {data} = await GET(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/${props.adminApiUrl}`).setContext(context).exec();
+		const {data} = await GET(`${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/api/admin/${props.adminApiUrl}`).setContext(context).exec();
 		return {
 			props: {...props, responseData: data ? (Array.isArray(data) ? data.reverse() : data) : []}
 		}
@@ -64,7 +64,7 @@ export const commonFromSubmitHandler = async (event, formData, apiUrl, item = nu
 		
 		const URL = apiUrl.trim().replace(/^(\/)+/, '') + (!empty(item) && item?.id ? `/${item.id}` : '');
 		
-		const response = await (item?.id ? PUT : POST)(`${process.env.NEXT_PUBLIC_BASE_URL}/api/${URL}`, formData).exec();
+		const response = await (item?.id ? PUT : POST)(`${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/api/${URL}`, formData).exec();
 		
 		if (response.code === 200 || response.code === 202) {
 			const {data} = response

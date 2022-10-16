@@ -16,7 +16,7 @@ const ServicesSection = ({
 						services.map((service) => {
 							return <div className="col-12 col-md-6 col-lg-4" key={service.id}>
 								<div
-										className={"relative border-1 rounded-lg d-flex align-center justify-center flex-column text-center p-3 w-100"}>
+										className={"relative border-1 rounded-lg d-flex align-center justify-center flex-column p-3 w-100"}>
 									<img className={"img-fluid mt-1"} src={service.icon} alt="" loading={"lazy"}/>
 									<h4 className={"fw-bold my-3"}>{service.title}</h4>
 									<div className={"fs-14 my-0"}>
