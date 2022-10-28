@@ -13,13 +13,19 @@ const BlogsSection = ({
 	
 	return (
 			<section>
-				<h2 className={"row fw-bold pb-4 border-bottom-2-dark ps-2 ps-md-0"}>
-					<span data-aos={"fade-left"}>Latest Posts</span>
-				</h2>
 				{
-					blogs.map((blog, index) => {
-						return <Blog order={index + 1} blog={blog} key={index} {...passProps}/>
-					})
+					blogs.length ?
+							<>
+								<h2 className={"row fw-bold pb-4 border-bottom-2-dark ps-2 ps-md-0"}>
+									<span data-aos={"fade-left"}>Latest Posts</span>
+								</h2>
+								{
+									blogs.map((blog, index) => {
+										return <Blog order={index + 1} blog={blog} key={index} {...passProps}/>
+									})
+								}
+							</>
+							: <div className={"text-center"}>No blogs posted yet</div>
 				}
 			</section>
 	)

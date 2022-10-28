@@ -15,7 +15,12 @@ function Navbar({className = '', ...props}) {
 	const {currentTab} = value.state;
 	const {setCurrentTab} = value;
 	
-	const tabs = ["about", "projects", "services", "blogs", "contact"]
+	const tabs = ["about", "projects", "services", "blogs", "contact"];
+	
+	if(!props?.showServices)
+	{
+		delete tabs[2]
+	}
 	
 	return (
 			<nav className={(`nav-bar fixed tabs ${className}`)}>

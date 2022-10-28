@@ -65,7 +65,7 @@ export async function getStaticProps(context) {
 		const docs = ["experiences", "educations", "certifications", "skills", "testimonials", "services", "blogs"]
 		const docRes = async (doc) => {
 			const docRef = db.collection(doc);
-			const docSnap = await docRef.get();
+			const docSnap = await docRef.orderBy("createdAt", "asc").get();
 			if (!docSnap.empty) {
 				return docSnap.docs.reverse().map(collection => {
 					
@@ -94,8 +94,8 @@ export async function getStaticProps(context) {
 		
 		const dribbbleShots = settingProjects?.apis?.dribbble_shots;
 		let dribbbleShotsData = []
-		if(!empty(dribbbleShots?.api_url)){
-			const result = await fetch(`${dribbbleShots.api_url}?access_token=${dribbbleShots?.access_token}`);
+		if (!empty(dribbbleShots?.api_url)) {
+			const result = await fetch(`${dribbbleShots.api_url}?access_token=${dribbbleShots?.access_token}&per_page=100`);
 			dribbbleShotsData = await result.json();
 		}
 		
@@ -155,7 +155,7 @@ export default function Home({
 				<Head key={"main"}>
 					<title>{!empty(profile) ? profile.firstName + " " + profile.lastName : process.env.NEXT_PUBLIC_TITLE}</title>
 				</Head>
-				<Navbar className={"w-100"}/>
+				<Navbar className={"w-100"} showServices={!!services.length}/>
 				<main className={main + " nav-bar-spacer"}>
 					
 					<Profile profile={profile}/>
@@ -167,12 +167,17 @@ export default function Home({
 										switch (currentTab) {
 											case "projects":
 												return (
-														<ProjectsSection sectionTitle={settingSections?.projects?.title} projects={projects} settings={settingProjects} dribbbleShots={dribbbleShotsData}/>
+														<ProjectsSection sectionTitle={settingSections?.projects?.title} projects={projects}
+														                 settings={settingProjects} dribbbleShots={dribbbleShotsData}/>
 												)
 											case "services":
 												return (
 														<>
-															<ServicesSection services={services}/>
+															{
+																services.length ?
+																		<ServicesSection services={services}/>
+																		: null
+															}
 														</>
 												)
 											case "blogs":
@@ -203,7 +208,11 @@ export default function Home({
 															
 															<SkillsSection className={"border-bottom mb-3"} skills={skills}/>
 															
-															<TestimonialsSection className={"border-bottom mb-3"} testimonials={testimonials}/>
+															{
+																testimonials.length ?
+																		<TestimonialsSection className={"border-bottom mb-3"} testimonials={testimonials}/>
+																		: null
+															}
 															
 															<SectionLayout>
 																<button
@@ -213,7 +222,7 @@ export default function Home({
 																	Let's Talk
 																</button>
 																<a href={profile.cvDownloadLink} download target={"_blank"} rel="noreferrer"
-																		className={"btn border-1 border-white btn-xs-block btn-pill border-olive text-olive hover:bg-olive"}>
+																   className={"btn border-1 border-white btn-xs-block btn-pill border-olive text-olive hover:bg-olive"}>
 																	Download my cv
 																</a>
 															</SectionLayout>
