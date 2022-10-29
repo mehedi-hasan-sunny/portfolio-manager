@@ -1,6 +1,5 @@
 import HtmlParser from "html-react-parser";
 import Image from "next/image";
-import Head from "next/head";
 
 function Blog({
 	              blog,
@@ -28,7 +27,7 @@ function Blog({
 					     data-aos={`fade-${mod === 1 ? 'right' : 'left'}`}>
 						<div className={"image-container"}>
 							<Image src={getCoverImage()} className={"img-fluid me-0 me-md-auto mt-5 mt-md-0"} loading={"lazy"}
-							       alt={blog.title} width={460} height={270}/>
+							       alt={blog.title} width={460} height={270} objectFit={"contain"} objectPosition={"center"}/>
 						</div>
 					</div>
 					<div className={`col-sm-12 col-md-6 col-lg-7 p${mod !== 1 ? 's' : 'e'}-md-0 order-${mod !== 1 ? '1' : '2'}`}
@@ -62,9 +61,14 @@ function Blog({
 							</div>
 							<h1 title={"title"} className={"fw-bold mb-3"}>{blog.title}</h1>
 							<h3 title={"subtitle"}>{blog.subtitle}</h3>
-							<div className={"mt-4"}>
+							<summary className={"mt-4"}>
 								{HtmlParser(blog?.summary ?? '')}
-							</div>
+							</summary>
+							<small className={"text-muted"}>
+								{
+									blog.publishedAt
+								}
+							</small>
 							<a href={`/blogs/${blog.id}`} target={"_blank"} rel={"noreferrer"}
 							   className={`d-inline-block text-underline m${mod === 1 ? 's' : 'e'}-auto`}>
 								<span>See more  &nbsp;</span><i className={"las la-arrow-right  text-underline"}></i>

@@ -1,6 +1,7 @@
 import db from "../../config/firebaseAdmin";
 import Head from "next/head";
 import BlogDetails from "../../components/BlogDetails";
+import {firestore} from "firebase-admin";
 
 export async function getStaticProps(context) {
 	try {
@@ -9,7 +10,13 @@ export async function getStaticProps(context) {
 		const blogDoc = await db.doc(`blogs/${context.params.id}`).get();
 		if (blogDoc.exists) {
 			const data = blogDoc.data();
-			data.publishedAt = data?.publishedAt?.toDate()?.toDateString() ?? null
+			// data.publishedAt = data?.publishedAt?.toDate()?.toDateString() ?? null
+			Object.keys(data).forEach((item) => {
+				if (data[item] instanceof firestore.Timestamp) {
+					const date = data[item].toDate()
+					data[item] = date.toLocaleDateString() + " " + date.toLocaleTimeString()
+				}
+			});
 			blog = {
 				id: blogDoc.id,
 				...data

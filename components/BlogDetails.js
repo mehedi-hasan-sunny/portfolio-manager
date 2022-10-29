@@ -9,7 +9,7 @@ BlogDetails.propTypes = {
 
 function BlogDetails({blog}) {
 	return (
-			<div className={"container mx-auto pt-0 blog-container bg-white"}>
+			<article className={"container mx-auto pt-0 blog-container bg-white"}>
 				<div className={"mx-n3 mb-3"}>
 					{
 						blog?.coverImage ?
@@ -29,7 +29,7 @@ function BlogDetails({blog}) {
 						blog?.content ? HtmlParser(blog?.content) : null
 					}
 				</div>
-			</div>
+			</article>
 	);
 }
 
