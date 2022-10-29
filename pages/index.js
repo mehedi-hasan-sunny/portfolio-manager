@@ -174,8 +174,17 @@ export default function Home({
 												return (
 														<>
 															{
-																services.length ?
-																		<ServicesSection services={services}/>
+																services.length && settingSections?.services?.title ?
+																		<>
+																			<ServicesSection services={services} title={settingSections?.services?.title} header={settingSections?.services?.headline}>
+																				<button
+																						className={"btn bg-olive text-white me-0 me-sm-3 mb-3 mb-sm-0 btn-xs-block btn-pill"}
+																						onClick={() => setCurrentTab("contact")}
+																				>
+																					Let's Talk
+																				</button>
+																			</ServicesSection>
+																		</>
 																		: null
 															}
 														</>
