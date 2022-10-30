@@ -16,8 +16,7 @@ const BlogsSection = ({
 	
 	const latestBlog = blogs[0];
 	const recentBlogs = blogs.slice(1);
-	// console.log(latestBlog)
-	console.log(blogs)
+	
 	return (
 			<section>
 				{
@@ -50,11 +49,7 @@ const BlogsSection = ({
 																<summary className={"fs-14"}>
 																	{HtmlParser(blog?.summary ?? '')}
 																</summary>
-																<small className={"text-muted"}>
-																	{
-																		blog.publishedAt
-																	}
-																</small>
+																<small className={"text-muted"}> {blog.publishedAt} </small>
 															</a>
 														</div>
 													})
