@@ -39,8 +39,8 @@ const BlogsSection = ({
 												</div>
 												{
 													recentBlogs.map((blog, index) => {
-														return <a href={`/blogs/${blog.id}`} target={"_blank"} rel={"noreferrer"}>
-															<article className={"col-12 col-md-6 col-lg-4"} key={index}>
+														return <a href={`/blogs/${blog.id}`} target={"_blank"} rel={"noreferrer"} key={index}>
+															<article className={"col-12 col-md-6 col-lg-4"} >
 																<div className={"image-container"}>
 																	<Image className={"img-fluid"} src={blog?.coverImage} placeholder={NoImage}
 																	       loading={"lazy"} alt={blog.title} width={460} height={270}
