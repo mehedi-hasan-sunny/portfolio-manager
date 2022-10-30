@@ -41,8 +41,8 @@ const BlogsSection = ({
 												</div>
 												{
 													recentBlogs.map((blog, index) => {
-														return <div className={"col-12 col-md-6 col-lg-4"} key={index}>
-															<a href={`/blogs/${blog.id}`} target={"_blank"} rel={"noreferrer"} data-aos={"fade-up"}>
+														return <div className={"col-12 col-md-6 col-lg-4"} key={index} data-aos={"fade-up"}>
+															<a href={`/blogs/${blog.id}`} target={"_blank"} rel={"noreferrer"}>
 																<div className={"image-container"}>
 																	<Image className={"img-fluid"} src={blog?.coverImage} placeholder={NoImage}
 																	       loading={"lazy"} alt={blog.title} width={460} height={270}
@@ -60,7 +60,7 @@ const BlogsSection = ({
 											</div> : null
 								}
 							</>
-							: <div className={"text-center"}>No blogs posted yet</div>
+							: <div className={"text-center"}>No blog posted yet</div>
 				}
 			</section>
 	)

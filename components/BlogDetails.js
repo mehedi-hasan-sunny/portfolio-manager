@@ -13,7 +13,7 @@ function BlogDetails({blog}) {
 				<div className={"mx-n3 mb-3"}>
 					{
 						blog?.coverImage ?
-								<Image src={blog?.coverImage} loading={"lazy"} layout={"responsive"}
+								<Image src={blog?.coverImage} loading={"lazy"} layout={"responsive"} objectFit={"contain"} objectPosition={"center"}
 								       width={16} height={8}  alt={blog?.title + " cover image"}/>
 								// <img src={blog?.coverImage} className={"img-fluid"} alt={blog?.title + " cover image"}/>
 								: null
