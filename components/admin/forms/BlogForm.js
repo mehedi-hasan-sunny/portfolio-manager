@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import Input from "../../custom/Input";
-import {commonFromSubmitHandler, empty} from "../../../helpers/common";
+import {commonFromSubmitHandler, convertTimestamp, empty} from "../../../helpers/common";
 import DescriptionBox from "../../custom/DescriptionBox";
 import Modal from "../../Modal";
 import BlogDetails from "../../BlogDetails";
@@ -62,13 +62,13 @@ function BlogForm({blog = null, onSuccessAction}) {
 	}
 	
 	const blogData = () => {
-		const date = formData?.publishedAt ? new Date((formData.publishedAt._seconds * 1000)) : new Date()
+		// const date = formData?.publishedAt ? new Date((formData.publishedAt._seconds * 1000)) : new Date()
 		return {
 			title: formData.title,
 			subtitle: formData.subtitle,
 			content: formData.content,
 			coverImage: coverImage,
-			publishedAt: date.toLocaleDateString() + " " + date.toLocaleTimeString()
+			publishedAt: convertTimestamp(formData.publishedAt)
 		}
 	}
 	

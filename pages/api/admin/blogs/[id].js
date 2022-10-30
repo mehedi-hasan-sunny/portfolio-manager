@@ -18,7 +18,7 @@ export default async function handler(req, res) {
 			coverImage: req.body.coverImage,
 			content: req.body.content,
 			summary: req.body.summary,
-			tags: req.body.tags,
+			tags: req.body.tags ?? '',
 			prevCoverImage: !req.body.coverImage ? req.body.prevCoverImage : null,
 		}
 	}

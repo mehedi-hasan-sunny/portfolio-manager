@@ -1,8 +1,9 @@
 import Blog from "../Blog";
-import React from "react";
+import React, {useCallback} from "react";
 import NoImage from "../../public/no-image.jpg";
 import Image from "next/image";
 import HtmlParser from "html-react-parser";
+import {convertTimestamp} from "../../helpers/common";
 
 const BlogsSection = ({
 	                      blogs,
@@ -13,6 +14,8 @@ const BlogsSection = ({
 	                      ...props
                       }) => {
 	const passProps = {isAdmin, editBlog, deleteBlog};
+	
+	const convertToDate = useCallback((date) => convertTimestamp(date), []);
 	
 	const latestBlog = blogs[0];
 	const recentBlogs = blogs.slice(1);
@@ -39,7 +42,7 @@ const BlogsSection = ({
 												{
 													recentBlogs.map((blog, index) => {
 														return <div className={"col-12 col-md-6 col-lg-4"} key={index}>
-															<a href={`/blogs/${blog.id}`} target={"_blank"} rel={"noreferrer"}>
+															<a href={`/blogs/${blog.id}`} target={"_blank"} rel={"noreferrer"} data-aos={"fade-up"}>
 																<div className={"image-container"}>
 																	<Image className={"img-fluid"} src={blog?.coverImage} placeholder={NoImage}
 																	       loading={"lazy"} alt={blog.title} width={460} height={270}
@@ -49,7 +52,7 @@ const BlogsSection = ({
 																<summary className={"fs-14"}>
 																	{HtmlParser(blog?.summary ?? '')}
 																</summary>
-																<small className={"text-muted"}> {blog.publishedAt} </small>
+																<small className={"text-muted"}> {convertToDate(blog.publishedAt)} </small>
 															</a>
 														</div>
 													})

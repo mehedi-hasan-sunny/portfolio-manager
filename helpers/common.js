@@ -85,3 +85,11 @@ export const commonFromSubmitHandler = async (event, formData, apiUrl, item = nu
 		notify('error', customErrorMessage ?? `${err}`)
 	}
 };
+
+export const convertTimestamp = (date) => {
+	date = new Date(date._seconds * 1000);
+	if (date) {
+		date = date.toLocaleDateString() + " " + date.toLocaleTimeString()
+	}
+	return date ?? '';
+};

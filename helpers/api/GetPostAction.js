@@ -4,9 +4,10 @@ import CRUD from "../CRUD";
 import {empty} from "../common";
 import {ValidateToken} from "./AuthCheck";
 import cloudinary from "../../config/cloudinary";
+import {firestore} from "firebase-admin";
 
 
-const GetPostAction = async (req, res, collectionName, formData, formFileKeys=[]) => {
+const GetPostAction = async (req, res, collectionName, formData, formFileKeys=[], orderBy = 'asc') => {
 	
 	const authCheck = await ValidateToken({req, res});
 	if(authCheck !== true){
@@ -26,7 +27,7 @@ const GetPostAction = async (req, res, collectionName, formData, formFileKeys=[]
 		
 		switch (req.method) {
 			case "GET": {
-				collection = await collectionCRUD.read()
+				collection = await collectionCRUD.orderBy(orderBy).read();
 				break
 			}
 			case "POST": {
@@ -49,7 +50,7 @@ const GetPostAction = async (req, res, collectionName, formData, formFileKeys=[]
 						}
 					}, {})
 				}
-				
+				formData.createdAt = firestore.Timestamp.now();
 				collection = await collectionCRUD.create({...formData, ...uploadImages})
 				break
 			}

@@ -1,5 +1,7 @@
 import HtmlParser from "html-react-parser";
 import Image from "next/image";
+import {useCallback} from "react";
+import {convertTimestamp} from "../helpers/common";
 
 function Blog({
 	              blog,
@@ -19,6 +21,8 @@ function Blog({
 		
 	}
 	const mod = order % 2;
+	const convertToDate = useCallback((date) => convertTimestamp(date), []);
+	
 	return (
 			<>
 				
@@ -64,11 +68,7 @@ function Blog({
 							<summary className={"mt-4"}>
 								{HtmlParser(blog?.summary ?? '')}
 							</summary>
-							<small className={"text-muted"}>
-								{
-									blog.publishedAt
-								}
-							</small>
+							<small className={"text-muted"}> {convertToDate(blog.publishedAt)} </small>
 							<a href={`/blogs/${blog.id}`} target={"_blank"} rel={"noreferrer"}
 							   className={`d-inline-block text-underline m${mod === 1 ? 's' : 'e'}-auto`}>
 								<span>See more  &nbsp;</span><i className={"las la-arrow-right  text-underline"}></i>
