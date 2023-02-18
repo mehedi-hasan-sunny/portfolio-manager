@@ -18,6 +18,9 @@ function Input({
                }) {
 	className = `mb-3 ${className}`.trim();
 	inputClassName = `form-control ${inputClassName}`.trim();
+	if(errorMessage){
+		inputClassName += ' border-danger';
+	}
 	labelClassName = `form-label ${labelClassName}`.trim();
 	otherProps.type = type;
 	otherProps.id = id;
@@ -56,7 +59,7 @@ function Input({
 				}
 				
 				{
-					errorMessage ? <span className={"d-block text-danger fs-12"}>{errorMessage}</span> : null
+					errorMessage && errorMessage !== ' ' ? <span className={"d-block text-danger fs-12"}>{errorMessage}</span> : null
 				}
 				{
 					children

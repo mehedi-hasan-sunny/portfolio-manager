@@ -41,7 +41,7 @@ const SettingsSection = ({
 			}
 			return (
 					typeof settingsData[setting] === 'string' ?
-							<Input label={ucFirst(setting.replace('_', ' '))} name={`${name}`}
+							<Input label={ucFirst(setting.replaceAll('_', ' '))} name={`${name}`}
 							       defaultValue={settingsData[setting]}
 							       key={key}/>
 							:

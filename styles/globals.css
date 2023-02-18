@@ -3,6 +3,7 @@
     --light-color: #202124;
     --dark-bg: #10222DFF;
     --dark-color: #FFFFFF;
+    --danger-color: #cb193c;
     --profile-bg-color: #292929;
     --border-color: #D0D3D0;
     --border-color2: #bcbcbc;
@@ -349,7 +350,7 @@ textarea.form-control {
 }
 
 .text-danger {
-    color: #cb193c !important;
+    color: var(--danger-color) !important;
 }
 
 .text-muted {
@@ -788,6 +789,9 @@ input[type="range"].form-control {
 
 .border-olive {
     border-color: var(--olive-color) !important;
+}
+.border-danger{
+    border-color: var(--danger-color) !important;
 }
 
 .rounded {

@@ -1,7 +1,7 @@
 import Input from "../custom/Input";
 import {commonFromSubmitHandler} from "../../helpers/common";
 
-const Contact = ({email = null, phone = null}) => {
+const Contact = ({email = null, phone = null, settings = {}}) => {
 	
 	const handleEmailSubmit = async (e) => {
 		e.preventDefault();
@@ -21,13 +21,13 @@ const Contact = ({email = null, phone = null}) => {
 				<section>
 					<div className="row py-4 border-bottom">
 						<div className="col-12 col-md-3" data-aos="fade-right">
-							<h2 className={"fw-bold"}>Contact</h2>
+							{settings.title ? <h2 className={"fw-bold"}>{settings.title}</h2> : null}
 						</div>
 						<div className="col-12 col-md-9" data-aos="fade-left">
 							<h1 className={"fs-32 lh-44 mt-0"}>
-								Do you have a project in mind?
+								{settings.headline_line_1}
 								<br/>
-								Interesting Collaboration!
+								{settings.headline_line_2}
 							</h1>
 						</div>
 					</div>
@@ -46,10 +46,8 @@ const Contact = ({email = null, phone = null}) => {
 						</div>
 						<div className="col-md-5 offset-md-2" data-aos="fade-left" data-aos-delay={"200"}>
 							<h2 className={"mb-4"}>Reach Me</h2>
-							<p className={"fs-16 lh-28 mt-0 mb-5"}>
-								Village did removed the enjoyed explain
-								<br/>
-								nor ham saw calling talking.
+							<p className={"fs-18 lh-28 mt-0 mb-5"}>
+								{settings.reach_me_quote}
 							</p>
 							
 							{/*<h3><i className={"la la-globe me-1"}></i>{email}</h3>*/}

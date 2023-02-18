@@ -198,7 +198,7 @@ export default function Home({
 											case "contact":
 												return (
 														<>
-															<Contact email={profile?.email} phone={profile?.phoneCode + profile?.phoneNumber}/>
+															<Contact settings={settingSections.contact ?? {}} email={profile?.email} phone={profile?.phoneCode + profile?.phoneNumber}/>
 														</>
 												)
 											case "about":

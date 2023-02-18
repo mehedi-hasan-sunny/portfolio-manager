@@ -7,6 +7,12 @@
     "services": {
       "title": "Services",
       "headline": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, amet aut consectetur culpa cupiditate eveniet facilis fugiat harum illo ipsa itaque labore libero placeat praesentium, quas rem rerum ut voluptate. "
+    },
+    "contact": {
+      "title": "Contact",
+      "headline_line_1": "Do you have a project in mind?",
+      "headline_line_2": "Interesting Collaboration!",
+      "reach_me_quote": "There are days when everything changes, and this was one of those days."
     }
   },
   "projects": {

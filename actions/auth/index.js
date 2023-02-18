@@ -1,6 +1,8 @@
 import {signInWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../../config/firebaseClient";
 import nookies from "nookies";
+import {notify} from "../../helpers/common";
+
 class Auth {
 
 	setCookies({token, user}){
@@ -23,14 +25,18 @@ class Auth {
 				const token = await user.getIdToken();
 				this.setCookies({token, user})
 			}
-		
-		}).then(() => {
-			// A page redirect would suffice as the persistence is set to NONE.
-			// return auth.signOut();
+
 		}).then(() => {
 			if (callback) {
 				callback();
 			}
+		}).catch((err) => {
+
+			if(["auth/wrong-password", "auth/user-not-found"].includes(err.code)){
+				callback({error: true, message: "Invalid email or password"});
+				return;
+			}
+			notify('error', err?.message ?? err);
 		});
 	}
 }

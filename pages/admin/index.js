@@ -9,6 +9,7 @@ import ProfilePictureCropper from "../../components/section/ProfilePictureCroppe
 import {DELETE, GET} from "../../actions/http";
 import ActionButtons from "../../components/admin/ActionButtons";
 import Projects from "../../components/admin/Projects";
+import {removeCookies} from "cookies-next";
 
 export async function getServerSideProps(context) {
 	try {
@@ -105,6 +106,12 @@ function Index({profile, projects = []}) {
 	const proFileModalProps = useMemo(() => {
 		return {profile, successAction}
 	}, []);
+
+	const logout = () =>{
+		removeCookies('token');
+		removeCookies('user');
+		window.location.href = "/login";
+	}
 	
 	return (
 			<div className={"container"}>
@@ -127,10 +134,14 @@ function Index({profile, projects = []}) {
 										Upload
 									</button>
 									{
-										profile?.displayPicture ? <button className={"transparent-btn px-3 py-2 w-100 text-left"}
+										profile?.displayPicture ? <button className={"transparent-btn px-3 py-2 w-100 text-left border-bottom"}
 										                                  onClick={() => toggleProfilePictureModal()}>Edit
 										</button> : null
 									}
+									<button className={"transparent-btn px-3 py-2 w-100 text-left border-bottom"}
+											onClick={() => logout()}>
+										Logout
+									</button>
 								
 								</div>
 							</div>
