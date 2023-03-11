@@ -3,7 +3,7 @@ import React, {useEffect} from "react";
 import Portal from "./Portal";
 
 const Modal = ({title = null, modalValue, closeModal, children, fullScreen = false}) => {
-	
+
 	const handleClose = () => {
 		closeModal(false);
 		let body = document.querySelector('body');
@@ -15,7 +15,7 @@ const Modal = ({title = null, modalValue, closeModal, children, fullScreen = fal
 			body.style.overflow = "hidden";
 			if (document.body.scrollHeight > window.innerHeight)
 				body.style.paddingRight = "1rem";
-			
+
 			let modal = document.querySelector(".modal");
 			if (modal) {
 				// modal.addEventListener("click", (event) => {
@@ -38,7 +38,7 @@ const Modal = ({title = null, modalValue, closeModal, children, fullScreen = fal
 					data-modal={true}>
 				<div className={styles.modalWrapper}>
 					<div className={styles.modalContent} data-modal-content={modalValue}>
-						
+
 						{
 							title ?
 									<div className={styles.modalTitle}>
@@ -46,15 +46,12 @@ const Modal = ({title = null, modalValue, closeModal, children, fullScreen = fal
 									</div>
 									: null
 						}
-						<button className={styles.modalCloseBtn} onClick={() => handleClose()}>&times;</button>
-						
-						
 						<div className={"d-flex flex-wrap flex-column"}>
 							{children}
 						</div>
 					</div>
 				</div>
-			
+				<button className={styles.modalCloseBtn} onClick={() => handleClose()}>&times;</button>
 			</div>
 	);
 };

@@ -54,17 +54,31 @@
 
 
 .modal .modalCloseBtn {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background-color: transparent;
+    position: fixed;
+    top: 2.75rem;
+    right: calc(50% - 300px - 2.65rem);
+    background-color: #ffffff80;
     border: 0;
     padding: 0.25rem;
     font-weight: 200;
     font-size: 1.75rem;
     line-height: 0.35rem;
     height: 1.75rem;
+    width: 1.75rem;
+    border-radius: 50%;
     color: var(--body-color);
+}
+
+.modal .modalCloseBtn:hover {
+    background-color: #ffffffc9;
+}
+
+[data-mode="dark"] .modal .modalCloseBtn {
+    background-color: #525252b0;
+}
+
+[data-mode="dark"] .modal .modalCloseBtn:hover {
+    background-color: #525252;
 }
 
 .modal .modalLinks {
@@ -107,11 +121,20 @@
         height: 13.5rem;
         width: 17.5rem;
     }
+    .modal .modalCloseBtn {
+        top: 2.75rem;
+        right: 2rem;
+    }
 }
 
 @media screen and (max-width: 428px) {
     .card {
         height: 13.5rem;
         width: 90vw;
+    }
+
+    .modal .modalCloseBtn {
+        top: 2.75rem;
+        right: 2rem;
     }
 }
