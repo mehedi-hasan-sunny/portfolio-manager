@@ -2,36 +2,47 @@ import styles from '../styles/Modal.module.css'
 import React, {useEffect} from "react";
 import Portal from "./Portal";
 
-const Modal = ({title = null, modalValue, closeModal, children, fullScreen = false}) => {
+const Modal = ({title = null, modalValue, closeModal, children, fullScreen = false, escapeKeyClose = false, sideClickClose = false}) => {
 
 	const handleClose = () => {
 		closeModal(false);
-		let body = document.querySelector('body');
-		body.removeAttribute("style");
 	}
 	useEffect(() => {
-		let body = document.querySelector('body');
+		const html = document.querySelector('html');
+		const body = document.querySelector('body');
 		if (modalValue) {
-			body.style.overflow = "hidden";
-			if (document.body.scrollHeight > window.innerHeight)
-				body.style.paddingRight = "1rem";
-
-			let modal = document.querySelector(".modal");
-			if (modal) {
-				// modal.addEventListener("click", (event) => {
-				// 	const modalContent = document.querySelector("[data-modal-content]");
-				// 	if (!modalContent.contains(event.target)) {
-				// 		handleClose();
-				// 	}
-				// });
-				// document.addEventListener('keydown', (event) => {
-				// 	if (modalValue && event.key === 'Escape') {
-				// 		handleClose();
-				// 	}
-				// });
+			html.style.overflowY = "hidden";
+			body.style.paddingRight = "17px";
+		}
+		
+		const modalClick = (event) => {
+			const modalContent = document.querySelector("[data-modal-content]");
+			if (!modalContent.contains(event.target)) {
+				handleClose();
+			}
+		};
+		const modal = document.querySelector(".modal");
+		if (modal && sideClickClose) {
+			modal.addEventListener("click", modalClick);
+		}
+		
+		const keyDown = (event) => {
+			if (modalValue && event.key === 'Escape') {
+				handleClose();
 			}
 		}
-	}, [modalValue]);
+		if(escapeKeyClose){
+			document.addEventListener('keydown', keyDown);
+		}
+		
+		
+		return () => {
+			document.removeEventListener('keydown', keyDown);
+			modal.removeEventListener("click", modalClick);
+			html.removeAttribute("style");
+			body.removeAttribute("style");
+		}
+	}, [modalValue, escapeKeyClose,sideClickClose]);
 	return (
 			<div
 					className={['modal', styles.modal, modalValue ? styles.open : null, fullScreen ? styles.fullScreen : ''].join(' ')}

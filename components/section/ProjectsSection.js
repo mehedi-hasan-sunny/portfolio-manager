@@ -87,7 +87,8 @@ function ProjectsSection({projects, sectionTitle = null, settings = null, dribbb
 				{
 					selectedItem ?
 							(
-									<Modal title={selectedItem.title} modalValue={modalOpen} closeModal={handleModalClose}>
+									<Modal title={selectedItem.title} modalValue={modalOpen} closeModal={handleModalClose}
+									       escapeKeyClose={true} sideClickClose={true}>
 										<div className={modalStyles.modalLinks}>
 											<div className={"d-flex flex-column"}>
 												{

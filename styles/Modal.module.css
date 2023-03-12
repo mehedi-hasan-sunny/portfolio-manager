@@ -122,7 +122,6 @@
         width: 17.5rem;
     }
     .modal .modalCloseBtn {
-        top: 2.75rem;
         right: 2rem;
     }
 }
@@ -131,10 +130,5 @@
     .card {
         height: 13.5rem;
         width: 90vw;
-    }
-
-    .modal .modalCloseBtn {
-        top: 2.75rem;
-        right: 2rem;
     }
 }
