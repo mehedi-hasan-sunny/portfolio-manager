@@ -65,7 +65,7 @@ export async function getStaticProps(context) {
 		const docs = ["experiences", "educations", "certifications", "skills", "testimonials", "services", "blogs"]
 		const docRes = async (doc) => {
 			const docRef = db.collection(doc);
-			const docSnap = await docRef.orderBy("createdAt", "asc").get();
+			const docSnap = await docRef.orderBy(doc === 'experiences' ? "startDate": "createdAt", "asc").get();
 			if (!docSnap.empty) {
 				return docSnap.docs.reverse().map(collection => {
 					
