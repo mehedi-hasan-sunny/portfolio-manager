@@ -12,5 +12,5 @@ export default async function handler(req, res) {
 		}
 	}
 	
-	return await GetPostAction(req, res, 'experiences', formData)
+	return await GetPostAction(req, res, 'experiences', formData, [], 'startDate')
 }

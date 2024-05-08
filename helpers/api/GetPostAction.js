@@ -7,7 +7,7 @@ import cloudinary from "../../config/cloudinary";
 import {firestore} from "firebase-admin";
 
 
-const GetPostAction = async (req, res, collectionName, formData, formFileKeys=[], orderBy = 'asc') => {
+const GetPostAction = async (req, res, collectionName, formData, formFileKeys=[], orderByCol = 'createdAt', orderBy = 'asc') => {
 	
 	const authCheck = await ValidateToken({req, res});
 	if(authCheck !== true){
@@ -27,7 +27,7 @@ const GetPostAction = async (req, res, collectionName, formData, formFileKeys=[]
 		
 		switch (req.method) {
 			case "GET": {
-				collection = await collectionCRUD.orderBy(orderBy).read();
+				collection = await collectionCRUD.orderBy(orderByCol, orderBy).read();
 				break
 			}
 			case "POST": {
