@@ -5,8 +5,8 @@ export default class CRUD {
 	constructor(moduleName, collectionName) {
 		this.collectionName = collectionName
 		this.moduleName = moduleName
-		this.order_by = 'createdAt'
-		this.order_by_type = 'asc'
+		this.orderByCol = 'createdAt'
+		this.orderByType = 'asc'
 	}
 	
 	async create(formData) {
@@ -23,8 +23,8 @@ export default class CRUD {
 	}
 	
 	orderBy(col, type){
-		this.order_by = col;
-		this.order_by_type = type;
+		this.orderByCol = col;
+		this.orderByType = type;
 		return this;
 	}
 	
@@ -32,7 +32,7 @@ export default class CRUD {
 		let collectionRef = db[!id ? 'collection' : 'doc'](this.collectionName + (id ? `/${id}` : ''));
 		let collection;
 		if (!id) {
-			collection = await collectionRef.orderBy(this.order_by, this.order_by_type).get();
+			collection = await collectionRef.orderBy(this.orderByCol, this.orderByType).get();
 			if (collection.empty) {
 				collection = await collectionRef.get();
 				const batch = db.batch();
