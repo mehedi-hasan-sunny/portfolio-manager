@@ -116,6 +116,21 @@
     transform: scale(1.25);
 }
 
+.modal.projects .modalWrapper {
+    max-width: 70vw;
+}
+
+.modal.projects .modalCloseBtn {
+    right: 12.5vw;
+    height: 2.5rem;
+    width: 2.5rem;
+}
+
+.modal.projects .modalLinks {
+    transform: translateX(70vw);
+}
+
+
 @media screen and (max-width: 767px) {
     .card {
         height: 13.5rem;
@@ -123,6 +138,21 @@
     }
     .modal .modalCloseBtn {
         right: 2rem;
+    }
+    .modal.projects .modalWrapper {
+        max-width: 98vw;
+    }
+
+    .modal.projects .modalCloseBtn {
+        right: 1rem;
+        top: 4.5rem;
+        height: 2.5rem;
+        width: 2.5rem;
+    }
+
+    .modal.projects .modalLinks {
+        transform: unset;
+        right: 0;
     }
 }
 

@@ -34,10 +34,15 @@ function Project({project, handleSelectedItem, className = '', order = 0}) {
 				</div>
 				<div className="col-sm-12 col-md-7 pe-md-0" data-aos={"fade-left"}>
 					<div className={"d-flex justify-center justify-content-md-end ms-0 ms-md-auto mt-5 mt-md-0"}>
-						<div className="image-container">
-							<Image className={"img-fluid"} style={{maxHeight: "20rem"}} src={getThumbnail()}
-							       loading={"lazy"} alt={project.title} height={320} width={410}/>
-						</div>
+						<a href={"#"} onClick={(event) => {
+							event.preventDefault()
+							handleSelectedItem(project)
+						}} className={"d-inline-block"}>
+							<div className="image-container">
+								<Image className={"img-fluid"} style={{maxHeight: "20rem"}} src={getThumbnail()}
+									   loading={"lazy"} alt={project.title} height={320} width={410}/>
+							</div>
+						</a>
 					</div>
 				
 				</div>

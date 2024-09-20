@@ -9,7 +9,7 @@ BlogDetails.propTypes = {
 
 function BlogDetails({blog}) {
 	return (
-			<article className={"container mx-auto pt-0 blog-container bg-white"}>
+			<article className={"container mx-auto pt-0 blog-container"}>
 				<div className={"mx-n3 mb-3"}>
 					{
 						blog?.coverImage ?

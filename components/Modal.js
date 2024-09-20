@@ -2,7 +2,7 @@ import styles from '../styles/Modal.module.css'
 import React, {useEffect} from "react";
 import Portal from "./Portal";
 
-const Modal = ({title = null, modalValue, closeModal, children, fullScreen = false, escapeKeyClose = false, sideClickClose = false}) => {
+const Modal = ({title = null, modalValue, closeModal, children, fullScreen = false, escapeKeyClose = false, sideClickClose = false, modalClass = null}) => {
 
 	const handleClose = () => {
 		closeModal(false);
@@ -45,7 +45,7 @@ const Modal = ({title = null, modalValue, closeModal, children, fullScreen = fal
 	}, [modalValue, escapeKeyClose,sideClickClose]);
 	return (
 			<div
-					className={['modal', styles.modal, modalValue ? styles.open : null, fullScreen ? styles.fullScreen : ''].join(' ')}
+					className={['modal', modalClass ? styles[modalClass] : null, styles.modal, modalValue ? styles.open : null, fullScreen ? styles.fullScreen : ''].join(' ')}
 					data-modal={true}>
 				<div className={styles.modalWrapper}>
 					<div className={styles.modalContent} data-modal-content={modalValue}>
